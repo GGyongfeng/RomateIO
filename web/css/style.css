@@ -1,0 +1,93 @@
+body {
+    /* 宽度范围 */
+    max-width: 980px;
+    min-width: 320px;
+    /* 弹性盒子 纵向主轴 横向居中 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* css3盒子模型 */
+    box-sizing: border-box;
+    /* 内外边距为0 */
+    margin: auto;
+    padding: 0;
+    background: #F7F7F7;
+    /* 字体大小 类型  行高 颜色*/
+    font-size: 14px;
+    font-family: -apple-system, Arial, Helvetica, sans-serif;
+    color: #1A2029;
+}
+
+/* div默认弹性盒子 纵向主轴 横向居中 */
+div {
+    /* css3盒子模型 */
+    box-sizing: border-box;
+    /* 纵向垂直排布 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ul设置内边距 默认为0 */
+ul {
+    padding: 0;
+}
+
+/* li 默认无序号 */
+li {
+    /* 无序号 */
+    list-style: none;
+}
+
+/* a默认设置 */
+a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* 或者使用 transparent */
+    -moz-user-focus: none;
+    /* 防止焦点框出现在链接上 */
+    background: none;
+    /* 移除默认的背景 */
+    text-decoration: none;
+    /* 如果需要，可以移除下划线 */
+    color: #1A2029;
+}
+
+button {
+    /* 移除边框 和 背景色*/
+    border: none;
+    background: none;
+    /* 继承父元素的字体大小 */
+    font-size: inherit;
+    /* 继承父元素的文字颜色 */
+    color: inherit;
+    /* 圆角 边距 */
+    border-radius: 4px;
+    margin: 4px 5px 4px;
+    padding: 3px 7px 3px;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color:#C2C2C2 ;
+}
+
+.eg-div {
+    /* 大小 */
+    width: 95%;
+    /* 背景色 */
+    background-color: #FFFFFF;
+    /* 阴影 */
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.1);
+    /* 圆角 */
+    border-radius: 10px;
+    /* hover转化的时间 */
+    transition: 0.1s;
+}
+
+.eg-div:hover {
+    /* 鼠标悬停时，宽度和高度放大到原来的103% */
+    transform: scale(1.01);
+    /* 中心位置不变，因为transform是围绕元素的中心点进行的 */
+}

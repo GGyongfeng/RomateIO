@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手动测试</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+
+    <script src="./js/jquery-3.7.1-min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/manual.js"></script>
+    
+    <style>
+        /* ***************************** */
+        /* action动作框 内部样式设置 */
+        .action {
+            /* 大小位置 */
+            height: auto;
+            margin-top: 120px;
+            padding: 10px 3px 10px;
+            /* 横向主轴 */
+            flex-direction: row;
+            /* 滑动容器 */
+            overflow: auto;
+            padding: 5px 10px 5px;
+        }
+
+        .action p {
+            margin: 3px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .action button {
+            box-sizing: border-box;
+            /* 形状 */
+            width: 60px;
+            height: 30px;
+            border-radius: 7px;
+            padding: 3px 0px 3px;
+            margin-left: 3px;
+            margin-left: 3px;
+            /* 移除默认的边框和背景 */
+            border: none;
+            /* 字体 */
+            font-size: 15px;
+            color: #333333;
+            font-weight: 440;
+            /* 点击前样式 */
+            background-color: #ffffff;
+            transition: 0.2s;
+            /* 使用CSS伪元素来创建一个覆盖层，以防止点击时出现阴影 */
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            /* 对于iOS设备 */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .action .select {
+            background-color: #c2c2c2;
+        }
+
+        /* 菜单栏格式设置 
+        .action .menu li{
+            width: 60px;
+            border-right: 1px solid #333333;
+        }
+
+        <button>1</button>
+        <ul class="menu">
+            <li>模拟运行</li>
+            <li>双手启动</li>
+            <li>外部编码</li>
+            <li>删除</li>
+            <li>插入</li>
+        </ul>
+        */
+        /* ********************************** */
+    </style>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
+            <li>
+                <p>manual</p>
+            </li>
+            <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
+        </ul>
+    </header>
+    <!-- class="action" 一个vue动态渲染的动作选择框 -->
+    <div class="eg-div action">
+        <div v-for='(item, index) in nums' :key="index">
+            <p>阀门{{item}}</p>
+            <button @click="select" class="select">夹紧</button>
+            <button @click="select">中位</button>
+            <button @click="select">放松</button>
+        </div>
+    </div>
+    <!-- --------------------------------- -->
+</body>
+
+</html>

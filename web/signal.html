@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信号配置</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+
+    <script src="./js/jquery-3.7.1-min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/signal.js"></script>
+
+    <style>
+        #app {
+            margin-top: 70px;
+        }
+
+        .part {
+            margin: 5px;
+            padding: 5px 10px 5px;
+            flex-direction: row;
+        }
+
+        .part div:nth-child(1) {
+            width: 50px;
+        }
+
+        .part div:nth-child(2) {
+            width: auto;
+        }
+
+        .part div:nth-child(3) p {
+            margin: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
+            <li>
+                <p>signal</p>
+            </li>
+            <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
+        </ul>
+    </header>
+    <div id="app">
+        <div v-for='(item, index) in nums' :key="index" class="eg-div part">
+            <div>
+                <span>阀门{{item}}</span>
+            </div>
+            <div>
+                <button>夹到位</button>
+                <button>松到位</button>
+            </div>
+            <div style="width:auto;">
+                <p>{{ settings.valve[index].close }}</p>
+                <p>{{ settings.valve[index].open }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

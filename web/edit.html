@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程序编辑</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+
+    <script src="./js/jquery-3.7.1-min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    
+    <style>
+        .empty {
+            width: 90%;
+            height: 130px;
+        }
+
+        .nav {
+            position: fixed;
+            height: 50px;
+            margin-top: 70px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            /* 滑动容器 */
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
+            <li>
+                <p>editing</p>
+            </li>
+            <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
+        </ul>
+    </header>
+    <div class="eg-div nav">
+        <button onclick="action()">动作</button>
+        <button onclick="action()">等待信号</button>
+        <button onclick="action()">等待释放</button>
+        <button onclick="action()">延迟</button>
+        <button onclick="action()">等待释放</button>
+    </div>
+    <!-- 用于撑开大小 后面添加的步骤 不会从顶部开始 -->
+    <div class="empty"></div>
+</body>
+
+<template>
+    <div class="eg-div">
+    </div>
+</template>
+<template>
+    <div class="eg-div" style="margin-bottom: 5px;">
+    </div>
+</template>
+
+<script>
+    function action() {
+        var temp = document.getElementsByTagName("template")[1];
+        //通过cloneNode方法把获取到的节点再复制一份
+        var clo = temp.content.cloneNode(true);
+        document.body.appendChild(clo);
+    }
+
+</script>
+
+</html>

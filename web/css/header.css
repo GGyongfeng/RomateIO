@@ -1,0 +1,40 @@
+header {
+    /* 设置位置  */
+    position: fixed;
+    top: 0;
+    /* 宽度范围 */
+    max-width: 980px;
+    min-width: 320px;
+    /* 背景色 */
+    background-color: #F7F7F7;
+    /* 设置大小 */
+    width: 100%;
+}
+
+header ul {
+    margin: 0;
+    margin-top: 5px;
+    /* flex盒子 垂直居中 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header ul li {
+    list-style: none;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+header img {
+    width: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* 透明度 */
+    opacity: 0.8;
+    transition: 0.2s;
+}
+header img:hover {
+    /* 鼠标悬停时，宽度和高度放大到原来的103% 且中心位置不变 */
+    transform: scale(1.05);
+}

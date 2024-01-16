@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+
+    <script src="./js/jquery-3.7.1-min.js"></script>
+    <script src="./js/public.js"></script>
+
+    <style>
+        button {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
+            <li>
+                <p>setting</p>
+            </li>
+            <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
+        </ul>
+    </header>
+    <div class="eg-div" style="margin-top: 70px;padding:10px;height: 300px;">
+        <button>保存设置</button>
+        <button>查看设置</button>
+        <div id="aaa" style="flex-direction: row;width: auto;">
+            <p>阀门数量：</p>
+            <button>8</button>
+            <button>16</button>
+            <button>24</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    // 界面准备时自动获取setting数据
+    var settings = "";
+    $(document).ready(function () {
+        GetSetting();
+    });
+
+    $('button:nth-child(1)').click(
+        function () {
+            // SendSetting(settings)
+            console.log(settings);
+        }
+    );
+
+    $('#aaa button').click(function () {
+        const num = parseInt(this.innerHTML, 10)
+        settings.nums = num;
+    })
+
+</script>
+
+</html>

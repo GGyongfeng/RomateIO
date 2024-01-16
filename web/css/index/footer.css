@@ -1,0 +1,61 @@
+footer {
+    /* 设置位置  */
+    position: fixed;
+    bottom: 0;
+    /* 设置大小 */
+    width: 100%;
+    height: 42px;
+    /* 宽度范围 */
+    max-width: 980px;
+    min-width: 320px;
+    /* 背景色 */
+    background-color: #FFFFFF;
+    /* flex盒子 垂直居中 */
+    align-items: center;
+    border-top: 1px solid #D3D7DD;
+    /* 添加上边框线 */
+}
+
+footer ul {
+    /* 边距 */
+    margin: 8px 0px 8px;
+    padding: 0;
+    /* 位置 */
+    position: relative;
+    /* 弹性盒子 子元素 主轴侧轴居中*/
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0, 25);
+}
+
+footer ul li {
+    list-style: none;
+}
+
+footer ul li a {
+    list-style: none;
+    position: relative;
+    color: #1A2029;
+    text-emphasis: none;
+    display: inline-block;
+    z-index: 100;
+    backdrop-filter: blur(15px);
+    text-decoration: none;
+}
+
+footer ul li a img {
+    width: 25px;
+    opacity: 0.5;
+    /* 静息时亮度 */
+    transition: 0.3s;
+    /* hover转化的时间 */
+}
+
+/* PC为悬停后的效果  移动端为点击后的效果 */
+footer ul li:hover a img {
+    opacity: 1;
+    /* 鼠标悬停时，宽度和高度放大到原来的103% 且中心位置不变 */
+    transform: scale(1.05);
+}

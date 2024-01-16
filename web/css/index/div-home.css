@@ -1,0 +1,74 @@
+/* page 隐藏 */
+.page {
+    display: none;
+}
+
+/* *********************************** */
+
+/* ************************************ */
+#div-home {
+    margin-top: 70px;
+}
+
+/* div-home模块 */
+.container {
+    /* position: relative; */
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+
+    /* flex盒子设置:主轴水平 平均排布 可换行 竖直平均排布*/
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-content: space-around;
+
+    /* 大小 */
+    width: 90%;
+    height: 500px;
+
+    /* 圆角 */
+    border-radius: 30px;
+}
+
+.container li {
+    width: 150px;
+}
+
+.container li a {
+    color: #1A2029;
+    /* 圆角 */
+    border-radius: 30px;
+
+    /* flex 纵向并居中 适合一个图标+一个词语*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    /* 背景色 */
+    background-color: #FFFFFF;
+    /* 边框线 */
+    border: 1px solid #D3D7DD;
+    /* 阴影 水平偏移 垂直偏移 模糊半径 扩展半径*/
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+
+    /* 大小 */
+    width: 120px;
+    height: 120px;
+    /* hover转化的时间 */
+    transition: 0.2s;
+}
+
+.container li a:hover {
+    /* 鼠标悬停时，宽度和高度放大到原来的103% 且中心位置不变 */
+    transform: scale(1.05);
+    background-color: #EFEFEF;
+}
+
+.container img {
+    /* 透明度 */
+    opacity: 0.8;
+    width: 45px;
+    margin-bottom: 5px;
+}

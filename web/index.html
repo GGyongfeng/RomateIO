@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0">
+    <title>远程控制系统</title>
+
+    <!-- <link rel="stylesheet" href="./css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/index/footer.css">
+    <link rel="stylesheet" href="./css/index/div-home.css">
+    <link rel="stylesheet" href="./css/index/div-usr.css">
+
+    <script src="./js/jquery-3.7.1-min.js"></script>
+    <script src="./js/vue.min.js"></script>
+    
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><img src="./img/person-circle-outline.svg" style="width: 28px;"></li>
+            <li>
+                <p>RomateIO</p>
+            </li>
+            <li><img src="img/grid-outline.svg" alt="列表"></li>
+        </ul>
+    </header>
+    <div id="viewport">
+        <div id="div-home" class="page">
+            <ul class="container">
+                <li><a href="#">
+                        <img src="./img/search-circle-outline.svg" alt="程序查看" />
+                        <span>程序查看</span>
+                    </a>
+                </li>
+                <li><a href="setting.html">
+                        <img src="./img/settings-outline.svg" alt="系统设置" />
+                        <span>系统设置</span>
+                    </a>
+                </li>
+                <li><a href="./signal.html">
+                        <img src="./img/logo-rss.svg" alt="信号配置" />
+                        <span>信号配置</span>
+                    </a>
+                </li>
+                <li><a href="edit.html">
+                        <img src="./img/create-outline.svg" alt="程序编辑" />
+                        <span>程序编辑</span>
+                    </a>
+                </li>
+                <li><a href="manual.html">
+                        <img src="./img/hand-left-outline.svg" alt="手动测试" width="" />
+                        <span>手动测试</span>
+                    </a>
+                </li>
+                <li><a href="#">
+                        <img src="./img/ellipsis-horizontal-circle-outline.svg" alt="预留功能2" />
+                        <span>预留功能2</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="div-usr" class="page">
+            <ul class="box">
+                <li style="height: 80px;"><a href="#"><span>头像</span></a></li>
+                <li><a href="#"><span>手机号</span></a></li>
+            </ul>
+            <ul class="box">
+                <li><a href="#"><span>账户管理</span></a></li>
+                <li><a href="#"><span>使用指南</span></a></li>
+                <li><a href="#"><span>其他设置</span></a></li>
+                <li><a href="#"><span>关于</span></a></li>
+            </ul>
+            <ul class="box">
+                <li><a href="#"><span>退出登录</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <ul>
+            <li><a href="#" data-target="div-home">
+                    <img src="./img/home-outline.svg" />
+                </a></li>
+            <li><a href="#" data-target="div-usr">
+                    <img src="./img/person-outline.svg" />
+                </a></li>
+        </ul>
+    </footer>
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        // 给左侧菜单栏添加点击事件处理程序
+        $("footer ul li a").click(function () {
+            var target = $(this).data('target');
+
+            // 隐藏所有页面内容
+            $('.page').hide();
+
+            // 显示目标页面内容
+            $('#' + target).show();
+        })
+        // 显示默认的页面 仪表盘
+        $('#div-home').show();
+    })
+</script>
+
+</html>

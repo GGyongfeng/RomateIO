@@ -45,3 +45,18 @@ function SendSetting(settings) {
     })
 }
 // ------------------------------------------------
+
+
+// ------------------------------------------------
+// 这段代码不使用 内容供复制粘贴
+function example() {
+    // 单个按钮：给按钮添加或删除.clicked类,有则添加，无则删除
+    $(this).toggleClass('btn-clicked');
+
+    // 多个按钮：同时只能一个被选中时 用这个代码
+    // 作用：移除父级元素下的所有按钮上的 btn-clicked 类，
+    // 并给当前点击的按钮添加 btn-clicked 类
+    $(this).parent().find('button').removeClass('btn-clicked');
+    $(this).addClass('btn-clicked');
+}
+// ------------------------------------------------

@@ -5,12 +5,13 @@ $(document).ready(function () {
         $('.btnContainer').append('<button>' + i + '</button>');
     }
 
+    var num = [];
+
     $.ajax({
         type: "get",
         url: "./setting.json",
         success: function (res) {
             console.log('请求settings.json成功:');
-            var target = "";
             // -------------------------------------------
             new Vue({
                 el: '#app',
@@ -34,21 +35,11 @@ $(document).ready(function () {
 
                     // 提交按钮的func
                     commit() {
-                        let num = [];
-
-                        // 获取所有包含btn-clicked样式的button
-                        $(".btnContainer").find('.btn-clicked').each(function () {
-                            // 逐个添加到unm中
-                            num.push(parseInt(this.innerHTML, 10));
-                            $(this).removeClass('btn-clicked');
-                        });
-
                         // 将num传递给对应的接口号
                         switch (this.choose) {
                             case "close":
                                 this.settings.valve[this.port].close = num;
                                 break;
-
                             default:
                                 this.settings.valve[this.port].open = num;
                                 break;
@@ -82,6 +73,8 @@ $(document).ready(function () {
 
                 // 取消sidebar中按钮的btn—clicked样式
                 $(".sidebar .btnContainer button").removeClass('btn-clicked');
+
+                num = [];
             })
 
             $(".sidebar .close").click(function () {
@@ -89,9 +82,9 @@ $(document).ready(function () {
             })
 
             $(".sidebar .btnContainer button").click(function () {
-                $(this).toggleClass('btn-clicked');
+                $(this).addClass('btn-clicked');
+                num.push(parseInt(this.innerHTML, 10));
             })
-
         }
     })
 });

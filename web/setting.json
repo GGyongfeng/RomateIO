@@ -1,69 +1,135 @@
 {
-    "nums": 16,
+    "nums": 8,
     "valve": [
         {
-            "close": [0,101,102],
-            "open": 1
+            "close": [
+                1,
+                33,
+                34
+            ],
+            "open": [
+                2
+            ]
         },
         {
-            "close": 2,
-            "open": 3
+            "close": [
+                3
+            ],
+            "open": [
+                4
+            ]
         },
         {
-            "close": 4,
-            "open": 5
+            "close": [
+                5
+            ],
+            "open": [
+                6
+            ]
         },
         {
-            "close": 6,
-            "open": 7
+            "close": [
+                7
+            ],
+            "open": [
+                8
+            ]
         },
         {
-            "close": 8,
-            "open": 9
+            "close": [
+                9
+            ],
+            "open": [
+                10
+            ]
         },
         {
-            "close": 10,
-            "open": 11
+            "close": [
+                11
+            ],
+            "open": [
+                12
+            ]
         },
         {
-            "close": 12,
-            "open": 13
+            "close": [
+                13
+            ],
+            "open": [
+                14
+            ]
         },
         {
-            "close": 14,
-            "open": 15
+            "close": [
+                15
+            ],
+            "open": [
+                16
+            ]
         },
         {
-            "close": 16,
-            "open": 17
+            "close": [
+                17
+            ],
+            "open": [
+                18
+            ]
         },
         {
-            "close": 18,
-            "open": 19
+            "close": [
+                19
+            ],
+            "open": [
+                20
+            ]
         },
         {
-            "close": 20,
-            "open": 21
+            "close": [
+                21
+            ],
+            "open": [
+                22
+            ]
         },
         {
-            "close": 22,
-            "open": 23
+            "close": [
+                23
+            ],
+            "open": [
+                24
+            ]
         },
         {
-            "close": 24,
-            "open": 25
+            "close": [
+                25
+            ],
+            "open": [
+                26
+            ]
         },
         {
-            "close": 26,
-            "open": 27
+            "close": [
+                27
+            ],
+            "open": [
+                28
+            ]
         },
         {
-            "close": 28,
-            "open": 29
+            "close": [
+                29
+            ],
+            "open": [
+                30
+            ]
         },
         {
-            "close": 30,
-            "open": 31
+            "close": [
+                31
+            ],
+            "open": [
+                32
+            ]
         },
         {
             "close": 32,

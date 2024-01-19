@@ -11,11 +11,12 @@
 
     <script src="./js/jquery-3.7.1-min.js"></script>
     <script src="./js/vue.min.js"></script>
+    <script src="./js/public.js"></script>
     <script src="./js/signal.js"></script>
 
     <style>
         #app {
-            margin-top: 70px;
+            margin-top: 90px;
         }
 
         .part {
@@ -47,11 +48,42 @@
             width: 50%;
             height: 96%;
             z-index: 10;
+            padding: 15px 3px 15px;
             /* 样式 */
             background-color: #F7F7F7;
             box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
+
+        .sidebar div:nth-child(1) {
+            flex-direction: row;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .btnContainer {
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btnContainer button {
+            width: 35px;
+        }
+
+        .commitAll {
+            border: 1px solid #C2C2C2;
+            background-color: #F7F7F7;
+            position: fixed;
+            top: 53px;
+            /* 作用居中 */
+            right: auto;
+        }
+
+        .commitAll:hover {
+            background-color: #C2C2C2;
+        }
+
     </style>
 </head>
 
@@ -66,22 +98,29 @@
         </ul>
     </header>
     <div id="app">
+        <button class="commitAll" @click="commitAll()">保存设置</button>
         <div v-for='(item, index) in nums' :key="index" class="eg-div part">
             <div>
                 <span>阀门{{item}}</span>
             </div>
             <div>
-                <button data-target="nihao">夹到位</button>
-                <button data-target="#">松到位</button>
+                <button @click="func1(index,'close')">夹到位</button>
+                <button @click="func1(index,'open')">松到位</button>
             </div>
-            <div style="width:auto;">
+            <div style="width:auto;align-items: flex-start;">
                 <p>{{ settings.valve[index].close }}</p>
                 <p>{{ settings.valve[index].open }}</p>
             </div>
         </div>
         <div class="sidebar">
-            <button class="close">❌</button>
-            <button>101</button>
+            <div>
+                <button @click="commit()">提交</button>
+                <button class="close">❌</button>
+            </div>
+
+            <div class="btnContainer">
+                <!-- 放置大量接口按钮 -->
+            </div>
         </div>
     </div>
 </body>

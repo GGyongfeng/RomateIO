@@ -49,14 +49,16 @@
 
     $('button:nth-child(1)').click(
         function () {
-            // SendSetting(settings)
             console.log(settings);
+            SendSetting(settings)
         }
     );
 
     $('#aaa button').click(function () {
         const num = parseInt(this.innerHTML, 10)
         settings.nums = num;
+        $(this).parent().find('button').removeClass('btn-clicked');
+        $(this).addClass('btn-clicked');
     })
 
 </script>

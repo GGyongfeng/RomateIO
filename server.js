@@ -17,18 +17,11 @@ server.use(express.static(path.join(__dirname, './txt')));
 server.post('*', (req, res) => {
     const url = req.url;
     const data = req.body.data;
-    switch (url) {
-        case '/setting.json':
-            const fpath = path.join(__dirname, '/web', url);
-            fs.writeFile(fpath,data, 'utf-8', function (err) {
-                if (err) { return console.log('读取失败'); }
-            });
-            res.send('post Success');
-            break;
-        default:
-
-            break;
-    }
+    const fpath = path.join(__dirname, url);
+    fs.writeFile(fpath, data, 'utf-8', function (err) {
+        if (err) { return console.log('读取失败'); }
+    });
+    res.send('post Success');
 })
 
 //4.启动web服务器

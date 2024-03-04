@@ -1,5 +1,6 @@
 // 界面准备时自动获取setting数据
 $(document).ready(function () {
+    var msg="";
     $.ajax({
         type: "get",
         url: "./setting.json",
@@ -17,13 +18,25 @@ $(document).ready(function () {
                     }
                 },
                 methods: {
-                    select() {
-                        // 获取当前点击的按钮
+                    func1(index) {
                         const clickedButton = $(event.target);
-                        // 移除所有按钮上的 select 类
                         clickedButton.parent().find('button').removeClass('select');
-                        // 给当前点击的按钮添加 select 类
                         clickedButton.addClass('select');
+                         $.post('../txt/1.txt', { data: '张三'}, function (res) {
+                             console.log(res);
+                         });
+                    },
+                    func2(index) {
+                        const clickedButton = $(event.target);
+                        clickedButton.parent().find('button').removeClass('select');
+                        clickedButton.addClass('select');
+                        console.log("点击了阀门" + index);
+                    },
+                    func3(index) {
+                        const clickedButton = $(event.target);
+                        clickedButton.parent().find('button').removeClass('select');
+                        clickedButton.addClass('select');
+                        console.log("点击了阀门" + index);
                     }
                 }
             })

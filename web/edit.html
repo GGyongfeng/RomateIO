@@ -14,18 +14,22 @@
     <style>
         .empty {
             width: 90%;
-            height: 130px;
+            height: 70px;
         }
 
         .nav {
             position: fixed;
+            bottom: 30px;
             height: 50px;
-            margin-top: 70px;
             display: flex;
             flex-direction: row;
             justify-content: space-around;
             /* 滑动容器 */
             overflow: auto;
+        }
+        .nav button{
+            border: none;
+            box-shadow:none;
         }
     </style>
 </head>
@@ -41,33 +45,34 @@
         </ul>
     </header>
     <div class="eg-div nav">
-        <button onclick="action()">动作</button>
-        <button onclick="action()">等待信号</button>
-        <button onclick="action()">等待释放</button>
-        <button onclick="action()">延迟</button>
-        <button onclick="action()">等待释放</button>
+        <button onclick="copy(0)">动作</button>
+        <button onclick="copy(1)">等待信号</button>
+        <button onclick="copy(2)">等待释放</button>
+        <button onclick="copy(3)">延迟</button>
+        <button onclick="copy(4)">等待释放</button>
     </div>
     <!-- 用于撑开大小 后面添加的步骤 不会从顶部开始 -->
     <div class="empty"></div>
 </body>
 
 <template>
-    <div class="eg-div">
+    <div class="eg-div" style="margin-bottom: 5px;height: 50px;">
+        0
     </div>
 </template>
 <template>
-    <div class="eg-div" style="margin-bottom: 5px;">
+    <div class="eg-div" style="margin-bottom: 5px;height: 50px;">
+        1
     </div>
 </template>
 
 <script>
-    function action() {
-        var temp = document.getElementsByTagName("template")[1];
+    function copy(i) {
+        var temp = document.getElementsByTagName("template")[i];
         //通过cloneNode方法把获取到的节点再复制一份
         var clo = temp.content.cloneNode(true);
         document.body.appendChild(clo);
     }
-
 </script>
 
 </html>

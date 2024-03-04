@@ -11,7 +11,7 @@
     <script src="./js/jquery-3.7.1-min.js"></script>
     <script src="./js/vue.min.js"></script>
     <script src="./js/manual.js"></script>
-    
+
     <style>
         /* ***************************** */
         /* action动作框 内部样式设置 */
@@ -94,9 +94,9 @@
     <div class="eg-div action">
         <div v-for='(item, index) in nums' :key="index">
             <p>阀门{{item}}</p>
-            <button @click="select" class="select">夹紧</button>
-            <button @click="select">中位</button>
-            <button @click="select">放松</button>
+            <button @click="func1(index)">夹紧</button>
+            <button @click="func2(index)">中位</button>
+            <button @click="func3(index)">放松</button>
         </div>
     </div>
     <!-- --------------------------------- -->

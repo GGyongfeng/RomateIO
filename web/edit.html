@@ -10,8 +10,58 @@
 
     <script src="./js/jquery-3.7.1-min.js"></script>
     <script src="./js/vue.min.js"></script>
-    
+    <script src="./js/edit.js"></script>
+
     <style>
+        /* action动作框 内部样式设置 */
+        .action {
+            /* 大小位置 */
+            height: auto;
+            padding: 10px 3px 10px;
+            margin-bottom: 5px;
+            /* 横向主轴 */
+            flex-direction: row;
+            /* 滑动容器 */
+            overflow: auto;
+            padding: 5px 10px 5px;
+        }
+
+        .action p {
+            margin: 3px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .action button {
+            box-sizing: border-box;
+            /* 形状 */
+            width: 60px;
+            height: 30px;
+            border-radius: 7px;
+            padding: 3px 0px 3px;
+            margin-left: 3px;
+            margin-left: 3px;
+            /* 移除默认的边框和背景 */
+            border: none;
+            /* 字体 */
+            font-size: 15px;
+            color: #333333;
+            font-weight: 440;
+            /* 点击前样式 */
+            background-color: #ffffff;
+            transition: 0.2s;
+            /* 使用CSS伪元素来创建一个覆盖层，以防止点击时出现阴影 */
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            /* 对于iOS设备 */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .action .select {
+            background-color: #c2c2c2;
+        }
+
+        /* *********************************** */
+
         .empty {
             width: 90%;
             height: 70px;
@@ -23,13 +73,18 @@
             height: 50px;
             display: flex;
             flex-direction: row;
-            justify-content: space-around;
             /* 滑动容器 */
             overflow: auto;
+            white-space: nowrap;
+            /* 防止内部元素换行 */
         }
-        .nav button{
-            border: none;
-            box-shadow:none;
+
+        .nav button {
+            /* border: none; */
+            /* box-shadow: none; */
+            height: 70%;
+            margin-left: 5px;
+            margin-right: 0px;
         }
     </style>
 </head>
@@ -45,33 +100,33 @@
         </ul>
     </header>
     <div class="eg-div nav">
-        <button onclick="copy(0)">动作</button>
+        <button onclick="copy(0)"style="margin-left: 7px;">动作</button>
         <button onclick="copy(1)">等待信号</button>
         <button onclick="copy(2)">等待释放</button>
         <button onclick="copy(3)">延迟</button>
-        <button onclick="copy(4)">等待释放</button>
+        <button onclick="copy(4)">输出</button>
+        <button onclick="copy(5)" style="margin-right:7px;">提交</button>
     </div>
     <!-- 用于撑开大小 后面添加的步骤 不会从顶部开始 -->
     <div class="empty"></div>
+    <!-- ---------预设的各个可复制模块----------- -->
+    <div class="action eg-div" style="display: none;"></div>
+    <div class="action eg-div" style="display: none;">等待信号</div>
+    <div class="action eg-div" style="display: none;">等待释放</div>
+    <div class="action eg-div" style="display: none;">延迟</div>
+    <div class="action eg-div" style="display: none;">等待释放</div>
+    <!-- -------------------------------------- -->
 </body>
-
-<template>
-    <div class="eg-div" style="margin-bottom: 5px;height: 50px;">
-        0
-    </div>
-</template>
-<template>
-    <div class="eg-div" style="margin-bottom: 5px;height: 50px;">
-        1
-    </div>
-</template>
 
 <script>
     function copy(i) {
-        var temp = document.getElementsByTagName("template")[i];
-        //通过cloneNode方法把获取到的节点再复制一份
-        var clo = temp.content.cloneNode(true);
-        document.body.appendChild(clo);
+        // 找到第i个class为action的div元素
+        let $target = $('.action').eq(i);
+        // 克隆这个div元素
+        let $clone = $target.clone();
+        $clone.css("display", "flex");
+        // 将克隆的div元素添加到body中
+        $('body').append($clone);
     }
 </script>
 

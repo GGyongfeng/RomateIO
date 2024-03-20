@@ -10,20 +10,25 @@
 
     <script src="./js/jquery-3.7.1-min.js"></script>
     <script src="./js/vue.min.js"></script>
+    <script src="./js/program.js"></script>
     <script src="./js/edit.js"></script>
 
     <style>
+        .step {
+            margin-bottom: 10px;
+            padding: 5px 5px 5px;
+        }
+
         /* action动作框 内部样式设置 */
         .action {
             /* 大小位置 */
             height: auto;
-            padding: 10px 3px 10px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             /* 横向主轴 */
             flex-direction: row;
             /* 滑动容器 */
             overflow: auto;
-            padding: 5px 10px 5px;
+            padding: 5px 5px 10px;
         }
 
         .action p {
@@ -38,7 +43,7 @@
             width: 60px;
             height: 30px;
             border-radius: 7px;
-            padding: 3px 0px 3px;
+            padding: 5px 0px 5px;
             margin-left: 3px;
             margin-left: 3px;
             /* 移除默认的边框和背景 */
@@ -60,6 +65,16 @@
             background-color: #c2c2c2;
         }
 
+        .action-bar {
+            margin-left: 10px;
+        }
+
+        .action-bar button {
+            margin-bottom: 5px;
+            padding: 0px 5px 0px;
+            width: 75px;
+        }
+
         /* *********************************** */
 
         .empty {
@@ -70,21 +85,31 @@
         .nav {
             position: fixed;
             bottom: 30px;
-            height: 50px;
+            padding: 5px 0px 5px;
+        }
+
+        .nav div {
             display: flex;
             flex-direction: row;
-            /* 滑动容器 */
-            overflow: auto;
-            white-space: nowrap;
-            /* 防止内部元素换行 */
+            justify-content: space-around;
         }
 
         .nav button {
             /* border: none; */
             /* box-shadow: none; */
             height: 70%;
-            margin-left: 5px;
-            margin-right: 0px;
+            padding: 5px 8px 5px;
+        }
+
+
+        .selected {
+            box-shadow: 0px 0px 4px 5px rgba(0, 0, 0, 0.1);
+            transform: scale(1.03);
+            background: #F1F2F4;
+        }
+
+        .sidebar button {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -100,33 +125,95 @@
         </ul>
     </header>
     <div class="eg-div nav">
-        <button onclick="copy(0)"style="margin-left: 7px;">动作</button>
-        <button onclick="copy(1)">等待信号</button>
-        <button onclick="copy(2)">等待释放</button>
-        <button onclick="copy(3)">延迟</button>
-        <button onclick="copy(4)">输出</button>
-        <button onclick="copy(5)" style="margin-right:7px;">提交</button>
+        <div>
+            <button onclick="copy(0)" style="margin-left: 7px;">动作</button>
+            <button onclick="copy(1)">等待信号</button>
+            <button onclick="copy(2)">等待释放</button>
+            <button onclick="copy(3)">延迟</button>
+            <button>输出</button>
+        </div>
+        <div>
+            <button>删除</button>
+            <button style="margin-right:7px;">提交</button>
+        </div>
     </div>
     <!-- 用于撑开大小 后面添加的步骤 不会从顶部开始 -->
     <div class="empty"></div>
     <!-- ---------预设的各个可复制模块----------- -->
-    <div class="action eg-div" style="display: none;"></div>
-    <div class="action eg-div" style="display: none;">等待信号</div>
-    <div class="action eg-div" style="display: none;">等待释放</div>
-    <div class="action eg-div" style="display: none;">延迟</div>
-    <div class="action eg-div" style="display: none;">等待释放</div>
+    <div class="step eg-div action" style="display: none;"></div>
+    <div class="step eg-div kind1" style="display: none;">等待信号</div>
+    <div class="step eg-div wait" style="display: none;">等待释放</div>
+    <div class="step eg-div delay" style="display: none;">延迟</div>
+    <div class="step eg-div output" style="display: none;">输出成功</div>
     <!-- -------------------------------------- -->
+
+
+    <div id="program">
+        <!-- <div class="step eg-div">等待信号</div>
+        <div class="step eg-div">等待释放</div>
+        <div class="step eg-div">延迟</div>
+        <div class="step eg-div">输出成功</div> -->
+    </div>
+
+    <div class="sidebar">
+        <button class="close">❌</button>
+        <button onclick="copy(4,'SO01')">SO01(夹紧完成)</button>
+        <button onclick="copy(4,'SO02')">SO02(夹紧完成)</button>
+        <button onclick="copy(4,'SO03')">SO03</button>
+        <button onclick="copy(4,'SO04')">SO04</button>
+        <button onclick="copy(4,'SO05')">SO05</button>
+        <button onclick="copy(4,'SO06')">SO06</button>
+    </div>
+
 </body>
 
 <script>
-    function copy(i) {
+    // 定义变量
+    var msg = "eg";
+    var steps = 0;
+    var settings = "";
+
+    function copy(i, msg) {
         // 找到第i个class为action的div元素
-        let $target = $('.action').eq(i);
+        let $target = $('.step').eq(i);
         // 克隆这个div元素
         let $clone = $target.clone();
+        // 将克隆的step调为可见
         $clone.css("display", "flex");
-        // 将克隆的div元素添加到body中
-        $('body').append($clone);
+        // 如果msg参数存在，则设置克隆元素的文本内容
+        if (msg) {
+            $clone.text(msg);
+        }
+        // 添加事件监听
+        $clone.click(function () {
+            $("#program").find('.selected').not(this).removeClass("selected");
+            // 改为判断$(this)的class属性是否有action，是则执行
+            // $(this).addClass("selected");
+            // 否则，执行$(this).toggleClass("selected");
+            if ($(this).hasClass("action")) {
+                $(this).addClass("selected")
+            } else {
+                $(this).toggleClass("selected")
+            }
+        });
+
+        // 检查是否有class为step的div具有selected样式
+        if ($('#program .selected').length > 0) {
+            // 如果有，将克隆的div元素添加到具有selected样式的div之后
+            $('.selected').after($clone);
+        } else {
+            // 如果没有，将克隆的div元素添加到#program的末尾
+            $('#program').append($clone);
+        }
+        // 步骤数+1
+        steps = steps + 1;
+    }
+
+    // button被点击时，同级元素删除select属性，被点击元素添加select属性
+    function func1() {
+        const clickedButton = $(event.target);
+        clickedButton.parent().find('button').removeClass('select');
+        clickedButton.addClass('select');
     }
 </script>
 

@@ -18,25 +18,27 @@ $(document).ready(function () {
                     }
                 },
                 methods: {
-                    func1(index) {
+                    func1(item) {
                         const clickedButton = $(event.target);
                         clickedButton.parent().find('button').removeClass('select');
                         clickedButton.addClass('select');
-                         $.post('../txt/1.txt', { data: '张三'}, function (res) {
-                             console.log(res);
-                         });
+                        console.log("点击了阀门" + item);
+                        //发送
+                        //  $.post('../txt/1.txt', { data: '张三'}, function (res) {
+                        //      console.log(res);
+                        //  });
                     },
-                    func2(index) {
+                    func2(item) {
                         const clickedButton = $(event.target);
                         clickedButton.parent().find('button').removeClass('select');
                         clickedButton.addClass('select');
-                        console.log("点击了阀门" + index);
+                        console.log("点击了阀门" + item);
                     },
-                    func3(index) {
+                    func3(item) {
                         const clickedButton = $(event.target);
                         clickedButton.parent().find('button').removeClass('select');
                         clickedButton.addClass('select');
-                        console.log("点击了阀门" + index);
+                        console.log("点击了阀门" + item);
                     }
                 }
             })

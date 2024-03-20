@@ -94,9 +94,9 @@
     <div class="eg-div action">
         <div v-for='(item, index) in nums' :key="index">
             <p>阀门{{item}}</p>
-            <button @click="func1(index)">夹紧</button>
-            <button @click="func2(index)">中位</button>
-            <button @click="func3(index)">放松</button>
+            <button @click="func1(item)">夹紧</button>
+            <button @click="func2(item)">中位</button>
+            <button @click="func3(item)">放松</button>
         </div>
     </div>
     <!-- --------------------------------- -->

@@ -99,3 +99,22 @@ button {
     /* 鼠标悬停时，宽度和高度放大到原来的101%,且中心位置不变 */
     /* transform: scale(1.01); */
 /* } */
+
+/* 侧边栏 */
+.sidebar {
+    display: none;
+    /* 位置*/
+    position: fixed;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* 大小 层次 */
+    width: 50%;
+    height: 96%;
+    z-index: 10;
+    padding: 15px 3px 15px;
+    /* 样式 */
+    background-color: #F7F7F7;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}

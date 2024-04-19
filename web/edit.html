@@ -111,6 +111,24 @@
         .sidebar button {
             margin-bottom: 20px;
         }
+
+        .delay_input {
+            /* 位置固定 */
+            position: absolute;
+            bottom: 130px;
+            right: 20px;
+            /* 大小 */
+            width: 75%;
+            height: 50px;
+            /* 排布 */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        #program {
+            margin-bottom: 140px;
+        }
     </style>
 </head>
 
@@ -126,10 +144,10 @@
     </header>
     <div class="eg-div nav">
         <div>
-            <button onclick="copy(0)" style="margin-left: 7px;">动作</button>
+            <button style="margin-left: 7px;">动作</button>
             <button onclick="copy(1)">等待信号</button>
             <button onclick="copy(2)">等待释放</button>
-            <button onclick="copy(3)">延迟</button>
+            <button>延迟</button>
             <button>输出</button>
         </div>
         <div>
@@ -165,6 +183,12 @@
         <button onclick="copy(4,'SO06')">SO06</button>
     </div>
 
+    <div class="delay_input eg-div">
+        <input type="number" name="num" id="num" value="" placeholder="请输入延时时间" style="width: 110px;" />
+        <span>.ms</span>
+        <button>确定</button>
+        <button>❌</button>
+    </div>
 </body>
 
 <script>
@@ -187,13 +211,22 @@
         // 添加事件监听
         $clone.click(function () {
             $("#program").find('.selected').not(this).removeClass("selected");
-            // 改为判断$(this)的class属性是否有action，是则执行
-            // $(this).addClass("selected");
-            // 否则，执行$(this).toggleClass("selected");
+
+            // 首先检查点击事件是否发生在按钮上
             if ($(this).hasClass("action")) {
-                $(this).addClass("selected")
+                // 获取点击事件的目标元素
+                const clickTarget = $(event.target);
+
+                // 检查目标元素是否是 $(this) 下的按钮
+                if (clickTarget.closest($(this)).length > 0 && clickTarget.is('button')) {
+                    // 如果是 $(this) 下的按钮，不执行任何操作
+                } else {
+                    // 如果是 $(this) 下的其他元素或按钮之外的部分，执行 toggleClass
+                    $(this).toggleClass("selected");
+                }
             } else {
-                $(this).toggleClass("selected")
+                // 如果没有找到按钮，直接执行 toggleClass
+                $(this).toggleClass("selected");
             }
         });
 

@@ -77,6 +77,29 @@
         </ul>
         */
         /* ********************************** */
+        .in_div,
+        .out_div {
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .in_div div,
+        .out_div div {
+            padding: 0px 5px 10px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .inout button {
+            width: 30px;
+        }
+
+        #refresh{
+            width: 50px;
+            position:absolute;
+            top: 5px;
+            right: 10px;
+        }
     </style>
 </head>
 
@@ -94,12 +117,97 @@
     <div class="eg-div action">
         <div v-for='(item, index) in nums' :key="index">
             <p>阀门{{item}}</p>
-            <button @click="func1(item)">夹紧</button>
-            <button @click="func2(item)">中位</button>
-            <button @click="func3(item)">放松</button>
+            <button @click="func1()">夹紧</button>
+            <button @click="func1()">中位</button>
+            <button @click="func1()">放松</button>
         </div>
     </div>
     <!-- --------------------------------- -->
+
+
+    <!-- ---------in out调试框------------ -->
+    <div class="inout">
+        <div class="in_div eg-div">
+            <P>IN</P>
+            <!-- 按钮 -->
+            <div>
+            </div>
+        </div>
+        <div class="out_div eg-div">
+            <p>OUT</p>
+            <!-- 按钮 -->
+            <div>
+
+            </div>
+            <button id="refresh">刷新</button>
+        </div>
+    </div>
+    <!-- -------------------------------- -->
 </body>
+<script>
+    // 初始化变量
+    var msg = "";
+    var settings = "";
+
+    function getAction() {
+        let $step = $('.action');
+        let Msg = "";
+        let Msg2 = "";
+        for (let i = 0; i < settings.nums; i++) {
+            // 获取$step下的第i个div
+            let $div = $step.find('div:eq(' + i + ')');
+
+            // 获取第i个div下class为"selet"的button
+            let button = $div.find('.select');
+            // 获取被选中button的文本
+            let text = button.text()
+            // 使用switch语句根据文本进行判断
+            switch (text) {
+                case "夹紧":
+                    // 夹紧操作的代码
+                    Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=1,Y' + settings.valve[i].out[1] + '=0)' + 'J';
+                    Msg2 = '-'
+                    // 按照夹到位的信号数量进行循环拼接字符串
+                    for (let k = 0; k < settings.valve[i].close.length; k++) {
+                        Msg2 = Msg2 + 'X' + settings.valve[i].close[k] + ',';
+                        // 最后一个不加逗号
+                        if (k == (settings.valve[i].close.length - 1)) {
+                            Msg2 = Msg2.slice(0, -1);
+                        }
+                    }
+                    Msg2 = Msg2 + ';';
+                    Msg = Msg + Msg2 + "\n";
+                    break;
+                case "中位":
+                    // 中位操作的代码
+                    Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=0)';
+                    Msg2 = ';';
+                    Msg = Msg + Msg2 + "\n";
+                    break;
+                case "放松":
+                    // 放松操作的代码
+                    Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=1)' + 'K';
+                    Msg2 = '-';
+                    // 按照夹到位的信号数量进行循环拼接字符串
+                    for (let k = 0; k < settings.valve[i].open.length; k++) {
+                        Msg2 = Msg2 + 'X' + settings.valve[i].open[k] + ',';
+                        // 最后一个不加逗号
+                        if (k == (settings.valve[i].open.length - 1)) {
+                            Msg2 = Msg2.slice(0, -1);
+                        }
+                    }
+                    Msg2 = Msg2 + ';';
+                    Msg = Msg + Msg2 + "\n";
+                    break;
+                default:
+                    // 默认操作，如果文本不符合上述任何情况
+                    // console.log('阀门' + (i + 1) + "未知的操作");
+                    break;
+            };
+        }
+
+        return Msg;
+    }
+</script>
 
 </html>

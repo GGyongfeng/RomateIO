@@ -12,7 +12,7 @@ function getMsg() {
             Msg = Msg + 'S' + (S + 1) + ':WAIT' + "\n";
         } else if ($step.hasClass('delay')) {
             // 在这里处理 delay 步骤
-            Msg = Msg + 'S' + (S + 1) + ':delay' + "\n";
+            Msg = Msg + 'S' + (S + 1) + ':delay' + ','+$step.text().substring(2, $step.text().length-2) + "\n";
         } else if ($step.hasClass('output')) {
             // 在这里处理 output 步骤
             Msg = Msg + 'S' + (S + 1) + ':' + $step.text() + "\n";
@@ -53,14 +53,14 @@ function getAction(S) {
                         Msg2 = Msg2.slice(0, -1);
                     }
                 }
-                Msg2 = Msg2 + ';';
-                Msg = Msg + Msg2 + "\n";
+                Msg2 = Msg2 + ',';
+                Msg = Msg + Msg2;
                 break;
             case "中位":
                 // 中位操作的代码
                 Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=0)';
-                Msg2 = ';';
-                Msg = Msg + Msg2 + "\n";
+                Msg2 = ',';
+                Msg = Msg + Msg2;
                 break;
             case "放松":
                 // 放松操作的代码
@@ -74,8 +74,8 @@ function getAction(S) {
                         Msg2 = Msg2.slice(0, -1);
                     }
                 }
-                Msg2 = Msg2 + ';';
-                Msg = Msg + Msg2 + "\n";
+                Msg2 = Msg2 + ',';
+                Msg = Msg + Msg2;
                 break;
             default:
                 // 默认操作，如果文本不符合上述任何情况

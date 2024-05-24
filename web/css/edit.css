@@ -1,0 +1,103 @@
+.step {
+    margin-bottom: 10px;
+    padding: 5px 5px 5px;
+}
+
+/* action动作框 内部样式设置 */
+.action {
+    /* 大小位置 */
+    height: auto;
+    margin-bottom: 10px;
+    /* 横向主轴 */
+    flex-direction: row;
+    /* 滑动容器 */
+    overflow: auto;
+    padding: 5px 5px 10px;
+}
+
+.action p {
+    margin: 3px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.action button {
+    box-sizing: border-box;
+    /* 形状 */
+    width: 60px;
+    height: 30px;
+    border-radius: 7px;
+    padding: 5px 0px 5px;
+    margin-left: 3px;
+    margin-left: 3px;
+    /* 移除默认的边框和背景 */
+    border: none;
+    /* 字体 */
+    font-size: 15px;
+    color: #333333;
+    font-weight: 440;
+    /* 点击前样式 */
+    background-color: #ffffff;
+    transition: 0.2s;
+    /* 使用CSS伪元素来创建一个覆盖层，以防止点击时出现阴影 */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /* 对于iOS设备 */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.action .select {
+    background-color: #c2c2c2;
+}
+
+.action-bar {
+    margin-left: 10px;
+}
+
+.action-bar button {
+    margin-bottom: 5px;
+    padding: 0px 5px 0px;
+    width: 75px;
+}
+
+/* *********************************** */
+
+.empty {
+    width: 90%;
+    height: 55px;
+}
+
+.nav {
+    position: fixed;
+    bottom: 30px;
+    padding: 5px 0px 5px;
+}
+
+.nav div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.nav button {
+    border-width: 1.5px;
+    box-shadow: none;
+    height: 70%;
+    width: 75px;
+    padding: 5px 8px 5px;
+    background-color: #c2c2c225;
+}
+
+
+.selected {
+    box-shadow: 0px 0px 4px 5px rgba(0, 0, 0, 0.1);
+    transform: scale(1.03);
+    background: #F1F2F4;
+}
+
+.sidebar button {
+    margin-bottom: 20px;
+}
+
+#program {
+    margin-bottom: 140px;
+}

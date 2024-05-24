@@ -18,17 +18,17 @@ $(document).ready(function () {
                     }
                 },
                 methods: {
-                    func1() {
+                    func1(index) {
                         // 切换被选中按钮
                         const clickedButton = $(event.target);
                         clickedButton.parent().find('button').removeClass('select');
                         clickedButton.addClass('select');
 
                         // getAction
-                        msg = getAction();
+                        msg = getAction(index);
                         console.log(msg);
 
-                        // 发送  将msg写入./txt/2.txt
+                        // 发送  将msg写入./txt/hand.txt
                         $.ajax({
                             type: "post",
                             url: "./txt/hand.txt",

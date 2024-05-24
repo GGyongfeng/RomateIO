@@ -18,15 +18,13 @@ $(document).ready(function () {
                 if (i == settings.nums) {
                     $(".action").eq(0).append(
                         '<div class="action-bar">' +
-                        '<button onclick="func1()">模拟运行</button>' +
-                        '<button onclick="func1()">双手启动</button>' +
-                        '<button onclick="func1()">外部编码</button>' +
+                        '<button onclick="func2()">模拟运行</button>' +
+                        '<button onclick="func2()">双手启动</button>' +
+                        '<button onclick="func3()">外部编码</button>' +
                         '</div>'
                     );
                 }
             }
-            // 初始时隐藏.delay_input
-            $('.delay_input').hide();
 
             //动作按钮
             $(".nav button:eq(0)").click(function () {
@@ -69,34 +67,31 @@ $(document).ready(function () {
                 } else {
                     // 否则执行copy（0）这个函数
                     copy(0);
+                    steps = steps - 1;
                 }
+                // 步骤数+1
+                steps = steps + 1;
             });
 
             //延迟按钮 
-            $(".nav button:eq(3)").click(function () {
-                // 切换sidebar的display属性
-                $('.delay_input').show();
-            })
-            // 关闭小键盘按钮
-            $(".delay_input button:eq(1)").click(function () {
-                // 切换sidebar的display属性
-                $('.delay_input').hide();
-            })
-            // 小键盘确定按钮
-            $(".delay_input button:eq(0)").click(function () {
-                var numValue = $('#num').val();
-                copy(3, '延迟' + numValue + 'ms');
-                $('.delay_input').hide();
+            $(".nav button:eq(2)").click(function () {
+                // 弹出输入框
+                let userInput = prompt("请输入延迟时间ms:");
+
+                // 如果用户点击了取消按钮或者未输入任何内容，则不进行替换操作
+                if (userInput !== null && userInput !== "") {
+                    copy(3, '延迟' + userInput + 'ms');
+                }
             })
 
             //输出按钮 
-            $(".nav button:eq(4)").click(function () {
+            $(".nav button:eq(3)").click(function () {
                 // 切换sidebar的display属性
                 $('.sidebar').show();
             })
 
             // 删除按钮
-            $(".nav button:eq(5)").click(function () {
+            $(".nav button:eq(4)").click(function () {
                 // 判断是否存在被选中的step
                 if ($("#program .selected").length > 0) {
                     // 存在则执行以下操作
@@ -112,17 +107,37 @@ $(document).ready(function () {
             })
 
             // 提交代码
-            $(".nav button:eq(6)").click(function () {
+            $(".nav button:eq(5)").click(function () {
                 msg = getMsg();
                 console.log('steps:' + steps);
                 console.log(msg);
                 // 将msg写入./txt/1.txt
                 $.ajax({
                     type: "post",
-                    url: "./txt/1.txt",
+                    url: "./txt/web.txt",
                     data: { data: msg },
                     success: function (res) {
                         console.log(res);
+                    }
+                })
+            })
+            $(".nav button:eq(6)").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "./txt/command.txt",
+                    data: { data: "ST,web.txt" },
+                    success: function (res) {
+                        console.log(res);
+                    }
+                })
+            })
+            // 读取按钮
+            $(".nav button:eq(7)").click(function () {
+                $.ajax({
+                    type: "get",
+                    url: "./web.txt",
+                    success: function (msg) {
+                        readTxt(msg);
                     }
                 })
             })

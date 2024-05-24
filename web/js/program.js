@@ -5,19 +5,19 @@ function getMsg() {
         let $step = $('#program .step:eq(' + S + ')');
         // 检查这个元素的 class 是否包含特定的类名
         if ($step.hasClass('action')) {
-            // 在这里处理 action 步骤
+            // 在这里处理 “动作” 步骤
             Msg = Msg + 'S' + (S + 1) + ':' + getAction(S);
         } else if ($step.hasClass('wait')) {
-            // 在这里处理 wait 步骤
+            // 在这里处理 “等待释放” 步骤
             Msg = Msg + 'S' + (S + 1) + ':WAIT' + "\n";
         } else if ($step.hasClass('delay')) {
-            // 在这里处理 delay 步骤
-            Msg = Msg + 'S' + (S + 1) + ':delay' + ','+$step.text().substring(2, $step.text().length-2) + "\n";
+            // 在这里处理 “延迟” 步骤
+            Msg = Msg + 'S' + (S + 1) + ':delay' + ',' + $step.text().substring(2, $step.text().length - 2) + "\n";
         } else if ($step.hasClass('output')) {
-            // 在这里处理 output 步骤
+            // 在这里处理 “输出” 步骤
             Msg = Msg + 'S' + (S + 1) + ':' + $step.text() + "\n";
         } else if ($step.hasClass('kind1')) {
-            // 在这里处理 output 步骤
+            // 在这里处理 “等待信号” 步骤
             Msg = Msg + 'S' + (S + 1) + ':kind1' + "\n";
         } else {
             // 如果类名不被识别，在这里处理
@@ -79,12 +79,12 @@ function getAction(S) {
                 break;
             default:
                 // 默认操作，如果文本不符合上述任何情况
-                console.log('阀门' + (i + 1) + "未知的操作");
+                // console.log('阀门' + (i + 1) + "未知的操作");
                 break;
         };
     }
 
-    // 获取$step下的第i个div
+    // 获取$step下的条件选择栏
     let $div2 = $step.find('.action-bar');
     let text2 = $div2.find('.select').text();
     // CN为没有需要等待的信号，界面上的“模拟运行”
@@ -98,11 +98,174 @@ function getAction(S) {
             Msg = Msg + "CW" + "\n";
             break;
         case "外部编码":
-            Msg = Msg + "C1010" + "\n";
+            Msg = Msg + "\n";
             break;
         default:
-            console.log("此步动作未选择条件");
+            Msg = Msg + text2 + "\n";
+            // console.log("此步动作未选择条件");
             break;
     }
     return Msg;
+}
+
+function readTxt(txt) {
+    console.log(txt);
+
+    steps = 0; // 初始化步数为0
+    // 清空id为'program'的元素的内容
+    $('#program').empty();
+    let maxStep = 0; // 最大步数
+    let currentStep = 0; // 当前步数
+
+    // 遍历txt的每一个字母或者符号
+    // if 是 S
+    // 读取字母S后面的连续数字直到冒号:,将这个连续数字转化为数值类型变量
+    // 取最大的一个，让steps=这个数字
+    // if是冒号:
+    // 则进行switch判断冒号:的后一个字符
+    //  case F：
+    //  case d：
+    //  case W：
+
+    // 遍历txt的每一个字母或者符号
+    for (let i = 0; i < txt.length; i++) {
+        let char = txt[i];
+        // 如果是字母S，且后面是数字，则更新最大步数
+        if (char === 'S') {
+            // 找到 S 后面的连续数字
+            let numStr = '';
+            for (let j = i + 1; j < txt.length; j++) {
+                if (!isNaN(parseInt(txt[j]))) {
+                    numStr += txt[j];
+                } else {
+                    break;
+                }
+            }
+            if (numStr !== '') {
+                currentStep = parseInt(numStr);
+                if (currentStep > maxStep) {
+                    maxStep = currentStep;
+                }
+            }
+        }
+        // 如果是冒号:，则进行switch判断这个字符的后一个字符
+        else if (char === ':') {
+            switch (txt[i + 1]) {
+                case 'F':
+                    // 执行 S 相关操作
+                    let strF = '';
+                    for (let k = i + 1; k < txt.length; k++) {
+                        if (txt[k] === '\n') {
+                            break;
+                        }
+                        else {
+                            strF += txt[k];
+                        }
+                    }
+                    readAction(strF)
+                    break;
+                case 'd':
+                    // 遍历判断char以后的字符直到换行符
+                    // 判断如果为逗号,，则找到,后的连续数字直到换行符，拼接起来赋值给一个变量
+                    for (let k = i + 1; k < txt.length; k++) {
+                        if (txt[k] === ',') {
+                            let tempNumStr = '';
+                            for (let l = k + 1; l < txt.length; l++) {
+                                if (!isNaN(parseInt(txt[l]))) {
+                                    tempNumStr += txt[l];
+                                } else if (txt[l] === '\n') {
+                                    break;
+                                }
+                            }
+                            copy(3, '延迟' + tempNumStr + 'ms');
+                            break;
+                        }
+                    }
+                    break;
+                case 'W':
+                    copy(2);
+                    break;
+                case 'S':
+                    let Str = '';
+                    for (let k = i + 1; k < txt.length; k++) {
+                        if (txt[k] === '\n') {
+                            break;
+                        }
+                        else {
+                            Str += txt[k];
+                        }
+                    }
+                    copy(4, Str);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    steps = maxStep; // 将最大步数作为结果
+}
+
+function readAction(strF) {
+    let $copy = copy(0);
+    // 遍历str的每一个字符char
+    for (let i = 0; i < strF.length; i++) {
+        let char = strF[i]; // 获取当前字符
+        if (char === 'F') {
+            // 找到 F 后面的连续数字
+            // 方便对对应的div进行操作
+            let numStr = '';
+            for (let j = i + 1; j < strF.length; j++) {
+                if (!isNaN(parseInt(strF[j]))) {
+                    numStr += strF[j];
+                } else {
+                    break;
+                }
+            }
+            let $div = $copy.children('div').eq(numStr - 1)
+
+            // 遍历F后的字符，直到),switch判断)后一位的字符,case J: case K: case ,:
+            for (let k = i + 1; k < strF.length; k++) {
+                if (strF[k] === ')') {
+                    let nextChar = strF[k + 1];
+                    switch (nextChar) {
+                        case 'J':
+                            $div.children('button').eq(0).addClass("select");
+                            break;
+                        case 'K':
+                            $div.children('button').eq(1).addClass("select");
+                            break;
+                        case ',':
+                            $div.children('button').eq(2).addClass("select");
+                            break;
+                        default:
+                            // 如果不是上述情况，可以添加默认处理逻辑
+                            break;
+                    }
+                    break;
+                }
+            }
+        } else if (char === 'C') {
+            switch (strF[i + 1]) {
+                case 'N':
+                    $copy.find('.action-bar').find('button:eq(0)').addClass('select');
+                    break;
+                case 'W':
+                    $copy.find('.action-bar').find('button:eq(1)').addClass('select');
+                    break;
+                default:
+                    $copy.find('.action-bar').find('button:eq(2)').addClass('select');
+                    // 找到 C 后面的连续数字
+                    let numStr = '';
+                    for (let j = i + 1; j < strF.length; j++) {
+                        if (!isNaN(parseInt(strF[j]))) {
+                            numStr += strF[j];
+                        } else {
+                            break;
+                        }
+                    }
+                    $copy.find('.action-bar').find('button:eq(2)').text('C' + numStr);
+                    break;
+            }
+        }
+    }
 }

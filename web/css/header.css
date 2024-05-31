@@ -3,7 +3,7 @@ header {
     position: fixed;
     top: 0;
     /* 宽度范围 */
-    max-width: 980px;
+    max-width: 600px;
     min-width: 320px;
     /* 背景色 */
     background-color: #F7F7F7;

@@ -1,6 +1,6 @@
 body {
     /* 宽度范围 */
-    max-width: 980px;
+    max-width: 500px;
     min-width: 320px;
     /* 弹性盒子 纵向主轴 横向居中 */
     display: flex;

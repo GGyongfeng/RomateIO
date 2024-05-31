@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({ extended: false }));
 
 //3.对外提供web文件夹的静态资源
-server.use(express.static(path.join(__dirname, './web')));
+server.use(express.static(path.join(__dirname, './web'),{ index: 'login.html' }));
 server.use(express.static(path.join(__dirname, './txt')));
 
 //4.接受post请求
@@ -25,7 +25,7 @@ server.post('*', (req, res) => {
     res.send('post Success');
 })
 
-//4.启动web服务器
+//6.启动web服务器
 server.listen(8080, () => {
     console.log('server running at localhost:8080');
 })

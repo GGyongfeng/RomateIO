@@ -90,4 +90,12 @@ $(document).ready(function () {
             // -------------------------------------------
         }
     })
+    $.ajax({
+        type: "post",
+        url: "./txt/command.txt",
+        data: { data: "SP,hand.txt" },
+        success: function (res) {
+            console.log(res);
+        }
+    })
 });

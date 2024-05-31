@@ -43,16 +43,6 @@
             margin-bottom: 20px;
         }
 
-        .btnContainer {
-            flex-direction: row;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btnContainer button {
-            width: 35px;
-        }
-
         .commitAll {
             border: 1px solid #C2C2C2;
             background-color: #F7F7F7;
@@ -94,7 +84,7 @@
                 <p>{{ settings.valve[index].open }}</p>
             </div>
         </div>
-        <div class="sidebar">
+        <div class="sidebar sidebar_sign">
             <div>
                 <button @click="commit()">提交</button>
                 <button class="close">❌</button>
@@ -102,6 +92,9 @@
 
             <div class="btnContainer">
                 <!-- 放置大量接口按钮 -->
+            </div>
+            <div style="margin-top: 10px;">
+                <button>执行</button>
             </div>
         </div>
     </div>

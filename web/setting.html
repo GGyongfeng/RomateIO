@@ -12,6 +12,23 @@
     <script src="./js/public.js"></script>
 
     <style>
+        .SettingPart {
+            /* flex盒子设置:主轴水平 平均排布 可换行 竖直平均排布*/
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            align-content: space-around;
+        }
+
+        .XitongShezhi,
+        .CanshuShezhi,
+        .YonghuShezhi {
+            padding: 10px;
+            height: 300px;
+            max-width: 500px;
+        }
+
         button {
             margin: 10px;
         }
@@ -28,14 +45,33 @@
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
     </header>
-    <div class="eg-div" style="margin-top: 70px;padding:10px;height: 300px;">
-        <button>保存设置</button>
-        <button>查看设置</button>
-        <div id="aaa" style="flex-direction: row;width: auto;">
-            <p>阀门数量：</p>
-            <button>8</button>
-            <button>16</button>
-            <button>24</button>
+    <div id="SettingPart">
+        <div class="eg-div XitongShezhi" style="margin-top: 70px;">
+            <button>保存设置</button>
+            <div id="aaa" style="flex-direction: row;width: auto;">
+                <p>阀门数量：</p>
+                <button>8</button>
+                <button>16</button>
+                <button>24</button>
+            </div>
+        </div>
+        <div class="eg-div  CanshuShezhi" style="margin-top: 10px;">
+            <button>保存设置</button>
+            <div id="aaa" style="flex-direction: row;width: auto;">
+                <p>阀门数量：</p>
+                <button>8</button>
+                <button>16</button>
+                <button>24</button>
+            </div>
+        </div>
+        <div class="eg-div YonghuShezhi" style="margin-top: 10px;">
+            <button>保存设置</button>
+            <div id="aaa" style="flex-direction: row;width: auto;">
+                <p>阀门数量：</p>
+                <button>8</button>
+                <button>16</button>
+                <button>24</button>
+            </div>
         </div>
     </div>
 </body>

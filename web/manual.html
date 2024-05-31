@@ -120,7 +120,7 @@
             <p>阀门{{item}}</p>
             <button @click="func1(index)">夹紧</button>
             <button @click="func1(index)">中位</button>
-            <button @click="func1(index)">放松</button>
+            <button @click="func1(index)">打开</button>
         </div>
     </div>
     <!-- --------------------------------- -->
@@ -184,8 +184,8 @@
                 Msg2 = ';';
                 Msg = Msg + Msg2;
                 break;
-            case "放松":
-                // 放松操作的代码
+            case "打开":
+                // 打开操作的代码
                 Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=1)' + 'K';
                 Msg2 = '-';
                 // 按照夹到位的信号数量进行循环拼接字符串

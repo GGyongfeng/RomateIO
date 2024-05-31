@@ -16,9 +16,9 @@ function getMsg() {
         } else if ($step.hasClass('output')) {
             // 在这里处理 “输出” 步骤
             Msg = Msg + 'S' + (S + 1) + ':' + $step.text() + "\n";
-        } else if ($step.hasClass('kind1')) {
+        } else if ($step.hasClass('signal')) {
             // 在这里处理 “等待信号” 步骤
-            Msg = Msg + 'S' + (S + 1) + ':kind1' + "\n";
+            Msg = Msg + 'S' + (S + 1) + ':' + getSignal(S) + "\n";
         } else {
             // 如果类名不被识别，在这里处理
             console.log('Step ' + (S + 1) + ' has no recognized class.');
@@ -62,8 +62,8 @@ function getAction(S) {
                 Msg2 = ',';
                 Msg = Msg + Msg2;
                 break;
-            case "放松":
-                // 放松操作的代码
+            case "打开":
+                //打开操作的代码
                 Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=1)' + 'K';
                 Msg2 = '-';
                 // 按照夹到位的信号数量进行循环拼接字符串
@@ -87,14 +87,14 @@ function getAction(S) {
     // 获取$step下的条件选择栏
     let $div2 = $step.find('.action-bar');
     let text2 = $div2.find('.select').text();
-    // CN为没有需要等待的信号，界面上的“模拟运行”
+    // CN为没有需要等待的信号，界面上的“连续步”
     // CW为没有需要等待的信号，界面上的“双手XXX”
     // C1010为没有需要等待的信号，界面上的“编码”
     switch (text2) {
-        case "模拟运行":
+        case "连续步":
             Msg = Msg + "CN" + "\n";
             break;
-        case "双手启动":
+        case "按钮启动":
             Msg = Msg + "CW" + "\n";
             break;
         case "外部编码":
@@ -105,6 +105,26 @@ function getAction(S) {
             // console.log("此步动作未选择条件");
             break;
     }
+    return Msg;
+}
+
+function getSignal(S) {
+    let message = $('#program .step:eq(' + S + ')').text();
+
+    // 使用正则表达式 提取数字部分
+    let numbers = message.match(/\d+/g);
+
+    // 将提取的数字 字符串转换为数组
+    let numberArray = numbers.map(Number);
+    // 加字符 X
+    let Msg = "";
+    for (let i = 0; i < numberArray.length; i++) {
+        Msg += "X" + numberArray[i] + ",";
+    }
+
+    // 去掉最后的逗号
+    Msg = Msg.slice(0, -1);
+
     return Msg;
 }
 
@@ -151,8 +171,8 @@ function readTxt(txt) {
         // 如果是冒号:，则进行switch判断这个字符的后一个字符
         else if (char === ':') {
             switch (txt[i + 1]) {
+                // 添加 动作 
                 case 'F':
-                    // 执行 S 相关操作
                     let strF = '';
                     for (let k = i + 1; k < txt.length; k++) {
                         if (txt[k] === '\n') {
@@ -164,6 +184,7 @@ function readTxt(txt) {
                     }
                     readAction(strF)
                     break;
+                //添加  延迟 操作
                 case 'd':
                     // 遍历判断char以后的字符直到换行符
                     // 判断如果为逗号,，则找到,后的连续数字直到换行符，拼接起来赋值给一个变量
@@ -182,10 +203,13 @@ function readTxt(txt) {
                         }
                     }
                     break;
+                // 添加 等待释放 操作
                 case 'W':
                     copy(2);
                     break;
+                // 添加 输出 操作
                 case 'S':
+                    // 添加字符串直至换行
                     let Str = '';
                     for (let k = i + 1; k < txt.length; k++) {
                         if (txt[k] === '\n') {
@@ -196,6 +220,21 @@ function readTxt(txt) {
                         }
                     }
                     copy(4, Str);
+                    break;
+                case 'X':
+                    // 添加字符串直至换行
+                    let Signal = "等待信号: ";
+                    for (let k = i + 1; k < txt.length; k++) {
+                        if (txt[k] === '\n') {
+                            break;
+                        }
+                        else {
+                            Signal += txt[k];
+                        }
+                    }
+                    // 去掉字符串中的X
+                    let SignalNoX = Signal.replace(/X/g, '');
+                    copy(1, SignalNoX);
                     break;
                 default:
                     break;
@@ -232,10 +271,10 @@ function readAction(strF) {
                             $div.children('button').eq(0).addClass("select");
                             break;
                         case 'K':
-                            $div.children('button').eq(1).addClass("select");
+                            $div.children('button').eq(2).addClass("select");
                             break;
                         case ',':
-                            $div.children('button').eq(2).addClass("select");
+                            $div.children('button').eq(1).addClass("select");
                             break;
                         default:
                             // 如果不是上述情况，可以添加默认处理逻辑

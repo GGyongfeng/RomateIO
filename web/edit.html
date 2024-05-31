@@ -12,11 +12,12 @@
     <script src="./js/jquery-3.7.1-min.js"></script>
     <script src="./js/vue.min.js"></script>
     <script src="./js/program.js"></script>
+    <script src="./js/public.js"></script>
     <script src="./js/edit.js"></script>
 
 </head>
 
-<body>
+<body ontouchstart="" onmouseover="">
     <header>
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
@@ -29,16 +30,16 @@
     <div class="eg-div nav">
         <div>
             <button>动作</button>
-            <!-- <button onclick="copy(1)">等待信号</button> -->
-            <button onclick="copy(2)" style="width: auto;">等待释放</button>
+            <button>等待信号</button>
+            <button onclick="copy(2)">等待释放</button>
             <button>延迟</button>
             <button>输出</button>
         </div>
         <div>
-            <button>删除</button>
-            <button>提交</button>
-            <button>运行</button>
-            <button>读取</button>
+            <button style="width: 75px;">删除</button>
+            <button style="width: 75px;">提交</button>
+            <button style="width: 75px;">运行</button>
+            <button style="width: 75px;">读取</button>
         </div>
     </div>
     <!-- 用于撑开大小 后面添加的步骤 不会从顶部开始 -->
@@ -46,7 +47,7 @@
     <!-- ---------预设的各个可复制模块----------- -->
     <div class="step eg-div action" style="display: none;">
     </div>
-    <div class="step eg-div kind1" style="display: none;">等待信号</div>
+    <div class="step eg-div signal" style="display: none;">等待信号</div>
     <div class="step eg-div wait" style="display: none;">等待释放</div>
     <div class="step eg-div delay" style="display: none;">延迟</div>
     <div class="step eg-div output" style="display: none;">输出成功</div>
@@ -55,15 +56,29 @@
 
     <div id="program">
     </div>
-
-    <div class="sidebar">
+    <!-- 输出 侧边栏 -->
+    <div class="sidebar sidebar_output">
         <button class="close">❌</button>
         <button onclick="copy(4,'SO01')">SO01(夹紧完成)</button>
-        <button onclick="copy(4,'SO02')">SO02(夹紧完成)</button>
-        <button onclick="copy(4,'SO03')">SO03</button>
-        <button onclick="copy(4,'SO04')">SO04</button>
+        <button onclick="copy(4,'SO02')">SO02(打开完成)</button>
+        <button onclick="copy(4,'SO03')">SO03(报警)</button>
+        <button onclick="copy(4,'SO04')">SO04(备用)</button>
         <button onclick="copy(4,'SO05')">SO05</button>
         <button onclick="copy(4,'SO06')">SO06</button>
+        <button onclick="copy(4,'SO07')">SO07</button>
+        <button onclick="copy(4,'SO08')">SO08</button>
+    </div>
+
+    <!-- 等待型号侧边栏 -->
+    <div class="sidebar sidebar_sign">
+        <div>
+            <button @click="commit()">确定</button>
+            <button class="close">❌</button>
+        </div>
+
+        <div class="btnContainer">
+            <!-- 放置大量接口按钮 -->
+        </div>
     </div>
 </body>
 
@@ -72,9 +87,10 @@
     var msg = "eg";
     var steps = 0;
     var settings = "";
+    var SignalNum = [];
 
     function copy(i, msg) {
-        // 找到第i个class为action的div元素
+        // 找到第i个class为step的div元素
         let $target = $('.step').eq(i);
         // 克隆这个div元素
         let $clone = $target.clone();
@@ -120,14 +136,14 @@
     }
     function func1() {
         const clickedButton = $(event.target);
-        clickedButton.parent().find('button').removeClass('select');
-        clickedButton.addClass('select');
+        clickedButton.parent().find('button').not(clickedButton).removeClass('select');
+        clickedButton.toggleClass('select');
     }
     // action-bar栏的前两个按钮
     function func2() {
         const clickedButton = $(event.target);
-        clickedButton.parent().find('button').removeClass('select');
-        clickedButton.addClass('select');
+        clickedButton.parent().find('button').not(clickedButton).removeClass('select');
+        clickedButton.toggleClass('select');
 
         // 将第三个按钮内容改回外部编码
         clickedButton.parent().find('button:eq(2)').text("外部编码");
@@ -136,8 +152,8 @@
     // 外部编程按钮的函数
     function func3() {
         const clickedButton = $(event.target);
-        clickedButton.parent().find('button').removeClass('select');
-        clickedButton.addClass('select');
+        clickedButton.parent().find('button').not(clickedButton).removeClass('select');
+        clickedButton.toggleClass('select');
 
         // 弹出输入框
         const inputValue = prompt("请输入外部编码值:C+");

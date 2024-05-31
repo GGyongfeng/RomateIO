@@ -1,5 +1,4 @@
 // 通用程序1：获取设置数据
-// ------------------------------------------------
 // 用于界面准备时自动获取setting数据
 function GetSetting() {
     $.ajax({
@@ -13,12 +12,9 @@ function GetSetting() {
     })
 };
 // );
-// ------------------------------------------------
 
 
 // 通用程序2:提交json格式的设置数据
-// ------------------------------------------------
-
 // 有关setting设置的解释
 // json类型数据 按对象方式引用
 // nums:阀门数量
@@ -27,9 +23,6 @@ function GetSetting() {
 //close:1 夹到位的IN端口数
 //open:2  松到位的IN端口数
 // settings.val1[0].close=0
-
-
-//调试阶段可以将console.log(settings)等同于下面这个部分，编写代码时使用即可
 function SendSetting(settings) {
     // 将json数据→字符串类型数据 再进行发送
     const msg = JSON.stringify(settings);
@@ -44,19 +37,47 @@ function SendSetting(settings) {
         }
     })
 }
-// ------------------------------------------------
 
 
-// ------------------------------------------------
-// 这段代码不使用 内容供复制粘贴
-function example() {
-    // 单个按钮：给按钮添加或删除.clicked类,有则添加，无则删除
-    $(this).toggleClass('btn-clicked');
+function checkSidebarDisplay() {
+    let sidebarDisplay = window.getComputedStyle(document.querySelector('.sidebar_sign')).getPropertyValue('display');
 
-    // 多个按钮：同时只能一个被选中时 用这个代码
-    // 作用：移除父级元素下的所有按钮上的 btn-clicked 类，
-    // 并给当前点击的按钮添加 btn-clicked 类
-    $(this).parent().find('button').removeClass('btn-clicked');
-    $(this).addClass('btn-clicked');
+    if (sidebarDisplay === 'flex') {
+        re_btnContainer(); // 如果.display属性为flex，则执行re_BtnContainer()函数
+    }
 }
-// ------------------------------------------------
+
+// 读取刷新.btnContainer
+function re_btnContainer() {
+    $.get('./IO.txt', function (red) {
+        res = red.replace(/\s/g, ''); // 去除空格
+
+        // 将十六进制字符串转换为二进制字符串
+        let binary = "";
+        for (let i = 0; i < res.length; i++) {
+            let hex = parseInt(res.charAt(i), 16).toString(2);
+            // 确保每个字符都转换为4位二进制数
+            while (hex.length < 4) {
+                hex = '0' + hex;
+            }
+            binary += hex;
+        }
+
+        // 每8位进行倒序排列
+        let reversedBinary = "";
+        for (let i = 0; i < binary.length; i += 8) {
+            let subStr = binary.substring(i, i + 8);
+            reversedBinary += subStr.split('').reverse().join('');
+        }
+
+        for (let i = 0; i < 64; i++) {
+            // 检查第i位是否为字符 '1'
+            if (reversedBinary.charAt(i) === '1') {
+                $(".btnContainer button").eq(i).addClass('GetSignal');
+            } else {
+                $(".btnContainer button").eq(i).removeClass('GetSignal');
+            }
+        }
+        console.log("刷新btnContainer");
+    })
+}

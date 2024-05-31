@@ -4,20 +4,25 @@ $(document).ready(function () {
     for (let i = 1; i <= 64; i++) {
         $('.btnContainer').append('<button>' + i + '</button>');
     }
-
     var num = [];
+    var port = 0;
+    var choose = "close"
+
+    // 切换手动
+    $.post("./txt/command.txt", { data: "SP,hand.txt" }, function (res) {
+        console.log(res);
+    });
 
     $.ajax({
         type: "get",
         url: "./setting.json",
         success: function (res) {
-            console.log('请求settings.json成功:');
+            console.log('请求settings.json成功');
+            var settings = res;
             // -------------------------------------------
             new Vue({
                 el: '#app',
                 data: {
-                    port: 0,
-                    choose: "close",
                     nums: res.nums,
                     settings: res
                 },
@@ -29,19 +34,19 @@ $(document).ready(function () {
                 methods: {
                     // 选择端口
                     func1(index, data) {
-                        this.port = index;
-                        this.choose = data;
+                        port = index;
+                        choose = data;
                     },
 
                     // 提交按钮的func
                     commit() {
                         // 将num传递给对应的接口号
-                        switch (this.choose) {
+                        switch (choose) {
                             case "close":
-                                this.settings.valve[this.port].close = num;
+                                this.settings.valve[port].close = num;
                                 break;
                             default:
-                                this.settings.valve[this.port].open = num;
+                                this.settings.valve[port].open = num;
                                 break;
                         }
 
@@ -82,9 +87,28 @@ $(document).ready(function () {
             })
 
             $(".sidebar .btnContainer button").click(function () {
-                $(this).addClass('btn-clicked');
+                $(this).toggleClass('btn-clicked');
                 num.push(parseInt(this.innerHTML, 10));
             })
+
+            $(".sidebar div:eq(2) button").click(function () {
+                let msg = "";
+                if (choose === "close") {
+                    // 夹紧
+                    msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=1,Y' + settings.valve[port].out[1] + '=0)' + 'J';
+                } else {
+                    // 打开
+                    msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=0,Y' + settings.valve[port].out[1] + '=1)' + 'K';
+                }
+
+                // post msg
+                $.post("./txt/hand.txt", { data: msg }, function () {
+                    console.log(msg);
+                })
+            })
+
+            // 每500毫秒检查一次.sidebar的display属性，如果为flex，执行渲染btnContainer
+            setInterval(checkSidebarDisplay, 500);
         }
     })
 });

@@ -122,9 +122,6 @@ function getSignal(S) {
         Msg += "X" + numberArray[i] + ",";
     }
 
-    // 去掉最后的逗号
-    Msg = Msg.slice(0, -1);
-
     return Msg;
 }
 

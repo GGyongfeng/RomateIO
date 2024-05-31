@@ -65,7 +65,8 @@ $(document).ready(function () {
             });
             // 检查是否有class为step的div具有selected样式
             if ($('#program .selected').length > 0) {
-                // 如果有，将克隆的div元素添加到具有selected样式的div之后
+                $clone.removeClass("selected");
+                // 如果有，将克隆的div元素添加到具有selFected样式的div之后
                 $('.selected').after($clone);
             } else {
                 // 如果没有，将克隆的div元素添加到#program的末尾
@@ -117,36 +118,49 @@ $(document).ready(function () {
 
     // 提交代码
     $(".nav button:eq(6)").click(function () {
-        msg = getMsg();
-        console.log('steps:' + steps);
-        console.log(msg);
-        // 将msg写入./txt/1.txt
-        $.ajax({
-            type: "post",
-            url: "./txt/web.txt",
-            data: { data: msg },
-            success: function (res) {
-                console.log(res);
-            }
-        })
-        $.ajax({
-            type: "post",
-            url: "./txt/command.txt",
-            data: { data: "SP,web.txt" },
-            success: function (res) {
-                console.log(res);
-            }
-        })
+        if (confirm("确认保存嘛？")) {
+            msg = getMsg();
+            console.log('steps:' + steps);
+            console.log(msg);
+            // 将msg写入./txt/1.txt
+            $.ajax({
+                type: "post",
+                url: "./txt/web.txt",
+                data: { data: msg },
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+            $.ajax({
+                type: "post",
+                url: "./txt/command.txt",
+                data: { data: "SP,web.txt" },
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+        } else {
+            // 取消操作
+        }
     })
 
     // 运行按钮
     $(".nav button:eq(7)").click(function () {
         $(this).toggleClass("btnClick");
+
+        //程序运行时，除了运行按钮之外的所有元素点击无效
         if ($(this).hasClass("btnClick")) {
+            // 开启自动模式
             $.post("./txt/command.txt", { data: "ST,web.txt" });
+            // 禁用所有元素的点击事件，除了此按钮
+            $("#program *, .sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
         } else {
             // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
+            // 恢复手动模式
+            $.post("./txt/command.txt", { data: "SP,web.txt" });
+            // 恢复所有元素的点击事件
+            $("body *").css("pointer-events", "");
         }
     })
 
@@ -196,8 +210,10 @@ function CheckStep() {
             // 移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
 
-            // 选择对应的DOM元素，并添加RunningStep类属性
-            $('#program .step:eq(' + (S - 1) + ')').addClass("RunningStep");
+            if (S !== 0) {
+                // 选择对应的DOM元素，并添加RunningStep类属性
+                $('#program .step:eq(' + (S - 1) + ')').addClass("RunningStep");
+            }
         })
     }
 }

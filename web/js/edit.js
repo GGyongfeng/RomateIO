@@ -153,7 +153,8 @@ $(document).ready(function () {
             // 开启自动模式
             $.post("./txt/command.txt", { data: "ST,web.txt" });
             // 禁用所有元素的点击事件，除了此按钮
-            $("#program *, .sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
+            $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
+            $("#program button,#program .disclicked").css("pointer-events", "none");
         } else {
             // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");

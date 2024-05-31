@@ -139,16 +139,17 @@ $(document).ready(function () {
         })
     })
 
+    // 运行按钮
     $(".nav button:eq(7)").click(function () {
-        $.ajax({
-            type: "post",
-            url: "./txt/command.txt",
-            data: { data: "ST,web.txt" },
-            success: function (res) {
-                console.log(res);
-            }
-        })
+        $(this).toggleClass("btnClick");
+        if ($(this).hasClass("btnClick")) {
+            $.post("./txt/command.txt", { data: "ST,web.txt" });
+        } else {
+            // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
+            $('#program .step').removeClass("RunningStep");
+        }
     })
+
     // 读取按钮
     $(".nav button:eq(8)").click(function () {
         $.ajax({
@@ -179,6 +180,24 @@ $(document).ready(function () {
         SignalNum.push(parseInt(this.innerHTML, 10));
     })
 
-    // 每500毫秒检查一次.sidebar的display属性，如果为flex，执行渲染btnContainer
+    // 每500毫秒计时器
+    // .sidebar的display属性，如果为flex，执行渲染btnContainer
     setInterval(checkSidebarDisplay, 500);
+    // 如果 运行按钮 具有btnClick类，则读取step.txt
+    setInterval(CheckStep, 500);
 });
+
+function CheckStep() {
+    if ($(".nav button:eq(7)").hasClass("btnClick")) {
+        $.get('./step.txt', function (res) {
+            S = parseInt(res); // 将字符串转换为整数
+            console.log("正在运行第 " + S + " 步"); // 打印当前步骤
+
+            // 移除所有步骤上的RunningStep类属性
+            $('#program .step').removeClass("RunningStep");
+
+            // 选择对应的DOM元素，并添加RunningStep类属性
+            $('#program .step:eq(' + (S - 1) + ')').addClass("RunningStep");
+        })
+    }
+}

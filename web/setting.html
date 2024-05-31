@@ -7,33 +7,8 @@
     <title>系统设置</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/SettingPage.css">
 
-    <script src="./js/jquery-3.7.1-min.js"></script>
-    <script src="./js/public.js"></script>
-
-    <style>
-        .SettingPart {
-            /* flex盒子设置:主轴水平 平均排布 可换行 竖直平均排布*/
-            display: flex;
-            flex-direction: row;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            align-content: space-around;
-        }
-
-        .XitongShezhi,
-        .CanshuShezhi,
-        .YonghuShezhi {
-            padding: 10px;
-            height: 300px;
-            max-width: 500px;
-        }
-
-        button {
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -47,47 +22,91 @@
         </ul>
     </header>
     <div id="SettingPart">
-        <div class="eg-div XitongShezhi" style="margin-top: 70px;">
-            <button>保存设置</button>
-            <div id="aaa" style="flex-direction: row;width: auto;">
-                <p>阀门数量：</p>
+        <button class="SettingCommit">保存设置</button>
+        <div class="eg-div">
+            <p>系统设置</p>
+            <div class="FamenNum">
+                <span>阀门数量：</span>
                 <button>8</button>
                 <button>16</button>
                 <button>24</button>
             </div>
-            <div id="aaa" style="flex-direction: row;width: auto;">
-                <p>阀门数量：</p>
-                <button>8</button>
-                <button>16</button>
-                <button>24</button>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <input type="radio" name="options" id="option1" checked> 手动模式
+                <input type="radio" name="options" id="option2"> 自动模式&nbsp;&nbsp;&nbsp;
             </div>
-            <div id="aaa" style="flex-direction: row;width: auto;">
-                <p>阀门数量：</p>
-                <button>8</button>
-                <button>16</button>
-                <button>24</button>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <input type="radio" name="options2" id="option1" checked> 步骤保存
+                <input type="radio" name="options2" id="option2"> 步骤不保存
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <input type="radio" name="options3" id="option1" checked> 输出保存
+                <input type="radio" name="options3" id="option2"> 输出不保存
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="padding-top: 10px;">
+                <span>本机SN:</span>&nbsp;
+                <input type="input" value="9648210545">
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>版本:</span>&nbsp;
+                <input type="input" value="5.1.0D-3.0.4">
             </div>
         </div>
-        <div class="eg-div  CanshuShezhi" style="margin-top: 10px;">
-            <button>保存设置</button>
-            <div id="aaa" style="flex-direction: row;width: auto;">
-                <p>阀门数量：</p>
-                <button>8</button>
-                <button>16</button>
-                <button>24</button>
+        <div class="eg-div">
+            <p>参数设置</p>
+            <div style="justify-content: flex-start;width: 90%;">
+                <span>产品选型：</span>
+                <select id="group" value="1" style="width:70%;">
+                    <option value="1">Dimond</option>
+                    <option value="2">vertical</option>
+                </select>
+            </div>
+            <div style="width: 90%;" class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>通讯设置：</span>
+                <input type="radio" name="options4" id="option1" checked> 欧姆龙
+                <input type="radio" name="options4" id="option2"> 三菱
+                <input type="radio" name="options4" id="option1" checked> 西门子
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="padding-top: 10px;">
+                <span>本机IP:</span>&nbsp;
+                <input type="input" value="190.168.1.121">
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>PCP IP:</span>&nbsp;
+                <input type="input" value="192.168.1.1">
+            </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>DB地址:</span>&nbsp;
+                <input type="input" value="84">
             </div>
         </div>
-        <div class="eg-div YonghuShezhi" style="margin-top: 10px;">
-            <button>保存设置</button>
-            <div id="aaa" style="flex-direction: row;width: auto;">
-                <p>阀门数量：</p>
-                <button>8</button>
-                <button>16</button>
-                <button>24</button>
+        <div class="eg-div">
+            <p>用户设置</p>
+            <span style="width: 100%;">用户名修改：</span>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>旧用户名:</span>&nbsp;
+                <input type="input">
+            </div>
+            <div style="padding-top: 12px;" class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>新用户名:</span>&nbsp;
+                <input type="input">
+            </div>
+            <span style="width: 100%;">密码修改：</span>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>旧密码:</span>&nbsp;
+                <input type="input">
+            </div>
+            <div style="padding-top: 12px;" class="btn-group btn-group-toggle" data-toggle="buttons">
+                <span>新密码:</span>&nbsp;
+                <input type="input">
             </div>
         </div>
     </div>
+
 </body>
+
+<script src="./js/jquery-3.7.1-min.js"></script>
+<script src="./js/public.js"></script>
 
 <script>
     // 界面准备时自动获取setting数据
@@ -96,7 +115,7 @@
         GetSetting();
     });
 
-    $('button:nth-child(1)').click(
+    $('.SettingCommit').click(
         function () {
             console.log(settings);
             SendSetting(settings)
@@ -104,7 +123,7 @@
         }
     );
 
-    $('#aaa button').click(function () {
+    $('.FamenNum button').click(function () {
         const num = parseInt(this.innerHTML, 10)
         settings.nums = num;
         $(this).parent().find('button').removeClass('btn-clicked');

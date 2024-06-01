@@ -9,7 +9,7 @@ $(document).ready(function () {
     var choose = "close"
 
     // 切换手动
-    $.post("./txt/command.txt", { data: "SP,hand.txt" }, function (res) {
+    $.post("./command.txt", { data: "SP,hand.txt" }, function (res) {
         console.log(res);
     });
 
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 }
 
                 // post msg
-                $.post("./txt/hand.txt", { data: msg }, function () {
+                $.post("./hand.txt", { data: msg }, function () {
                     console.log(msg);
                 })
             })

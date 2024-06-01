@@ -28,10 +28,10 @@ $(document).ready(function () {
                         msg = getAction(index);
                         console.log(msg);
 
-                        // 发送  将msg写入./txt/hand.txt
+                        // 发送  将msg写入./hand.txt
                         $.ajax({
                             type: "post",
-                            url: "./txt/hand.txt",
+                            url: "./hand.txt",
                             data: { data: msg },
                             success: function (res) {
                                 console.log(res);
@@ -62,7 +62,7 @@ $(document).ready(function () {
             $('#refresh').click(function () {
                 $.ajax({
                     type: "get",
-                    url: "../txt/OUT.txt",
+                    url: "./OUT.txt",
                     success: function (res) {
                         const OUT = JSON.parse(res);
                         let i = 0;
@@ -92,7 +92,7 @@ $(document).ready(function () {
     })
     $.ajax({
         type: "post",
-        url: "./txt/command.txt",
+        url: "./command.txt",
         data: { data: "SP,hand.txt" },
         success: function (res) {
             console.log(res);

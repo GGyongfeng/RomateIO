@@ -17,7 +17,7 @@ server.use(express.static(path.join(__dirname, './txt')));
 server.post('*', (req, res) => {
     const url = req.url;
     const data = req.body.data;
-    const fpath = path.join(__dirname, url);
+    const fpath = path.join(__dirname,'txt',url);
     // 接受的数据data写入到指定url位置
     fs.writeFile(fpath, data, 'utf-8', function (err) {
         if (err) { return console.log('读取失败'); }

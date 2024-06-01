@@ -122,10 +122,10 @@ $(document).ready(function () {
             msg = getMsg();
             console.log('steps:' + steps);
             console.log(msg);
-            // 将msg写入./txt/1.txt
+            // 将msg写入./web.txt
             $.ajax({
                 type: "post",
-                url: "./txt/web.txt",
+                url: "./web.txt",
                 data: { data: msg },
                 success: function (res) {
                     console.log(res);
@@ -133,7 +133,7 @@ $(document).ready(function () {
             })
             $.ajax({
                 type: "post",
-                url: "./txt/command.txt",
+                url: "./command.txt",
                 data: { data: "SP,web.txt" },
                 success: function (res) {
                     console.log(res);
@@ -151,7 +151,7 @@ $(document).ready(function () {
         //程序运行时，除了运行按钮之外的所有元素点击无效
         if ($(this).hasClass("btnClick")) {
             // 开启自动模式
-            $.post("./txt/command.txt", { data: "ST,web.txt" });
+            $.post("./command.txt", { data: "ST,web.txt" });
             // 禁用所有元素的点击事件，除了此按钮
             $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
             $("#program button,#program .disclicked").css("pointer-events", "none");
@@ -159,7 +159,7 @@ $(document).ready(function () {
             // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
             // 恢复手动模式
-            $.post("./txt/command.txt", { data: "SP,web.txt" });
+            $.post("./command.txt", { data: "SP,web.txt" });
             // 恢复所有元素的点击事件
             $("body *").css("pointer-events", "");
         }

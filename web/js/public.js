@@ -30,7 +30,7 @@ function SendSetting(settings) {
     // 将msg发送给服务器，写入到setting.json文件
     $.ajax({
         type: "post",
-        url: "./web/setting.json",
+        url: "./setting.json",
         data: { data: msg },
         success: function (res) {
             console.log(res);

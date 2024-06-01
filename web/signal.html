@@ -37,10 +37,15 @@
             margin: 8px;
         }
 
+        /* 侧边栏 */
+        /* .sidebar {
+            justify-content: space-around;
+        } */
+
         .sidebar div:nth-child(1) {
             flex-direction: row;
             justify-content: space-around;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .commitAll {
@@ -55,7 +60,6 @@
         .commitAll:hover {
             background-color: #C2C2C2;
         }
-
     </style>
 </head>
 
@@ -86,15 +90,16 @@
         </div>
         <div class="sidebar sidebar_sign">
             <div>
-                <button @click="commit()">提交</button>
+                <button @click="commit()">确认</button>
                 <button class="close">❌</button>
             </div>
 
             <div class="btnContainer">
                 <!-- 放置大量接口按钮 -->
             </div>
-            <div style="margin-top: 10px;">
-                <button>执行</button>
+            <div style="margin-top: 10px;display: flex;flex-direction: row;justify-content: center;">
+                <button style="margin-right:20px ;">夹紧</button>
+                <button>打开</button>
             </div>
         </div>
     </div>

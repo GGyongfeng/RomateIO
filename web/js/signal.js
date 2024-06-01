@@ -82,6 +82,7 @@ $(document).ready(function () {
                 num = [];
             })
 
+            // 关闭按钮
             $(".sidebar .close").click(function () {
                 $('.sidebar').hide();
             })
@@ -91,15 +92,23 @@ $(document).ready(function () {
                 num.push(parseInt(this.innerHTML, 10));
             })
 
-            $(".sidebar div:eq(2) button").click(function () {
+            // sidebar的夹紧按钮
+            $(".sidebar div:eq(2) button:eq(0)").click(function () {
                 let msg = "";
-                if (choose === "close") {
-                    // 夹紧
-                    msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=1,Y' + settings.valve[port].out[1] + '=0)' + 'J';
-                } else {
-                    // 打开
-                    msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=0,Y' + settings.valve[port].out[1] + '=1)' + 'K';
-                }
+                // 夹紧
+                msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=1,Y' + settings.valve[port].out[1] + '=0)' + 'J';
+
+                // post msg
+                $.post("./hand.txt", { data: msg }, function () {
+                    console.log(msg);
+                })
+            })
+
+            // sidebar的打开按钮
+            $(".sidebar div:eq(2) button:eq(1)").click(function () {
+                let msg = "";
+                // 打开
+                msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=0,Y' + settings.valve[port].out[1] + '=1)' + 'K';
 
                 // post msg
                 $.post("./hand.txt", { data: msg }, function () {

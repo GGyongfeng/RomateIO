@@ -9,9 +9,9 @@ $(document).ready(function () {
         url: "./setting.json",
         success: function (msg) {
             settings = msg;
-            console.log('请求settings.json成功:' + settings.nums);
+            console.log('请求settings.json成功:' + settings.NumberOfValves);
 
-            for (let i = 1; i <= settings.nums; i++) {
+            for (let i = 1; i <= settings.NumberOfValves; i++) {
                 $(".action").eq(0).append(
                     '<div>' +
                     '<p>阀门' + i + '</p>' +
@@ -20,7 +20,7 @@ $(document).ready(function () {
                     '<button onclick="func1()">打开</button>' +
                     '</div>'
                 );
-                if (i == settings.nums) {
+                if (i == settings.NumberOfValves) {
                     $(".action").eq(0).append(
                         '<div class="action-bar">' +
                         '<button onclick="func2()">连续步</button>' +

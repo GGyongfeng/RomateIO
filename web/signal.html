@@ -68,14 +68,14 @@
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
             <li>
-                <p>signal</p>
+                <p>信号配置(signal)</p>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
     </header>
     <div id="app">
         <button class="commitAll" @click="commitAll()">保存设置</button>
-        <div v-for='(item, index) in nums' :key="index" class="eg-div part">
+        <div v-for='(item, index) in NumberOfValves' :key="index" class="eg-div part">
             <div>
                 <span>阀门{{item}}</span>
             </div>

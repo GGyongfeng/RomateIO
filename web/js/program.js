@@ -31,7 +31,7 @@ function getAction(S) {
     let $step = $('#program .step:eq(' + S + ')');
     let Msg = "";
     let Msg2 = "";
-    for (let i = 0; i < settings.nums; i++) {
+    for (let i = 0; i < settings.NumberOfValves; i++) {
         // 获取$step下的第i个div
         let $div = $step.find('div:eq(' + i + ')');
 

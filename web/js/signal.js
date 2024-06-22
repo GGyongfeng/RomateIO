@@ -23,12 +23,12 @@ $(document).ready(function () {
             new Vue({
                 el: '#app',
                 data: {
-                    nums: res.nums,
+                    NumberOfValves: res.NumberOfValves,
                     settings: res
                 },
                 computed: {
                     range() {
-                        return Array.from({ length: this.nums }, (_, index) => index);
+                        return Array.from({ length: this.NumberOfValves }, (_, index) => index);
                     }
                 },
                 methods: {

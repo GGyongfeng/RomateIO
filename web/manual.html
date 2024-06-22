@@ -109,14 +109,14 @@
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
             <li>
-                <p>manual</p>
+                <p>手动测试(manual)</p>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
     </header>
     <!-- class="action" 一个vue动态渲染的动作选择框 -->
     <div class="eg-div action">
-        <div v-for='(item, index) in nums' :key="index">
+        <div v-for='(item, index) in NumberOfValves' :key="index">
             <p>阀门{{item}}</p>
             <button @click="func1(index)">夹紧</button>
             <button @click="func1(index)">中位</button>

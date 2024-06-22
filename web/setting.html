@@ -16,7 +16,7 @@
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
             <li>
-                <p>setting</p>
+                <p>系统设置(setting)</p>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
@@ -24,7 +24,7 @@
     <div id="SettingPart">
         <button class="SettingCommit">保存设置</button>
         <div class="eg-div">
-            <p>系统设置</p>
+            <p>控制设置</p>
             <div class="FamenNum">
                 <span>阀门数量：</span>
                 <button>8</button>
@@ -125,7 +125,7 @@
 
     $('.FamenNum button').click(function () {
         const num = parseInt(this.innerHTML, 10)
-        settings.nums = num;
+        settings.NumberOfValves = num;
         $(this).parent().find('button').removeClass('btn-clicked');
         $(this).addClass('btn-clicked');
     })

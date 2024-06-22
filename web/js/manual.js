@@ -10,11 +10,11 @@ $(document).ready(function () {
             new Vue({
                 el: '.action',
                 data: {
-                    nums: settings.nums
+                    NumberOfValves: settings.NumberOfValves
                 },
                 computed: {
                     range() {
-                        return Array.from({ length: this.nums }, (_, index) => index);
+                        return Array.from({ length: this.NumberOfValves }, (_, index) => index);
                     }
                 },
                 methods: {

@@ -7,8 +7,7 @@
     <title>系统设置</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/SettingPage.css">
-
+    <link rel="stylesheet" href="./css/settingPage.css">
 </head>
 
 <body>
@@ -56,9 +55,11 @@
             <p>参数设置</p>
             <div style="justify-content: flex-start;width: 90%;">
                 <span>产品选型：</span>
-                <select id="group" value="1" style="width:70%;">
-                    <option value="1">Dimond</option>
-                    <option value="2">vertical</option>
+                <select id="productSelection" style="width:70%;">
+                    <option v-for="(item,index) in Programlist" :value="item.programID">
+                        <span >{{ item.programID }}</span> -
+                        <span >{{ item.programName }}</span>
+                    </option>
                 </select>
             </div>
             <div style="width: 90%;" class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -82,7 +83,7 @@
         </div>
         <div class="eg-div">
             <p>用户设置</p>
-            <span style="width: 100%;">用户名修改：</span>
+            <span style="width: 100%;padding-left: 20px;">用户名修改：</span>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <span>旧用户名:</span>&nbsp;
                 <input type="input">
@@ -91,7 +92,7 @@
                 <span>新用户名:</span>&nbsp;
                 <input type="input">
             </div>
-            <span style="width: 100%;">密码修改：</span>
+            <span style="width: 100%;padding-left: 20px;">密码修改：</span>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <span>旧密码:</span>&nbsp;
                 <input type="input">
@@ -106,30 +107,8 @@
 </body>
 
 <script src="./OpenSourceFramework/jquery-3.7.1-min.js"></script>
+<script src="./OpenSourceFramework/vue.min.js"></script>
 <script src="./js/public.js"></script>
-
-<script>
-    // 界面准备时自动获取setting数据
-    var settings = "";
-    $(document).ready(function () {
-        GetSetting();
-    });
-
-    $('.SettingCommit').click(
-        function () {
-            console.log(settings);
-            SendSetting(settings)
-            $(this).addClass('btn-clicked');
-        }
-    );
-
-    $('.FamenNum button').click(function () {
-        const num = parseInt(this.innerHTML, 10)
-        settings.NumberOfValves = num;
-        $(this).parent().find('button').removeClass('btn-clicked');
-        $(this).addClass('btn-clicked');
-    })
-
-</script>
+<script src="./js/setting.js"></script>
 
 </html>

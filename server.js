@@ -12,6 +12,7 @@ server.use(bodyParser.urlencoded({ extended: false }));
 //3.对外提供web文件夹的静态资源
 server.use(express.static(path.join(__dirname, './web'),{ index: 'login.html' }));
 server.use(express.static(path.join(__dirname, './txt')));
+server.use(express.static(path.join(__dirname, './programs')));
 
 //4.接受post请求
 server.post('*', (req, res) => {

@@ -3,15 +3,29 @@ body {
     justify-content: center;
 }
 
+
 #SettingPart .eg-div {
     /* 外边距 上 左右 下 */
     margin: 5px 0px 10px;
-    padding: 0px 10px 20px;
+    padding: 0px 0px 20px;
     max-width: 440px;
 }
 
 #SettingPart .eg-div p {
-    background-color: rgb(215, 217, 217);
+    background-color: #ee665490;
+    /* 水平轴偏移 垂直轴偏移 模糊半径 扩展半径*/
+    box-shadow: 0px 0px 5px 1px #D6DADF;
+    /* 变成css3盒子模型 */
+    box-sizing: border-box;
+    /* 圆角 只设置上圆角 不设置下圆角 */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    /* 外边距设置为0 */
+    margin: 0px 0px 10px;
+    /* 内边距 */
+    padding: 3px 10px 3px;
     width: 100%;
 }
 
@@ -21,3 +35,22 @@ body {
     width: 70%;
     padding: 5px 0px 5px;
 }
+
+/* ************保存设置按钮 **********/
+.SettingCommit {
+    border: 1.5px solid #C2C2C2;
+    box-shadow: 0px 0px 5px 1px #D6DADF;
+    height: 70%;
+    padding: 5px 8px 5px;
+    /* 转化时间 */
+    transition: 0.1s;
+}
+
+.SettingCommit:active {
+    transform: scale(1.03);
+    background-color: #ee6654ba;
+    border: 1.5px solid #ee6654;
+    box-shadow: 0px 0px 5px 1px #D6DADF;
+}
+
+/* *********************************/

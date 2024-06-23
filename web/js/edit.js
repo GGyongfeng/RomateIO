@@ -123,22 +123,8 @@ $(document).ready(function () {
             console.log('steps:' + steps);
             console.log(msg);
             // 将msg写入./web.txt
-            $.ajax({
-                type: "post",
-                url: "./web.txt",
-                data: { data: msg },
-                success: function (res) {
-                    console.log(res);
-                }
-            })
-            $.ajax({
-                type: "post",
-                url: "./command.txt",
-                data: { data: "SP,web.txt" },
-                success: function (res) {
-                    console.log(res);
-                }
-            })
+            $.post("./web.txt", { data: msg });
+            $.post("./command.txt", { data: "SP,web.txt" });
         } else {
             // 取消操作
         }

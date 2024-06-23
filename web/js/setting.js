@@ -1,3 +1,8 @@
+// ----------------总说明------------
+// 页面准备时,先读取setting.json数据存入settings变量
+// 所有设置的修改都是对settings这一json对象的修改
+// 只有最后提交的时候会对setting.json进行修改
+
 var settings = "";
 var allProgramParams = [];
 $(document).ready(function () {

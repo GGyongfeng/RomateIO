@@ -1,3 +1,4 @@
+// 框图转化为程序
 function getMsg() {
     let Msg = "";
     for (let S = 0; S < steps; S++) {
@@ -12,10 +13,22 @@ function getMsg() {
             Msg = Msg + 'S' + (S + 1) + ':WAIT' + "\n";
         } else if ($step.hasClass('delay')) {
             // 在这里处理 “延迟” 步骤
-            Msg = Msg + 'S' + (S + 1) + ':delay' + ',' + $step.text().substring(2, $step.text().length - 2) + "\n";
+            let contentText = '';
+            $step.contents().each(function () {
+                if (!$(this).hasClass('numStepSerial')) {
+                    contentText += $(this).text();
+                }
+            });
+            Msg = Msg + 'S' + (S + 1) + ':delay' + ',' + contentText.substring(2, $step.text().length - 3) + "\n";
         } else if ($step.hasClass('output')) {
             // 在这里处理 “输出” 步骤
-            Msg = Msg + 'S' + (S + 1) + ':' + $step.text() + "\n";
+            let contentText = '';
+            $step.contents().each(function () {
+                if (!$(this).hasClass('numStepSerial')) {
+                    contentText += $(this).text();
+                }
+            });
+            Msg = Msg + 'S' + (S + 1) + ':' + contentText + "\n";
         } else if ($step.hasClass('signal')) {
             // 在这里处理 “等待信号” 步骤
             Msg = Msg + 'S' + (S + 1) + ':' + getSignal(S) + "\n";
@@ -27,6 +40,7 @@ function getMsg() {
     return Msg;
 }
 
+// 读取动作步骤
 function getAction(S) {
     let $step = $('#program .step:eq(' + S + ')');
     let Msg = "";
@@ -108,6 +122,7 @@ function getAction(S) {
     return Msg;
 }
 
+// 读取信号步骤
 function getSignal(S) {
     let message = $('#program .step:eq(' + S + ')').text();
 
@@ -125,6 +140,7 @@ function getSignal(S) {
     return Msg;
 }
 
+// 将程序转化为框图
 function readTxt(txt) {
     console.log(txt);
 
@@ -241,6 +257,7 @@ function readTxt(txt) {
     steps = maxStep; // 将最大步数作为结果
 }
 
+// 转化程序中的动作步骤为框图
 function readAction(strF) {
     let $copy = copy(0);
     // 遍历str的每一个字符char
@@ -304,4 +321,21 @@ function readAction(strF) {
             }
         }
     }
+}
+
+//渲染步骤号 
+function numStepSerial() {
+    // 在每一个$("#program .step")的右上角添加名为numStepSerial的div
+    $("#program .step").each(function (index) {
+        // 查找.step元素下是否已经存在.numStepSerial元素
+        let $numStepSerial = $(this).find(".numStepSerial");
+
+        if ($numStepSerial.length === 0) {
+            // 如果.numStepSerial不存在，则创建并添加到右上角
+            $(this).prepend("<div class='numStepSerial'></div>");
+            $numStepSerial = $(this).find(".numStepSerial");
+        }
+        // 更新div的文本内容为步骤序号（这里假设步骤从1开始）
+        $numStepSerial.text(index + 1);
+    });
 }

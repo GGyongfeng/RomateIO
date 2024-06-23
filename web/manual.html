@@ -148,8 +148,8 @@
 <script>
     // 初始化变量
     var msg = "";
-    var settings = "";
-
+    var valveParam = '';
+    
     function getAction(i) {
         let $step = $('.action');
         let Msg = "";
@@ -165,13 +165,13 @@
         switch (text) {
             case "夹紧":
                 // 夹紧操作的代码
-                Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=1,Y' + settings.valve[i].out[1] + '=0)' + 'J';
+                Msg = Msg + 'F' + (i + 1) + '(Y' + valveParam[i].out[0] + '=1,Y' + valveParam[i].out[1] + '=0)' + 'J';
                 Msg2 = '-'
                 // 按照夹到位的信号数量进行循环拼接字符串
-                for (let k = 0; k < settings.valve[i].close.length; k++) {
-                    Msg2 = Msg2 + 'X' + settings.valve[i].close[k] + ',';
+                for (let k = 0; k < valveParam[i].close.length; k++) {
+                    Msg2 = Msg2 + 'X' + valveParam[i].close[k] + ',';
                     // 最后一个不加逗号
-                    if (k == (settings.valve[i].close.length - 1)) {
+                    if (k == (valveParam[i].close.length - 1)) {
                         Msg2 = Msg2.slice(0, -1);
                     }
                 }
@@ -180,19 +180,19 @@
                 break;
             case "中位":
                 // 中位操作的代码
-                Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=0)';
+                Msg = Msg + 'F' + (i + 1) + '(Y' + valveParam[i].out[0] + '=0,Y' + valveParam[i].out[1] + '=0)';
                 Msg2 = ';';
                 Msg = Msg + Msg2;
                 break;
             case "打开":
                 // 打开操作的代码
-                Msg = Msg + 'F' + (i + 1) + '(Y' + settings.valve[i].out[0] + '=0,Y' + settings.valve[i].out[1] + '=1)' + 'K';
+                Msg = Msg + 'F' + (i + 1) + '(Y' + valveParam[i].out[0] + '=0,Y' + valveParam[i].out[1] + '=1)' + 'K';
                 Msg2 = '-';
                 // 按照夹到位的信号数量进行循环拼接字符串
-                for (let k = 0; k < settings.valve[i].open.length; k++) {
-                    Msg2 = Msg2 + 'X' + settings.valve[i].open[k] + ',';
+                for (let k = 0; k < valveParam[i].open.length; k++) {
+                    Msg2 = Msg2 + 'X' + valveParam[i].open[k] + ',';
                     // 最后一个不加逗号
-                    if (k == (settings.valve[i].open.length - 1)) {
+                    if (k == (valveParam[i].open.length - 1)) {
                         Msg2 = Msg2.slice(0, -1);
                     }
                 }

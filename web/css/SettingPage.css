@@ -12,9 +12,9 @@ body {
 }
 
 #SettingPart .eg-div p {
-    background-color: #ee665490;
+    background-color: #e1e1e1;
     /* 水平轴偏移 垂直轴偏移 模糊半径 扩展半径*/
-    box-shadow: 0px 0px 5px 1px #D6DADF;
+    box-shadow: 0px 0px 0px 1px #D6DADF;
     /* 变成css3盒子模型 */
     box-sizing: border-box;
     /* 圆角 只设置上圆角 不设置下圆角 */
@@ -32,7 +32,7 @@ body {
 #SettingPart .eg-div div {
     flex-direction: row;
     justify-content: space-between;
-    width: 70%;
+    width: 65%;
     padding: 5px 0px 5px;
 }
 

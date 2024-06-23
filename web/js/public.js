@@ -1,5 +1,4 @@
-// 通用程序:提交json格式的设置数据
-
+// 通用程序1:提交json格式的设置数据
 function SendSetting(settings) {
     // 将json数据→字符串类型数据 再进行发送
     const msg = JSON.stringify(settings);
@@ -13,6 +12,22 @@ function SendSetting(settings) {
             console.log(res);
         }
     })
+}
+
+// 通用程序2:夹具名称修改
+//修改programName
+function modifyProgramName(newName) {
+    settings.programName = newName;
+    allProgramParams[settings.programID - 1].programName = newName;
+
+    // Json对象转化为字符串 再发送
+    const msg1 = JSON.stringify(settings);
+    // 发送设置信息
+    $.post('./setting.json', { data: msg1 });
+    // Json对象转化为字符串 再发送
+    const msg2 = JSON.stringify(allProgramParams);
+    // 发送设置信息
+    $.post('./allProgramParams.json', { data: msg2 });
 }
 
 //读取信号功能

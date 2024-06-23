@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/edit.css">
+    <link rel="stylesheet" href="./css/showProgramName.css">
 
     <script src="./OpenSourceFramework/jquery-3.7.1-min.js"></script>
     <script src="./OpenSourceFramework/vue.min.js"></script>
@@ -22,7 +23,11 @@
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
             <li>
-                <p>程序编辑(editing)</p>
+                <p>程序编辑</p>
+            </li>
+            <li id="showProgramName">
+                <span>夹具名称:</span>
+                <button>{{ msg.programName }}</button>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
@@ -79,6 +84,19 @@
             <!-- 放置大量接口按钮 -->
         </div>
     </div>
+
+    <!-- 修改程序名的输入框 -->
+    <div id="showProgramNameInput">
+        <div class="modal-content">
+            <p>输入新名称：</p>
+            <input type="text" id="newNameInput">
+            <br>
+            <div>
+                <button class="confirmBtn">确认</button>
+                <button class="cancelBtn">取消</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script>
@@ -87,7 +105,7 @@
     var steps = 0;
     var settings = "";
     var SignalNum = [];
-
+    var allProgramParams = "";
     function copy(i, msg) {
         // 找到第i个class为step的div元素
         let $target = $('.step').eq(i);
@@ -131,6 +149,7 @@
         }
         // 步骤数+1
         steps = steps + 1;
+        numStepSerial();
         return $clone
     }
     function func1() {

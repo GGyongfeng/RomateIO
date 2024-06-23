@@ -1,0 +1,55 @@
+/* 可选的样式 */
+#showProgramNameInput {
+    display: none;
+    z-index: 1000;
+    width: 70%;
+    /* 宽度范围 */
+    max-width: 350px;
+    min-width: 200px;
+    /* 居中 位于页面中央 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* 使用 transform 将元素移动到中心 */
+    transform: translate(-50%, -50%);
+    /* 阴影 圆角 背景色*/
+    box-shadow: 0px 0px 5px 1px #D6DADF;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 15px;
+}
+
+
+#showProgramNameInput input {
+    margin: 10px 0;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#showProgramNameInput div div {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+
+#showProgramNameInput .confirmBtn {
+    margin-right: 20px;
+}
+
+#showProgramNameInput .confirmBtn:active {
+    transform: scale(1.02);
+    background-color: #C2C2C2;
+    border: 1px solid #a3a3a3;
+    box-shadow: 0px 0px 5px 1px #D6DADF;
+}
+
+#showProgramNameInput .cancelBtn {
+    margin-left: 20px;
+
+}
+
+#showProgramNameInput .cancelBtn {
+    margin-left: 20px;
+
+}

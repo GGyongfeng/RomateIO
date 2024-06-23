@@ -4,34 +4,88 @@ $(document).ready(function () {
         $('.btnContainer').append('<button>' + i + '</button>');
     }
 
-    $.ajax({
-        type: "get",
-        url: "./setting.json",
-        success: function (msg) {
-            settings = msg;
-            console.log('请求settings.json成功:' + settings.NumberOfValves);
+    $.when(
+        $.get("./setting.json"),
+        $.get("./allProgramParams.json")
+    ).then(function (res1, res2) {
+        // res1[0] 是 ./setting.json 的响应数据内容
+        // res2[0] 是 ./allProgramParams.json 的响应数据内容
+        settings = res1[0];
+        allProgramParams = res2[0];
+        // 所选程序的阀门参数
+        settings.valve = allProgramParams[settings.programID - 1].valve;
+        console.log(settings);
+        // -------------------------------------------
 
-            for (let i = 1; i <= settings.NumberOfValves; i++) {
+        // 读取程序
+        $.get("./web.txt", function (msg) {
+            readTxt(msg);
+        })
+
+        for (let i = 1; i <= settings.NumberOfValves; i++) {
+            $(".action").eq(0).append(
+                '<div>' +
+                '<p>阀门' + i + '</p>' +
+                '<button onclick="func1()">夹紧</button>' +
+                '<button onclick="func1()">中位</button>' +
+                '<button onclick="func1()">打开</button>' +
+                '</div>'
+            );
+            if (i == settings.NumberOfValves) {
                 $(".action").eq(0).append(
-                    '<div>' +
-                    '<p>阀门' + i + '</p>' +
-                    '<button onclick="func1()">夹紧</button>' +
-                    '<button onclick="func1()">中位</button>' +
-                    '<button onclick="func1()">打开</button>' +
+                    '<div class="action-bar">' +
+                    '<button onclick="func2()">连续步</button>' +
+                    '<button onclick="func2()">按钮启动</button>' +
+                    '<button onclick="func3()">外部编码</button>' +
                     '</div>'
                 );
-                if (i == settings.NumberOfValves) {
-                    $(".action").eq(0).append(
-                        '<div class="action-bar">' +
-                        '<button onclick="func2()">连续步</button>' +
-                        '<button onclick="func2()">按钮启动</button>' +
-                        '<button onclick="func3()">外部编码</button>' +
-                        '</div>'
-                    );
-                }
             }
         }
+
+        //夹具名称显示以及修改 vue实现 
+        new Vue({
+            el: '#showProgramName',
+            data: {
+                msg: settings,
+            },
+            mounted() {
+                $('#showProgramName button').on('click', function () {
+                    // 显示模态框
+                    $('#showProgramNameInput').css('display', 'flex');
+
+                    // 确认按钮点击事件
+                    $('#showProgramNameInput .confirmBtn').on('click', function () {
+                        // if (confirm("确认保存嘛？")) {
+                            const newName = $('#newNameInput').val();
+
+                            console.log("修改程序名称为：" + newName);
+
+                            // 将新名称输入到setting.json和allProgramParams.json中
+                            modifyProgramName(newName);
+                            // 关闭模态框
+                            $('#showProgramNameInput').css('display', 'none');
+                        // }
+                    });
+
+                    // 取消按钮点击事件
+                    $('#showProgramNameInput .cancelBtn').on('click', function () {
+                        // 关闭模态框
+                        $('#showProgramNameInput').css('display', 'none');
+                    });
+                });
+            }
+        })
+        new Vue({
+            el: '.numStepSerial',
+            data: {
+                msg: [1, 2, 3, 4, 5],
+            },
+            mounted() {
+            }
+        })
     })
+
+
 
     //动作按钮
     $(".nav button:eq(0)").click(function () {
@@ -79,6 +133,7 @@ $(document).ready(function () {
         }
         // 步骤数+1
         steps = steps + 1;
+        numStepSerial();
     });
 
     // 等待信号
@@ -113,6 +168,7 @@ $(document).ready(function () {
             // 存在则执行以下操作
             $("#program .selected").remove(); // 删除具有 .selected 类的元素
             steps = steps - 1; // 更新 steps 的值
+            numStepSerial();
         }
     })
 

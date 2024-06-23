@@ -9,6 +9,7 @@ header {
     background-color: #F7F7F7;
     /* 设置大小 */
     width: 100%;
+    z-index: 2;
 }
 
 header ul {

@@ -28,7 +28,6 @@ $(document).ready(function () {
             el: '#app',
             data: {
                 NumberOfValves: settings.NumberOfValves,
-                settings: settings,
                 valveParam: valveParam
             },
             computed: {
@@ -62,7 +61,7 @@ $(document).ready(function () {
                 // 保存按钮的func
                 commitAll() {
                     if (confirm("确认保存嘛？")) {
-                        console.log("提交了最新程序参数");
+                        console.log("提交了最新程序",settings.programID,"的阀门参数");
                         allProgramParams[settings.programID - 1].valve = valveParam;
                         // Json对象转化为字符串 再发送
                         const msg = JSON.stringify(allProgramParams);
@@ -85,7 +84,7 @@ $(document).ready(function () {
             $(this).addClass('btn-clicked');
 
             // 取消sidebar中按钮的btn—clicked样式
-            $(".sidebar .btnContainer button").removeClass('btn-clicked');
+            $(".sidebar .btnContainer button").removeClass('btn-clicked-bar');
 
             num = [];
         })

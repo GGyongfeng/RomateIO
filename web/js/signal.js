@@ -12,7 +12,7 @@ $(document).ready(function () {
         console.log(res);
     });
 
-    
+
     $.when(
         $.get("./setting.json"),
         $.get("/allProgramParams.json")
@@ -21,12 +21,15 @@ $(document).ready(function () {
         // res2[0] 是 ./allProgramParams.json 的响应数据内容
         var settings = res1[0];
         var allProgramParams = res2[0];
+        // 所选程序的阀门参数
+        var valveParam = allProgramParams[settings.programID - 1].valve;
 
         new Vue({
             el: '#app',
             data: {
                 NumberOfValves: settings.NumberOfValves,
-                settings: settings1
+                settings: settings,
+                valveParam: valveParam
             },
             computed: {
                 range() {
@@ -45,10 +48,10 @@ $(document).ready(function () {
                     // 将num传递给对应的接口号
                     switch (choose) {
                         case "close":
-                            this.settings.valve[port].close = num;
+                            this.valveParam[port].close = num;
                             break;
                         default:
-                            this.settings.valve[port].open = num;
+                            this.valveParam[port].open = num;
                             break;
                     }
 
@@ -58,13 +61,16 @@ $(document).ready(function () {
 
                 // 保存按钮的func
                 commitAll() {
-                    console.log("提交了最新setting");
-                    // 将Vue对象转化为JS对象
-                    const settingsJSON = JSON.parse(JSON.stringify(this.settings));
-                    // 输出转化后的JS对象
-                    console.log(settingsJSON);
-                    // 发送设置信息
-                    SendSetting(settingsJSON);
+                    if (confirm("确认保存嘛？")) {
+                        console.log("提交了最新程序参数");
+                        allProgramParams[settings.programID - 1].valve = valveParam;
+                        // Json对象转化为字符串 再发送
+                        const msg = JSON.stringify(allProgramParams);
+                        // 发送设置信息
+                        $.post('./allProgramParams.json', { data: msg });
+                    } else {
+                        // 取消操作
+                    }
                 }
             }
         })
@@ -90,7 +96,7 @@ $(document).ready(function () {
         })
 
         $(".sidebar .btnContainer button").click(function () {
-            $(this).toggleClass('btn-clicked');
+            $(this).toggleClass('btn-clicked-bar');
             num.push(parseInt(this.innerHTML, 10));
         })
 
@@ -98,7 +104,7 @@ $(document).ready(function () {
         $(".sidebar div:eq(2) button:eq(0)").click(function () {
             let msg = "";
             // 夹紧
-            msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=1,Y' + settings.valve[port].out[1] + '=0)' + 'J';
+            msg = 'F' + (port + 1) + '(Y' + valveParam[port].out[0] + '=1,Y' + valveParam[port].out[1] + '=0)' + 'J';
 
             // post msg
             $.post("./hand.txt", { data: msg }, function () {
@@ -110,7 +116,7 @@ $(document).ready(function () {
         $(".sidebar div:eq(2) button:eq(1)").click(function () {
             let msg = "";
             // 打开
-            msg = 'F' + (port + 1) + '(Y' + settings.valve[port].out[0] + '=0,Y' + settings.valve[port].out[1] + '=1)' + 'K';
+            msg = 'F' + (port + 1) + '(Y' + valveParam[port].out[0] + '=0,Y' + valveParam[port].out[1] + '=1)' + 'K';
 
             // post msg
             $.post("./hand.txt", { data: msg }, function () {

@@ -58,7 +58,10 @@
         }
 
         .commitAll:hover {
+            transform: scale(1.02);
             background-color: #C2C2C2;
+            border: 1px solid #a3a3a3;
+            box-shadow: 0px 0px 5px 1px #D6DADF;
         }
     </style>
 </head>
@@ -84,8 +87,8 @@
                 <button @click="func1(index,'open')">松到位</button>
             </div>
             <div style="width:auto;align-items: flex-start;">
-                <p>{{ settings.valve[index].close }}</p>
-                <p>{{ settings.valve[index].open }}</p>
+                <p>{{ valveParam[index].close }}</p>
+                <p>{{ valveParam[index].open }}</p>
             </div>
         </div>
         <div class="sidebar sidebar_sign">

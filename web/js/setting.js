@@ -23,7 +23,6 @@ $(document).ready(function () {
                     console.log('选中的程序:', selectedValue);
                     settings.programID = selectedValue;
                     settings.programName = allProgramParams[selectedValue - 1].programName;
-                    settings.valve = allProgramParams[selectedValue - 1].valve
                 });
 
                 //显示阀门数量

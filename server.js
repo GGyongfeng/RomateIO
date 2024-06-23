@@ -10,7 +10,7 @@ var bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({ extended: false }));
 
 //3.对外提供web文件夹的静态资源
-server.use(express.static(path.join(__dirname, './web'),{ index: 'login.html' }));
+server.use(express.static(path.join(__dirname, './web'), { index: 'login.html' }));
 server.use(express.static(path.join(__dirname, './txt')));
 server.use(express.static(path.join(__dirname, './programs')));
 
@@ -18,7 +18,7 @@ server.use(express.static(path.join(__dirname, './programs')));
 server.post('*', (req, res) => {
     const url = req.url;
     const data = req.body.data;
-    const fpath = path.join(__dirname,'txt',url);
+    const fpath = path.join(__dirname, 'txt', url);
     // 接受的数据data写入到指定url位置
     fs.writeFile(fpath, data, 'utf-8', function (err) {
         if (err) { return console.log('读取失败'); }

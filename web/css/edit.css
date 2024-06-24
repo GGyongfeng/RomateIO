@@ -143,12 +143,9 @@
     /* 较轻的加粗效果 */
     text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
     /* 字体轻微发光效果 */
-    background-color: transparent;
-    /* 背景透明 */
     transition: transform 0.2s ease;
 }
 
-.nav div:nth-child(1) button:hover,
 .nav div:nth-child(1) button:active{
     transform: scale(1.1);
 }
@@ -166,6 +163,12 @@
     width: 30%;
 }
 
+.nav .btnClick {
+    background-color: #00c000e2;
+    border: 1px solid #00c000b7;
+    box-shadow: 0px 0px 10px 3px #00c0008a;
+    border-radius: 20px;
+}
 
 /* *********************************** */
 
@@ -205,3 +208,38 @@
     justify-content: space-around;
     margin-bottom: 20px;
 }
+
+/* ********按钮背景光***************** */
+.nav div button:not(:nth-child(7))::before {
+    content: '';
+    /* 创建伪元素 */
+    position: absolute;
+    /* 绝对定位 */
+    top: 50%;
+    /* 顶部位置为按钮的中间 */
+    left: 50%;
+    /* 左侧位置为按钮的中间 */
+    transform: translate(-50%, -50%);
+    /* 将伪元素的中心移动到按钮的中心 */
+    width: 0;
+    /* 初始宽度为 0 */
+    height: 0;
+    /* 初始高度为 0 */
+    background-color: rgba(144, 238, 144, 0.4);
+    /* 淡绿色光的颜色，带透明度 */
+    box-shadow: 0px 0px 10px 10px rgba(144, 238, 144, 0.4);
+    border-radius: 50%;
+    /* 将伪元素设置为圆形 */
+    opacity: 0;
+    /* 初始透明度为 0，开始不显示 */
+    transition: width 0.1s ease, height 0.1s ease, opacity 0.1s ease;
+    /* 展开动画效果 */
+}
+
+.nav div button:not(:nth-child(7)):hover::before{
+    width: 70%;
+    height: 20%;
+    opacity: 1;
+    /* 显示伪元素 */
+}
+/* ***************************************** */

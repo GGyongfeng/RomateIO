@@ -188,17 +188,17 @@ $(document).ready(function () {
 
     // 运行按钮
     $(".nav button:eq(7)").click(function () {
-        $(this).toggleClass("programRunning");
+        $(this).toggleClass("btnClick");
 
         //程序运行时，除了运行按钮之外的所有元素点击无效
-        if ($(this).hasClass("programRunning")) {
+        if ($(this).hasClass("btnClick")) {
             // 开启自动模式
             $.post("./command.txt", { data: "ST,web.txt" });
             // 禁用所有元素的点击事件，除了此按钮
             $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
             $("#program button,#program .disclicked").css("pointer-events", "none");
         } else {
-            // 如果按钮没有programRunning类属性，则移除所有步骤上的RunningStep类属性
+            // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
             // 恢复手动模式
             $.post("./command.txt", { data: "SP,web.txt" });

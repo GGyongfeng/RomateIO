@@ -23,7 +23,7 @@ $(document).ready(function () {
         allProgramParams = res2[0];
         // 所选程序的阀门参数
         var valveParam = allProgramParams[settings.programID - 1].valve;
-
+        console.log(valveParam);
         new Vue({
             el: '#app',
             data: {

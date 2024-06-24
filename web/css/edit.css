@@ -221,9 +221,9 @@
     /* 初始宽度为 0 */
     height: 0;
     /* 初始高度为 0 */
-    background-color: rgba(144, 238, 144, 0.4);
+    background-color: rgba(255, 255, 255, 0.4);
     /* 淡绿色光的颜色，带透明度 */
-    box-shadow: 0px 0px 10px 10px rgba(144, 238, 144, 0.4);
+    box-shadow: 0px 0px 10px 10px rgba(255, 255, 255, 0.4);
     border-radius: 50%;
     /* 将伪元素设置为圆形 */
     opacity: 0;

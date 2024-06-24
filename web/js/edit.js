@@ -14,13 +14,20 @@ $(document).ready(function () {
         allProgramParams = res2[0];
         // 所选程序的阀门参数
         settings.valve = allProgramParams[settings.programID - 1].valve;
-        console.log(settings);
+        // 程序储存路径
+        pgmTxtFilePath = './programs/' + settings.programID + '.txt';
         // -------------------------------------------
 
         // 读取程序
-        $.get("./web.txt", function (msg) {
+        $.get(pgmTxtFilePath, function (msg) {
+            // 成功获取文件内容后的回调函数
             readTxt(msg);
-        })
+        }).fail(function () {
+            // 请求失败时的处理
+            console.log("此程序尚未编写");
+            // 或者你可以在页面上显示一个提示，比如：
+            // $('#error-message').text("此程序尚未编写");
+        });
 
         for (let i = 1; i <= settings.NumberOfValves; i++) {
             $(".action").eq(0).append(
@@ -49,21 +56,21 @@ $(document).ready(function () {
                 msg: settings,
             },
             mounted() {
-                $('#showProgramName div:eq(1)').on('click', function () {
+                $('#showProgramName div').on('click', function () {
                     // 显示模态框
                     $('#showProgramNameInput').css('display', 'flex');
 
                     // 确认按钮点击事件
                     $('#showProgramNameInput .confirmBtn').on('click', function () {
                         // if (confirm("确认保存嘛？")) {
-                            const newName = $('#newNameInput').val();
+                        const newName = $('#newNameInput').val();
 
-                            console.log("修改程序名称为：" + newName);
+                        console.log("修改程序名称为：" + newName);
 
-                            // 将新名称输入到setting.json和allProgramParams.json中
-                            modifyProgramName(newName);
-                            // 关闭模态框
-                            $('#showProgramNameInput').css('display', 'none');
+                        // 将新名称输入到setting.json和allProgramParams.json中
+                        modifyProgramName(newName);
+                        // 关闭模态框
+                        $('#showProgramNameInput').css('display', 'none');
                         // }
                     });
 
@@ -174,13 +181,13 @@ $(document).ready(function () {
 
     // 提交代码
     $(".nav button:eq(6)").click(function () {
-        if (confirm("确认保存嘛？")) {
+        if (confirm("确认提交吗？")) {
             msg = getMsg();
-            console.log('steps:' + steps);
-            console.log(msg);
-            // 将msg写入./web.txt
-            $.post("./web.txt", { data: msg });
-            $.post("./command.txt", { data: "SP,web.txt" });
+            console.log('提交msg:\n' + msg);
+            console.log('提交到:\n' + pgmTxtFilePath);
+
+            // 提交程序
+            $.post(pgmTxtFilePath, { data: msg });
         } else {
             // 取消操作
         }
@@ -197,6 +204,11 @@ $(document).ready(function () {
             // 禁用所有元素的点击事件，除了此按钮
             $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
             $("#program button,#program .disclicked").css("pointer-events", "none");
+
+            msg = getMsg();
+            // 将msg写入./web.txt
+            $.post("./web.txt", { data: msg });
+            $.post("./command.txt", { data: "SP,web.txt" });
         } else {
             // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");

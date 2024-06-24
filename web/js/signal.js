@@ -101,11 +101,13 @@ $(document).ready(function () {
 
         // sidebar的夹紧按钮
         $(".sidebar div:eq(2) button:eq(0)").click(function () {
-            let msg = "";
-            // 夹紧
-            msg = 'F' + (port + 1) + '(Y' + valveParam[port].out[0] + '=1,Y' + valveParam[port].out[1] + '=0)' + 'J';
+            // 管理样式btnClick 类
+            $(this).addClass('btnClick');
+            $(".sidebar div:eq(2) button").not($(this)).removeClass('btnClick');
 
-            // post msg
+            // 发送指令
+            let msg = "";
+            msg = 'F' + (port + 1) + '(Y' + valveParam[port].out[0] + '=1,Y' + valveParam[port].out[1] + '=0)' + 'J';
             $.post("./hand.txt", { data: msg }, function () {
                 console.log(msg);
             })
@@ -113,11 +115,13 @@ $(document).ready(function () {
 
         // sidebar的打开按钮
         $(".sidebar div:eq(2) button:eq(1)").click(function () {
-            let msg = "";
-            // 打开
-            msg = 'F' + (port + 1) + '(Y' + valveParam[port].out[0] + '=0,Y' + valveParam[port].out[1] + '=1)' + 'K';
+            // 管理样式btnClick 类
+            $(this).addClass('btnClick');
+            $(".sidebar div:eq(2) button").not($(this)).removeClass('btnClick');
 
-            // post msg
+            // 发送指令
+            let msg = "";
+            msg = 'F' + (port + 1) + '(Y' + valveParam[port].out[0] + '=0,Y' + valveParam[port].out[1] + '=1)' + 'K';
             $.post("./hand.txt", { data: msg }, function () {
                 console.log(msg);
             })

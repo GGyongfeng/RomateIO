@@ -26,8 +26,8 @@
                 <p>程序编辑</p>
             </li>
             <li id="showProgramName">
-                <div>夹具名称:</div>
-                <div>{{ msg.programName }}</div>
+                <span>夹具名称:</span>
+                <div>{{ msg.programID }} - {{ msg.programName }}</div>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
@@ -105,6 +105,8 @@
     var settings = "";
     var SignalNum = [];
     var allProgramParams = "";
+    var pgmTxtFliePath = "";
+
     function copy(i, msg) {
         // 找到第i个class为step的div元素
         let $target = $('.step').eq(i);

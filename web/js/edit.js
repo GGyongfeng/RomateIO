@@ -188,17 +188,17 @@ $(document).ready(function () {
 
     // 运行按钮
     $(".nav button:eq(7)").click(function () {
-        $(this).toggleClass("btnClick");
+        $(this).toggleClass("programRunning");
 
         //程序运行时，除了运行按钮之外的所有元素点击无效
-        if ($(this).hasClass("btnClick")) {
+        if ($(this).hasClass("programRunning")) {
             // 开启自动模式
             $.post("./command.txt", { data: "ST,web.txt" });
             // 禁用所有元素的点击事件，除了此按钮
             $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
             $("#program button,#program .disclicked").css("pointer-events", "none");
         } else {
-            // 如果按钮没有btnClick类属性，则移除所有步骤上的RunningStep类属性
+            // 如果按钮没有programRunning类属性，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
             // 恢复手动模式
             $.post("./command.txt", { data: "SP,web.txt" });
@@ -207,16 +207,6 @@ $(document).ready(function () {
         }
     })
 
-    // 读取按钮
-    $(".nav button:eq(8)").click(function () {
-        $.ajax({
-            type: "get",
-            url: "./web.txt",
-            success: function (msg) {
-                readTxt(msg);
-            }
-        })
-    })
 
     // 侧边栏：输出功能
     $(".sidebar_output button").click(function () {
@@ -240,12 +230,12 @@ $(document).ready(function () {
     // 每500毫秒计时器
     // .sidebar的display属性，如果为flex，执行渲染btnContainer
     setInterval(checkSidebarDisplay, 500);
-    // 如果 运行按钮 具有btnClick类，则读取step.txt
+    // 如果 运行按钮 具有programRunning类，则读取step.txt
     setInterval(CheckStep, 500);
 });
 
 function CheckStep() {
-    if ($(".nav button:eq(7)").hasClass("btnClick")) {
+    if ($(".nav button:eq(7)").hasClass("programRunning")) {
         $.get('./step.txt', function (res) {
             S = parseInt(res); // 将字符串转换为整数
             console.log("正在运行第 " + S + " 步"); // 打印当前步骤

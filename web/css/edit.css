@@ -85,6 +85,88 @@
     width: 75px;
 }
 
+/* ************导航栏 **********/
+.nav {
+    /* 声明css变量并设置宽高 */
+    --nav-width: 95vw;
+    --nav-height: 70px;
+    width: var(--nav-width);
+    height: var(--nav-height);
+
+    max-width: 500px;
+    position: fixed;
+    bottom: 15px;
+    z-index: 2;
+    /* 黑底白字 圆角 */
+    background-color: #111;
+    /* 使用的字体 */
+    font-family: Arial, sans-serif;
+
+    /* 圆角 */
+    border-radius: calc(var(--nav-height) / 2);
+    box-shadow: 0px 0px 5px 1px #666;
+}
+
+.nav div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: calc(var(--nav-height) / 2);
+}
+
+.nav div:nth-child(1) {
+    border-top-left-radius: calc(var(--nav-height) / 2);
+    border-top-right-radius: calc(var(--nav-height) / 2);
+}
+
+.nav div:nth-child(2) {
+    border-bottom-left-radius: calc(var(--nav-height) / 2);
+    border-bottom-right-radius: calc(var(--nav-height) / 2);
+}
+
+.nav div:nth-child(2) button,
+.nav div:nth-child(1) button {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    /* 设置按钮相对定位 */
+    width: 20%;
+    /* 父级 div 宽度的 5% */
+    height: 100%;
+    /* 父级 div 的高度 */
+    border: none;
+    /* 无边框 */
+    color: white;
+    /* 字体颜色为乳白色 */
+    font-weight: 600;
+    /* 较轻的加粗效果 */
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+    /* 字体轻微发光效果 */
+    background-color: transparent;
+    /* 背景透明 */
+    transition: transform 0.2s ease;
+}
+
+.nav div:nth-child(1) button:hover,
+.nav div:nth-child(1) button:active{
+    transform: scale(1.1);
+}
+
+/* 按钮单独效果设计 */
+.nav div:nth-child(1) button:nth-child(1) {
+    border-top-left-radius: calc(var(--nav-height) / 2);
+}
+
+.nav div:nth-child(1) button:nth-child(5) {
+    border-top-right-radius: calc(var(--nav-height) / 2);
+}
+
+.nav div:nth-child(2) button {
+    width: 30%;
+}
+
+
 /* *********************************** */
 
 .empty {
@@ -92,41 +174,6 @@
     height: 60px;
 }
 
-.nav {
-    max-width: 500px;
-    position: fixed;
-    bottom: 30px;
-    padding: 5px 0px 5px;
-    z-index: 2;
-}
-
-.nav div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-.nav button {
-    border-width: 1.5px;
-    box-shadow: none;
-    height: 70%;
-    /* width: 75px; */
-    padding: 5px 8px 5px;
-    background-color: #c2c2c225;
-    /* 转化时间 */
-    transition: 0.1s;
-}
-
-.nav button:active {
-    transform: scale(1.1);
-    background-color: #4444448b;
-}
-
-.nav .btnClick {
-    background-color: #00c000e2;
-    border: 1px solid #00c000b7;
-    box-shadow: 0px 0px 10px 3px #00c0008a;
-}
 
 .selected {
     transition: transform 0.2s ease;

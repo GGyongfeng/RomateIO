@@ -7,9 +7,11 @@
     <title>手动测试</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/showProgramName.css">
 
     <script src="./OpenSourceFramework/jquery-3.7.1-min.js"></script>
     <script src="./OpenSourceFramework/vue.min.js"></script>
+    <script src="./js/public.js"></script>
     <script src="./js/manual.js"></script>
 
     <style>
@@ -109,7 +111,11 @@
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
             <li>
-                <p>手动测试(manual)</p>
+                <p>手动测试</p>
+            </li>
+            <li id="showProgramName">
+                <span>夹具名称:</span>
+                <span>{{ msg.programName }}</span>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
@@ -123,7 +129,6 @@
             <button @click="func1(index)">打开</button>
         </div>
     </div>
-    <!-- --------------------------------- -->
 
 
     <!-- ---------in out调试框------------ -->
@@ -143,13 +148,27 @@
             <button id="refresh">刷新</button>
         </div>
     </div>
-    <!-- -------------------------------- -->
+
+    <!-- 修改程序名的输入框 -->
+    <div id="showProgramNameInput">
+        <div class="modal-content">
+            <p>输入新名称：</p>
+            <input type="text" id="newNameInput">
+            <br>
+            <div>
+                <button class="confirmBtn">确认</button>
+                <button class="cancelBtn">取消</button>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     // 初始化变量
     var msg = "";
     var valveParam = '';
-    
+    var settings = '';
+    var allProgramParams = '';
+
     function getAction(i) {
         let $step = $('.action');
         let Msg = "";

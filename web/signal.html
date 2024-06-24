@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/showProgramName.css">
 
     <script src="./OpenSourceFramework/jquery-3.7.1-min.js"></script>
     <script src="./OpenSourceFramework/vue.min.js"></script>
@@ -71,7 +72,11 @@
         <ul>
             <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
             <li>
-                <p>信号配置(signal)</p>
+                <p>信号配置</p>
+            </li>
+            <li id="showProgramName">
+                <span>夹具名称:</span>
+                <div>{{ msg.programName }}</div>
             </li>
             <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
         </ul>
@@ -106,6 +111,23 @@
             </div>
         </div>
     </div>
+
+    <!-- 修改程序名的输入框 -->
+    <div id="showProgramNameInput">
+        <div class="modal-content">
+            <p>输入新名称：</p>
+            <input type="text" id="newNameInput">
+            <br>
+            <div>
+                <button class="confirmBtn">确认</button>
+                <button class="cancelBtn">取消</button>
+            </div>
+        </div>
+    </div>
 </body>
+<script>
+    var settings = '';
+    var allProgramParams = '';
+</script>
 
 </html>

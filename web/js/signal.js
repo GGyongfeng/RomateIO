@@ -19,8 +19,8 @@ $(document).ready(function () {
     ).then(function (res1, res2) {
         // res1[0] 是 ./setting.json 的响应数据内容
         // res2[0] 是 ./allProgramParams.json 的响应数据内容
-        var settings = res1[0];
-        var allProgramParams = res2[0];
+        settings = res1[0];
+        allProgramParams = res2[0];
         // 所选程序的阀门参数
         var valveParam = allProgramParams[settings.programID - 1].valve;
 
@@ -61,7 +61,7 @@ $(document).ready(function () {
                 // 保存按钮的func
                 commitAll() {
                     if (confirm("确认保存嘛？")) {
-                        console.log("提交了最新程序",settings.programID,"的阀门参数");
+                        console.log("提交了最新程序", settings.programID, "的阀门参数");
                         allProgramParams[settings.programID - 1].valve = valveParam;
                         // Json对象转化为字符串 再发送
                         const msg = JSON.stringify(allProgramParams);
@@ -126,5 +126,38 @@ $(document).ready(function () {
         // 每500毫秒检查一次.sidebar的display属性，如果为flex，执行渲染btnContainer
         setInterval(checkSidebarDisplay, 500);
 
+        //夹具名称显示以及修改 vue实现 
+        new Vue({
+            el: '#showProgramName',
+            data: {
+                msg: settings,
+            },
+            mounted() {
+                $('#showProgramName div').on('click', function () {
+                    // 显示模态框
+                    $('#showProgramNameInput').css('display', 'flex');
+
+                    // 确认按钮点击事件
+                    $('#showProgramNameInput .confirmBtn').on('click', function () {
+                        // if (confirm("确认保存嘛？")) {
+                        const newName = $('#newNameInput').val();
+
+                        console.log("修改程序名称为：" + newName);
+
+                        // 将新名称输入到setting.json和allProgramParams.json中
+                        modifyProgramName(newName);
+                        // 关闭模态框
+                        $('#showProgramNameInput').css('display', 'none');
+                        // }
+                    });
+
+                    // 取消按钮点击事件
+                    $('#showProgramNameInput .cancelBtn').on('click', function () {
+                        // 关闭模态框
+                        $('#showProgramNameInput').css('display', 'none');
+                    });
+                });
+            }
+        })
     })
 });

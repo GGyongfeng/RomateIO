@@ -49,7 +49,7 @@ $(document).ready(function () {
                 msg: settings,
             },
             mounted() {
-                $('#showProgramName button').on('click', function () {
+                $('#showProgramName div:eq(1)').on('click', function () {
                     // 显示模态框
                     $('#showProgramNameInput').css('display', 'flex');
 

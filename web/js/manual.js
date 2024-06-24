@@ -6,12 +6,12 @@ $(document).ready(function () {
     ).then(function (res1, res2) {
         // res1[0] 是 ./setting.json 的响应数据内容
         // res2[0] 是 ./allProgramParams.json 的响应数据内容
-        var settings = res1[0];
-        var allProgramParams = res2[0];
+        settings = res1[0];
+        allProgramParams = res2[0];
         // 所选程序的阀门参数
         valveParam = allProgramParams[settings.programID - 1].valve;
         // -------------------------------------------
-        
+
         new Vue({
             el: '.action',
             data: {
@@ -93,6 +93,39 @@ $(document).ready(function () {
             })
         })
         // -------------------------------------------
+        //夹具名称显示以及修改 vue实现 
+        new Vue({
+            el: '#showProgramName',
+            data: {
+                msg: settings,
+            },
+            mounted() {
+                $('#showProgramName div').on('click', function () {
+                    // 显示模态框
+                    $('#showProgramNameInput').css('display', 'flex');
+
+                    // 确认按钮点击事件
+                    $('#showProgramNameInput .confirmBtn').on('click', function () {
+                        // if (confirm("确认保存嘛？")) {
+                        const newName = $('#newNameInput').val();
+
+                        console.log("修改程序名称为：" + newName);
+
+                        // 将新名称输入到setting.json和allProgramParams.json中
+                        modifyProgramName(newName);
+                        // 关闭模态框
+                        $('#showProgramNameInput').css('display', 'none');
+                        // }
+                    });
+
+                    // 取消按钮点击事件
+                    $('#showProgramNameInput .cancelBtn').on('click', function () {
+                        // 关闭模态框
+                        $('#showProgramNameInput').css('display', 'none');
+                    });
+                });
+            }
+        })
     })
 
     $.ajax({

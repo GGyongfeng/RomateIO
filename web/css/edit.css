@@ -146,7 +146,8 @@
     transition: transform 0.2s ease;
 }
 
-.nav div:nth-child(1) button:active{
+.nav div:nth-child(1) button:active,
+.nav div:nth-child(2) button:active {
     transform: scale(1.1);
 }
 
@@ -195,18 +196,13 @@
     transition: transform 0.2s ease;
 }
 
+
 .sidebar_output button {
     margin-bottom: 20px;
 }
 
 #program {
     margin-bottom: 140px;
-}
-
-.sidebar_sign div:nth-child(1) {
-    flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 20px;
 }
 
 /* ********按钮背景光***************** */
@@ -236,10 +232,60 @@
     /* 展开动画效果 */
 }
 
-.nav div button:not(:nth-child(7)):hover::before{
+.nav div button:not(:nth-child(7)):hover::before {
     width: 70%;
     height: 20%;
     opacity: 1;
     /* 显示伪元素 */
 }
+
 /* ***************************************** */
+/* sidebar_sign 侧边栏*/
+.sidebar_sign{
+    width: 70vw; /* 容器宽度 */
+    max-width: 300px;
+    height: 90vh; /* 容器高度 */
+    overflow-y: auto; /* 垂直滚动条自动出现 */
+    overflow-x: hidden; /* 水平方向禁用滚动条 */
+    border: 1px solid #ccc; /* 边框样式 */
+    padding: 10px; /* 内边距 */
+}
+
+.sidebar_sign .div1 {
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.sidebar div:nth-child(3) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px 0px 0px;
+}
+
+.waitSingalON,
+.waitSingalOFF {
+    padding: 5px 10px 5px;
+    background-color: #333333;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    width: 45%;
+    height: auto;
+    min-height: 50px;
+    border-radius: 15px;
+
+    transition: box-shadow 0.5s ease, transform 0.3s ease;
+    cursor: pointer;
+    /* 添加手型光标 */
+}
+
+.waitSingalON:active,
+.waitSingalOFF:active {
+    transform: scale(1.05);
+    /* 放大到1.05倍 */
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
+    /* 添加阴影效果 */
+}

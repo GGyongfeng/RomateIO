@@ -125,19 +125,23 @@ function getAction(S) {
 // 读取信号步骤
 function getSignal(S) {
     let message = $('#program .step:eq(' + S + ')').text();
+    let result = [];
 
-    // 使用正则表达式 提取数字部分
-    let numbers = message.match(/\d+/g);
-
-    // 将提取的数字 字符串转换为数组
-    let numberArray = numbers.map(Number);
-    // 加字符 X
-    let Msg = "";
-    for (let i = 0; i < numberArray.length; i++) {
-        Msg += "X" + numberArray[i] + ",";
+    // 匹配 ON: 后面的数字
+    let onMatches = message.match(/ON:(\d+(?:,\s*\d+)*)/);
+    if (onMatches) {
+        var onNumbers = onMatches[1].split(',').map(num => 'X' + num.trim());
+        result.push(onNumbers.join(','));
     }
 
-    return Msg;
+    // 匹配 OFF: 后面的数字
+    let offMatches = message.match(/OFF:(\d+(?:,\s*\d+)*)/);
+    if (offMatches) {
+        var offNumbers = offMatches[1].split(',').map(num => 'Q' + num.trim());
+        result.push(offNumbers.join(','));
+    }
+
+    return result.join(',') + ',';
 }
 
 // 将程序转化为框图
@@ -235,8 +239,9 @@ function readTxt(txt) {
                     copy(4, Str);
                     break;
                 case 'X':
-                    // 添加字符串直至换行
-                    let Signal = "等待信号: ";
+                case 'Q':
+                    // 提取字符串
+                    let Signal = "";
                     for (let k = i + 1; k < txt.length; k++) {
                         if (txt[k] === '\n') {
                             break;
@@ -245,9 +250,7 @@ function readTxt(txt) {
                             Signal += txt[k];
                         }
                     }
-                    // 去掉字符串中的X
-                    let SignalNoX = Signal.replace(/X/g, '');
-                    copy(1, SignalNoX);
+                    TxtintoChart_waitingSignal(Signal);
                     break;
                 default:
                     break;
@@ -321,6 +324,42 @@ function readAction(strF) {
             }
         }
     }
+}
+
+//将程序中的等待信号部分转为框图 
+function TxtintoChart_waitingSignal(Signal) {
+    // 转化为数组
+    let signals = Signal.split(','); // 将字符串分割成信号项数组
+
+    let SignalX = '';
+    let SignalQ = '';
+
+    // 循环遍历信号项数组中的每个元素
+    signals.forEach(item => {
+        // 使用正则表达式匹配以 X 或 Q 开头的数字部分
+        let matchX = item.match(/^X(\d+)/);
+        let matchQ = item.match(/^Q(\d+)/);
+
+        // 如果匹配成功，将数字部分提取出来并添加到对应的字符串中
+        if (matchX) {
+            if (SignalX !== '') SignalX += ',';
+            SignalX += matchX[1]; // 提取匹配的第一个捕获组（即数字部分）
+        } else if (matchQ) {
+            if (SignalQ !== '') SignalQ += ',';
+            SignalQ += matchQ[1]; // 提取匹配的第一个捕获组（即数字部分）
+        }
+    });
+
+    let Msg = '';
+    // 根据 SignalX 和 SignalQ 构建 Msg 字符串
+    if (SignalX !== '') {
+        Msg += '等待信号ON:' + SignalX;
+    }
+    if (SignalQ !== '') {
+        if (Msg !== '') Msg += ' '; // 添加空格分隔
+        Msg += '等待信号OFF:' + SignalQ;
+    }
+    copy(1, Msg);
 }
 
 //渲染步骤号 

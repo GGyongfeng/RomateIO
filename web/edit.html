@@ -74,13 +74,23 @@
 
     <!-- 等待型号侧边栏 -->
     <div class="sidebar sidebar_sign">
-        <div>
+        <div class="div1">
             <button @click="commit()">确定</button>
             <button class="close">❌</button>
         </div>
 
         <div class="btnContainer">
             <!-- 放置大量接口按钮 -->
+        </div>
+        <div id="waitSingalOnOff">
+            <div class="waitSingalON">
+                <span>ON信号</span>
+                <span>{{ formattedSignalNumON }}</span>
+            </div>
+            <div class="waitSingalOFF">
+                <span>OFF信号</span>
+                <span>{{ formattedSignalNumOFF }}</span>
+            </div>
         </div>
     </div>
 

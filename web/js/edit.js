@@ -82,14 +82,6 @@ $(document).ready(function () {
                 });
             }
         })
-        new Vue({
-            el: '.numStepSerial',
-            data: {
-                msg: [1, 2, 3, 4, 5],
-            },
-            mounted() {
-            }
-        })
     })
 
 
@@ -147,8 +139,10 @@ $(document).ready(function () {
     $(".nav button:eq(1)").click(function () {
         // 切换display属性
         $(".sidebar_sign").toggle();
-        $(".btnContainer button").removeClass('btn-clicked');
+        $(".btnContainer button").removeClass('btn-clicked-bar');
         SignalNum = [];
+        SignalNumON = [];
+        SignalNumOFF = [];
     })
 
     //延迟按钮 
@@ -225,25 +219,102 @@ $(document).ready(function () {
         $('.sidebar_output').hide();
     })
 
-    // 等待信号-侧边栏
-    $(".sidebar_sign div:eq(0) button:eq(0)").click(function () {
-        $('.sidebar').hide();
-        copy(1, "等待信号: " + SignalNum);
-    })
-    $(".sidebar_sign div:eq(0) button:eq(1)").click(function () {
-        $('.sidebar').hide();
+    // 等待信号-侧边栏-----------------------------------------
+    $(".btnContainer button").click(function () {
+        $(this).toggleClass('btn-clicked-bar');
+        // 检查按钮是否有 btn-clicked 类
+        if ($(this).hasClass('btn-clicked-bar')) {
+            // 如果有 btn-clicked 类，则执行操作
+            SignalNum.push(parseInt($(this).text(), 10));
+        }
     })
 
-    $(".btnContainer button").click(function () {
-        $(this).toggleClass('btn-clicked');
-        SignalNum.push(parseInt(this.innerHTML, 10));
-    })
+    new Vue({
+        el: '#waitSingalOnOff',
+        data: {
+            SignalNumON: [],
+            SignalNumOFF: []
+        },
+        computed: {
+            formattedSignalNumON() {
+                return this.SignalNumON.join(', ');
+            },
+            formattedSignalNumOFF() {
+                return this.SignalNumOFF.join(', ');
+            }
+        },
+        methods: {
+            updateSignalNumON() {
+                this.SignalNumON = SignalNum.slice();
+                console.log("等待信号ON:", this.SignalNumON);
+                // 移除所有具有 .btn-clicked 类的 .btnContainer button 元素的 btn-clicked 类
+                $('.btnContainer .btn-clicked-bar').removeClass('btn-clicked-bar');
+                // 清空 SignalNum 数组
+                SignalNum = [];
+            },
+            updateSignalNumOFF() {
+                this.SignalNumOFF = SignalNum.slice();
+                console.log("等待信号OFF:", this.SignalNumOFF);
+                // 移除所有具有 .btn-clicked 类的 .btnContainer button 元素的 btn-clicked 类
+                $('.btnContainer .btn-clicked-bar').removeClass('btn-clicked-bar');
+                // 清空 SignalNum 数组
+                SignalNum = [];
+            },
+            confirmButtonClicked() {
+                if (this.SignalNumON.length === 0 && this.SignalNumOFF.length === 0) {
+                    alert("等待信号不能为空");
+                } else {
+                    let msg = '';
+                    if (this.SignalNumON.length > 0) {
+                        msg += "等待信号ON:" + this.SignalNumON.join(',');
+                    }
+                    if (this.SignalNumOFF.length > 0) {
+                        if (msg) {
+                            msg += " "; // 如果msg已有内容，则添加一个空格
+                        }
+                        msg += "等待信号OFF:" + this.SignalNumOFF.join(',');
+                    }
+                    copy(1, msg);
+
+                    $('.sidebar').hide();
+                    this.SignalNumON = [];
+                    this.SignalNumOFF = [];
+                }
+            },
+            cancelButtonClicked() {
+                $('.sidebar').hide();
+                this.SignalNumON = [];
+                this.SignalNumOFF = [];
+            }
+        },
+        mounted() {
+            $('.waitSingalON').on('click', (event) => {
+                this.updateSignalNumON();
+            });
+
+            $('.waitSingalOFF').on('click', (event) => {
+                this.updateSignalNumOFF();
+            });
+
+            // 确认按钮点击事件
+            $(".sidebar_sign div:eq(0) button:eq(0)").click(() => {
+                this.confirmButtonClicked();
+            });
+
+            // 取消按钮点击事件
+            $(".sidebar_sign div:eq(0) button:eq(1)").click(() => {
+                this.cancelButtonClicked();
+            });
+        }
+    });
 
     // 每500毫秒计时器
     // .sidebar的display属性，如果为flex，执行渲染btnContainer
     setInterval(checkSidebarDisplay, 500);
     // 如果 运行按钮 具有programRunning类，则读取step.txt
     setInterval(CheckStep, 500);
+    // -----------------------------------------
+
 });
 
 function CheckStep() {

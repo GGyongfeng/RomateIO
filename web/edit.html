@@ -193,6 +193,27 @@
             clickedButton.text("C" + inputValue);
         }
     }
+    
+    function toggleSelectedClassOnClick() {
+        $("#program").find('.selected').not(this).removeClass("selected");
+
+        // 首先检查点击事件是否发生在按钮上
+        if ($(this).hasClass("action")) {
+            // 获取点击事件的目标元素
+            const clickTarget = $(event.target);
+
+            // 检查目标元素是否是 $(this) 下的按钮
+            if (clickTarget.closest($(this)).length > 0 && clickTarget.is('button')) {
+                // 如果是 $(this) 下的按钮，不执行任何操作
+            } else {
+                // 如果是 $(this) 下的其他元素或按钮之外的部分，执行 toggleClass
+                $(this).toggleClass("selected");
+            }
+        } else {
+            // 如果没有找到按钮，直接执行 toggleClass
+            $(this).toggleClass("selected");
+        }
+    }
 </script>
 
 </html>

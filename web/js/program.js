@@ -47,7 +47,7 @@ function getAction(S) {
     let Msg2 = "";
     for (let i = 0; i < settings.NumberOfValves; i++) {
         // 获取$step下的第i个div
-        let $div = $step.find('div:eq(' + (i+1) + ')');
+        let $div = $step.find('div:eq(' + (i + 1) + ')');
 
         // 获取第i个div下class为"selet"的button
         let button = $div.find('.select');
@@ -97,6 +97,17 @@ function getAction(S) {
                 break;
         };
     }
+
+
+    // 获取$step下的请求继续框
+    let $div3 = $step.find('.action-bar-2');
+    // 获取$div3下的第一个button按钮
+    let $button = $div3.find('button').first();
+    // 判断button是否具有request-continue-click属性
+    if ($button.hasClass('request-continue-click')) {
+        Msg = Msg + "G,";
+    }
+
 
     // 获取$step下的条件选择栏
     let $div2 = $step.find('.action-bar');
@@ -322,6 +333,9 @@ function readAction(strF) {
                     $copy.find('.action-bar').find('button:eq(2)').text('C' + numStr);
                     break;
             }
+        } else if (char === 'G') {
+            console.log('G');
+            $copy.find('.action-bar-2').find('button:eq(0)').addClass('request-continue-click')
         }
     }
 }

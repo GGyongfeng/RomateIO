@@ -39,6 +39,7 @@
     flex-direction: row;
     /* 滑动容器 */
     overflow: auto;
+    /* padding-bottom: 15px; */
 }
 
 .action p {
@@ -50,32 +51,41 @@
 .action button {
     box-sizing: border-box;
     /* 形状 */
-    width: 60px;
-    height: 30px;
-    border-radius: 7px;
-    padding: 5px 0px 5px;
-    margin-left: 3px;
-    margin-left: 3px;
+    width: 70px;
+    height: 35px;
+    border-radius: 10px;
+    padding: 5px 0;
+    margin-left: 5px;
     /* 移除默认的边框和背景 */
     border: none;
     /* 字体 */
     font-size: 15px;
-    color: #333333;
-    font-weight: 440;
-    /* 点击前样式 */
-    background-color: #ffffff;
-    transition: 0.2s;
+    cursor: pointer;
+    transition: all 0.3s ease;
     /* 使用CSS伪元素来创建一个覆盖层，以防止点击时出现阴影 */
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     /* 对于iOS设备 */
     -webkit-tap-highlight-color: transparent;
 }
 
-.action .select {
-    background-color: #c2c2c2;
+/* 点击反馈*/
+.action button:active {
+    background-color: #666; 
+    transform: scale(0.95); /* 点击时的缩放效果 */
 }
 
-.action-bar {
+.action .select {
+    background-color: #3d3d3d;
+    color: #fff; /* 使用白色字体 */
+    font-weight: 500; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+}
+
+
+
+
+/* 后面的条件选择框 */
+.Fr-action-bar {
     margin-left: 10px;
 }
 
@@ -84,6 +94,43 @@
     padding: 0px 5px 0px;
     width: 75px;
 }
+
+
+
+
+/********** 为 .action-bar-2设计特殊样式 **************/
+.action-bar-2 button {
+    width: 75px;
+    border: none;
+    /* 去掉边框 */
+    border-radius: 5px;
+    /* 圆角 */
+    cursor: pointer;
+    /* 鼠标指针 */
+    transition: background-color 0.3s;
+    /* 背景颜色过渡效果 */
+}
+
+
+/* 为 .action-bar-2 添加边框分界线 */
+.action-bar-2 {
+    border-top: 2px solid #ccc;
+    /* 上边框 */
+    /* padding-top: 5px; 
+    margin-top: 5px; */
+}
+
+
+.request-continue-click {
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #4CAF50;
+    font-weight: 600; 
+}
+
+
+
+
 
 /* ************导航栏 **********/
 .nav {
@@ -203,6 +250,9 @@
 
 #program {
     margin-bottom: 140px;
+    max-width: none;
+    min-width: 100%;
+    width: 80vw;
 }
 
 /* ********按钮背景光***************** */
@@ -241,14 +291,20 @@
 
 /* ***************************************** */
 /* sidebar_sign 侧边栏*/
-.sidebar_sign{
-    width: 70vw; /* 容器宽度 */
+.sidebar_sign {
+    width: 70vw;
+    /* 容器宽度 */
     max-width: 300px;
-    height: 90vh; /* 容器高度 */
-    overflow-y: auto; /* 垂直滚动条自动出现 */
-    overflow-x: hidden; /* 水平方向禁用滚动条 */
-    border: 1px solid #ccc; /* 边框样式 */
-    padding: 10px; /* 内边距 */
+    height: 90vh;
+    /* 容器高度 */
+    overflow-y: auto;
+    /* 垂直滚动条自动出现 */
+    overflow-x: hidden;
+    /* 水平方向禁用滚动条 */
+    border: 1px solid #ccc;
+    /* 边框样式 */
+    padding: 10px;
+    /* 内边距 */
 }
 
 .sidebar_sign .div1 {

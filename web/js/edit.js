@@ -40,10 +40,15 @@ $(document).ready(function () {
             );
             if (i == settings.NumberOfValves) {
                 $(".action").eq(0).append(
+                    '<div class="Fr-action-bar">' +
                     '<div class="action-bar">' +
                     '<button onclick="func2()">连续步</button>' +
                     '<button onclick="func2()">按钮启动</button>' +
                     '<button onclick="func3()">外部编码</button>' +
+                    '</div>' +
+                    '<div class="action-bar-2">' +
+                    '<button onclick="requestContinue()">请求继续</button>' +
+                    '</div>' +
                     '</div>'
                 );
             }
@@ -88,50 +93,52 @@ $(document).ready(function () {
 
     //动作按钮
     $(".nav button:eq(0)").click(function () {
-        // 获取#program下的最后一个class为action的div
-        const $lastActionDiv = $('#program .action:last');
+        // // 获取#program下的最后一个class为action的div
+        // const $lastActionDiv = $('#program .action:last');
 
-        // 克隆最后一个class为action的div
-        const $clone = $lastActionDiv.clone();
+        // // 克隆最后一个class为action的div
+        // const $clone = $lastActionDiv.clone();
 
-        // 判断#program下是否包含class为action的div
-        if ($lastActionDiv.length > 0) {
-            $clone.click(function () {
-                $("#program").find('.selected').not(this).removeClass("selected");
+        // // 判断#program下是否包含class为action的div
+        // if ($lastActionDiv.length > 0) {
+        //     $clone.click(function () {
+        //         $("#program").find('.selected').not(this).removeClass("selected");
 
-                // 首先检查点击事件是否发生在按钮上
-                if ($(this).hasClass("action")) {
-                    // 获取点击事件的目标元素
-                    const clickTarget = $(event.target);
+        //         // 首先检查点击事件是否发生在按钮上
+        //         if ($(this).hasClass("action")) {
+        //             // 获取点击事件的目标元素
+        //             const clickTarget = $(event.target);
 
-                    // 检查目标元素是否是 $(this) 下的按钮
-                    if (clickTarget.closest($(this)).length > 0 && clickTarget.is('button')) {
-                        // 如果是 $(this) 下的按钮，不执行任何操作
-                    } else {
-                        // 如果是 $(this) 下的其他元素或按钮之外的部分，执行 toggleClass
-                        $(this).toggleClass("selected");
-                    }
-                } else {
-                    // 如果没有找到按钮，直接执行 toggleClass
-                    $(this).toggleClass("selected");
-                }
-            });
-            // 检查是否有class为step的div具有selected样式
-            if ($('#program .selected').length > 0) {
-                $clone.removeClass("selected");
-                // 如果有，将克隆的div元素添加到具有selFected样式的div之后
-                $('.selected').after($clone);
-            } else {
-                // 如果没有，将克隆的div元素添加到#program的末尾
-                $('#program').append($clone);
-            }
-        } else {
-            // 否则执行copy（0）这个函数
-            copy(0);
-            steps = steps - 1;
-        }
-        // 步骤数+1
-        steps = steps + 1;
+        //             // 检查目标元素是否是 $(this) 下的按钮
+        //             if (clickTarget.closest($(this)).length > 0 && clickTarget.is('button')) {
+        //                 // 如果是 $(this) 下的按钮，不执行任何操作
+        //             } else {
+        //                 // 如果是 $(this) 下的其他元素或按钮之外的部分，执行 toggleClass
+        //                 $(this).toggleClass("selected");
+        //             }
+        //         } else {
+        //             // 如果没有找到按钮，直接执行 toggleClass
+        //             $(this).toggleClass("selected");
+        //         }
+        //     });
+        //     // 检查是否有class为step的div具有selected样式
+        //     if ($('#program .selected').length > 0) {
+        //         $clone.removeClass("selected");
+        //         // 如果有，将克隆的div元素添加到具有selFected样式的div之后
+        //         $('.selected').after($clone);
+        //     } else {
+        //         // 如果没有，将克隆的div元素添加到#program的末尾
+        //         $('#program').append($clone);
+        //     }
+        // } else {
+        //     // 否则执行copy（0）这个函数
+        //     copy(0);
+        //     steps = steps - 1;
+        // }
+        // // 步骤数+1
+        // steps = steps + 1;
+
+        copy(0); //复制空动作 2024/7/5 更改成这个形式
         numStepSerial();
     });
 
@@ -197,6 +204,8 @@ $(document).ready(function () {
             // 禁用所有元素的点击事件，除了此按钮
             $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
             $("#program button,#program .disclicked").css("pointer-events", "none");
+            // 动作栏取消点击事件
+            $('#program .action').off('click', stepClickHandler);
 
             msg = getMsg();
             // 将msg写入./web.txt
@@ -205,6 +214,8 @@ $(document).ready(function () {
         } else {
             // 取消运行，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
+            // 动作栏恢复点击事件
+            $('#program .action').on('click', stepClickHandler)
 
             // 恢复手动模式
             $.post("./command.txt", { data: "SP,web.txt" });

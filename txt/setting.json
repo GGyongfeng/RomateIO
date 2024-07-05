@@ -1,7 +1,1 @@
-{
-    "inout_display": 0,
-    "NumberOfValves": 24,
-    "controlMode": 1,
-    "programName": "bbb",
-    "programID": "4"
-}
+{"inout_display":0,"NumberOfValves":16,"controlMode":1,"programName":"aaa","programID":"1"}

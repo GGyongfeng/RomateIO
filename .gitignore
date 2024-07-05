@@ -3,3 +3,5 @@ node_modules/
 参考资料/
 setting1.json
 *.txt
+txt/setting.json
+txt/allProgramParams.json

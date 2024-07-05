@@ -47,7 +47,7 @@ function getAction(S) {
     let Msg2 = "";
     for (let i = 0; i < settings.NumberOfValves; i++) {
         // 获取$step下的第i个div
-        let $div = $step.find('div:eq(' + i + ')');
+        let $div = $step.find('div:eq(' + (i+1) + ')');
 
         // 获取第i个div下class为"selet"的button
         let button = $div.find('.select');
@@ -277,7 +277,7 @@ function readAction(strF) {
                     break;
                 }
             }
-            let $div = $copy.children('div').eq(numStr - 1)
+            let $div = $copy.children('div').eq(numStr)
 
             // 遍历F后的字符，直到),switch判断)后一位的字符,case J: case K: case ,:
             for (let k = i + 1; k < strF.length; k++) {

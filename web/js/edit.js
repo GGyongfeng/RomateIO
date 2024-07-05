@@ -201,7 +201,7 @@ $(document).ready(function () {
             msg = getMsg();
             // 将msg写入./web.txt
             $.post("./web.txt", { data: msg });
-            $.post("./command.txt", { data: "SP,web.txt" });
+            $.post("./command.txt", { data: "ST,web.txt" });
         } else {
             // 取消运行，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");

@@ -22,6 +22,15 @@ $(document).ready(function () {
                 initialSelectedProgram: settings.programID
             },
             mounted() {
+                //显示阀门数量
+                display_number_of_valves();
+                // 显示手自动模式
+                if (settings.controlMode === 1) {
+                    $('#manualMode').prop('checked', true).next('label').addClass('active');
+                } else if (settings.controlMode === 0) {
+                    $('#autoMode').prop('checked', true).next('label').addClass('active');
+                }
+
                 // 可以在这里执行其他初始化逻辑
                 $('#productSelection').change(function () {
                     let selectedValue = $(this).val(); // 获取选中的值
@@ -29,9 +38,6 @@ $(document).ready(function () {
                     settings.programID = selectedValue;
                     settings.programName = allProgramParams[selectedValue - 1].programName;
                 });
-
-                //显示阀门数量
-                display_number_of_valves();
 
                 // 设置程序选中项
                 $('#productSelection').val(settings.programID);
@@ -52,6 +58,15 @@ $(document).ready(function () {
                     $(this).parent().find('button').removeClass('btn-clicked');
                     $(this).addClass('btn-clicked');
                 })
+
+                $('input[type=radio][name=modeOptions]').change(function () {
+                    if (this.id === 'manualMode') {
+                        settings.controlMode = 1;
+                    } else if (this.id === 'autoMode') {
+                        settings.controlMode = 0;
+                    }
+                    console.log('控制模式:', settings.controlMode); // 用于调试
+                });
             }
         })
     });

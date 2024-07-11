@@ -189,6 +189,8 @@ $(document).ready(function () {
 
             // 提交程序
             $.post(pgmTxtFilePath, { data: msg });
+            // 写指令
+            $.post("./command.txt", { data: "SP,/programs/" + settings.programID + ".txt" });
         } else {
             // 取消操作
         }

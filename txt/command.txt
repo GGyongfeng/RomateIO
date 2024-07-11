@@ -1,1 +1,1 @@
-ST,web.txt
+SP,/programs/1.txt

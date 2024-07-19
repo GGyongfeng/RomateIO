@@ -1,1 +1,11 @@
-{"inout_display":0,"NumberOfValves":16,"controlMode":1,"programName":"aaa","programID":"1"}
+{
+    "inout_display": 0,
+    "NumberOfValves": 16,
+    "controlMode": 1,
+    "programName": "asdjkl",
+    "programID": "2",
+    "Native_IP": "190.168.1.110",
+    "PCP_IP": "192.168.1.1",
+    "DB_address": "50",
+    "Version":"v1.1.0"
+}

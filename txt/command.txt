@@ -1,1 +1,1 @@
-SP,/programs/1.txt
+ST,2.txt

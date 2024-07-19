@@ -16,6 +16,7 @@ $(document).ready(function () {
         settings.valve = allProgramParams[settings.programID - 1].valve;
         // 程序储存路径
         pgmTxtFilePath = './programs/' + settings.programID + '.txt';
+        repgmTxtFilePath = './programs/re_programs/' + settings.programID + '.txt';
         // -------------------------------------------
 
         // 读取程序
@@ -186,11 +187,14 @@ $(document).ready(function () {
             msg = getMsg();
             console.log('提交msg:\n' + msg);
             console.log('提交到:\n' + pgmTxtFilePath);
+            re_program = getReProgram();
 
             // 提交程序
             $.post(pgmTxtFilePath, { data: msg });
+            $.post(repgmTxtFilePath, { data: re_program });
+
             // 写指令
-            $.post("./command.txt", { data: "SP,/programs/" + settings.programID + ".txt" });
+            $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
         } else {
             // 取消操作
         }
@@ -208,21 +212,19 @@ $(document).ready(function () {
             $("#program button,#program .disclicked").css("pointer-events", "none");
             // 动作栏取消点击事件
             $('#program .action').off('click', stepClickHandler);
-
-            msg = getMsg();
-            // 将msg写入./web.txt
-            $.post("./web.txt", { data: msg });
-            $.post("./command.txt", { data: "ST,web.txt" });
+            
+            // 写指令
+            $.post("./command.txt", { data: "ST," + settings.programID + ".txt" });
         } else {
             // 取消运行，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
             // 动作栏恢复点击事件
             $('#program .action').on('click', stepClickHandler)
-
-            // 恢复手动模式
-            $.post("./command.txt", { data: "SP,web.txt" });
             // 恢复所有元素的点击事件
             $("body *").css("pointer-events", "");
+
+            // 写指令
+            $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
         }
     })
 
@@ -324,14 +326,14 @@ $(document).ready(function () {
     // 每500毫秒计时器
     // .sidebar的display属性，如果为flex，执行渲染btnContainer
     setInterval(checkSidebarDisplay, 500);
-    // 如果 运行按钮 具有programRunning类，则读取step.txt
+    // 如果 运行按钮 具有btnClick类，则读取step.txt
     setInterval(CheckStep, 500);
     // -----------------------------------------
 
 });
 
 function CheckStep() {
-    if ($(".nav button:eq(7)").hasClass("programRunning")) {
+    if ($(".nav button:eq(7)").hasClass("btnClick")) {
         $.get('./step.txt', function (res) {
             S = parseInt(res); // 将字符串转换为整数
             console.log("正在运行第 " + S + " 步"); // 打印当前步骤

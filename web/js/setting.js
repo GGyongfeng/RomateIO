@@ -22,6 +22,9 @@ $(document).ready(function () {
                 initialSelectedProgram: settings.programID
             },
             mounted() {
+                // 验证IP 地址是否正确的正则表达式
+                const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
                 //显示阀门数量
                 display_number_of_valves();
                 // 显示手自动模式
@@ -30,6 +33,14 @@ $(document).ready(function () {
                 } else if (settings.controlMode === 0) {
                     $('#autoMode').prop('checked', true).next('label').addClass('active');
                 }
+                // 显示本机IP
+                $('input[name="native_ip"]').val(settings.Native_IP);
+                // 显示 PCP IP 
+                $('input[name="pcp_ip"]').val(settings.PCP_IP);
+                // 显示DB地址
+                $('input[name="db_address"]').val(settings.DB_address);
+                // 显示版本号
+                $('input[name="Version"]').val(settings.Version);
 
                 // 可以在这里执行其他初始化逻辑
                 $('#productSelection').change(function () {
@@ -52,6 +63,7 @@ $(document).ready(function () {
                     }
                 });
 
+                // 设置阀门数量
                 $('.FamenNum button').click(function () {
                     const num = parseInt(this.innerHTML, 10)
                     settings.NumberOfValves = num;
@@ -59,13 +71,51 @@ $(document).ready(function () {
                     $(this).addClass('btn-clicked');
                 })
 
+                // 设置手自动模式
                 $('input[type=radio][name=modeOptions]').change(function () {
                     if (this.id === 'manualMode') {
                         settings.controlMode = 1;
                     } else if (this.id === 'autoMode') {
                         settings.controlMode = 0;
                     }
-                    console.log('控制模式:', settings.controlMode); // 用于调试
+                });
+
+                // 设置 本机IP
+                $('input[name="native_ip"]').on('blur', function () {
+                    const inputVal = $(this).val();
+
+                    if (ipPattern.test(inputVal)) {
+                        // 如果输入内容是有效的 IP 地址
+                        settings.Native_IP = inputVal; // 更新 settings.Native_IP
+                    } else {
+                        // 如果输入内容不是有效的 IP 地址
+                        alert('请输入IP地址格式');
+                        $(this).val(settings.Native_IP); // 重置为原始 IP 地址
+                    }
+                });
+
+                // 设置PCP_IP
+                $('input[name="pcp_ip"]').on('blur', function () {
+                    const inputVal = $(this).val();
+
+                    if (ipPattern.test(inputVal)) {
+                        settings.PCP_IP = inputVal; // 更新 settings.PCP_IP
+                    } else {
+                        alert('请输入IP地址格式');
+                        $(this).val(settings.PCP_IP); // 重置为原始 IP 地址
+                    }
+                });
+
+                // 设置DB地址
+                $('input[name="db_address"]').on('blur', function () {
+                    const inputVal = $(this).val();
+                    const dbPattern = /^[1-9][0-9]?$|^900$/; // 验证 1 到 900 的整数
+                    if (dbPattern.test(inputVal)) {
+                        settings.DB_address = inputVal; // 更新 settings.DB_address
+                    } else {
+                        alert('DB地址应为1-900的整数值');
+                        $(this).val(settings.DB_address); // 重置为原始 DB 地址
+                    }
                 });
             }
         })

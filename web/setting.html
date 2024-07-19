@@ -7,7 +7,7 @@
     <title>系统设置</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/settingPage.css">
+    <link rel="stylesheet" href="./css/SettingPage.css">
 </head>
 
 <body>
@@ -51,7 +51,7 @@
             </div>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <span>版本:</span>&nbsp;
-                <input type="input" value="5.1.0D-3.0.4">
+                <input type="text" name="Version">
             </div>
         </div>
         <div class="eg-div">
@@ -60,8 +60,8 @@
                 <span>产品选型：</span>
                 <select id="productSelection" style="width:70%;">
                     <option v-for="(item,index) in Programlist" :value="item.programID">
-                        <span >{{ item.programID }}</span> -
-                        <span >{{ item.programName }}</span>
+                        <span>{{ item.programID }}</span> -
+                        <span>{{ item.programName }}</span>
                     </option>
                 </select>
             </div>
@@ -71,17 +71,17 @@
                 <input type="radio" name="options4" id="option2"> 三菱
                 <input type="radio" name="options4" id="option1" checked> 西门子
             </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="padding-top: 10px;">
+            <div style="padding-top: 10px;">
                 <span>本机IP:</span>&nbsp;
-                <input type="input" value="190.168.1.121">
+                <input type="text" name="native_ip">
             </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div>
                 <span>PCP IP:</span>&nbsp;
-                <input type="input" value="192.168.1.1">
+                <input type="text" name="pcp_ip">
             </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div>
                 <span>DB地址:</span>&nbsp;
-                <input type="input" value="84">
+                <input type="text" name="db_address">
             </div>
         </div>
         <div class="eg-div">

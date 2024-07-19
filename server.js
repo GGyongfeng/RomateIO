@@ -19,10 +19,17 @@ server.post('*', (req, res) => {
     const url = req.url;
     const data = req.body.data;
     const fpath = path.join(__dirname, 'txt', url);
+
     // 接受的数据data写入到指定url位置
     fs.writeFile(fpath, data, 'utf-8', function (err) {
         if (err) { return console.log('读取失败'); }
     });
+
+    // IP地址和DB地址写入到PLC_CONF.txt
+    if (url === '/setting.json') {
+        writeToPLC_CONF(data);
+    }
+
     res.send('post Success');
 })
 
@@ -30,3 +37,12 @@ server.post('*', (req, res) => {
 server.listen(8080, () => {
     console.log('server running at localhost:8080');
 })
+
+// 封装处理 PLC_CONF.txt 的函数
+function writeToPLC_CONF(data) {
+    const jsonData = JSON.parse(data);
+    const { Native_IP, PCP_IP, DB_address } = jsonData;
+    const content = `${Native_IP}\n${PCP_IP}\n${DB_address}`;
+    const plcConfPath = path.join(__dirname, 'txt', 'PLC-CONF.txt');
+    fs.writeFile(plcConfPath, content, 'utf-8', () => { });
+}

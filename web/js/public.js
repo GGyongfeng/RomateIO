@@ -1,7 +1,30 @@
-// 通用程序1:提交json格式的设置数据
+// 通用程序:提交json格式的设置数据
 function SendSetting(settings) {
     // 将json数据→字符串类型数据 再进行发送
     const msg = JSON.stringify(settings);
+
+    // 将msg发送给服务器，写入到setting.json文件
+    $.ajax({
+        type: "post",
+        url: "./setting.json",
+        data: { data: msg },
+        success: function (res) {
+            console.log(res);
+        }
+    })
+}
+
+function SendSettingNotValve(settings) {
+    var settingsCopy = $.extend(true, {}, settings);
+
+    // 删除 'valve' 键
+    delete settingsCopy.valve;
+
+    // 将更新后的对象转换为 JSON 字符串
+    var updatedSettingsJson = JSON.stringify(settingsCopy, null, 4);
+
+    // 将json数据→字符串类型数据 再进行发送
+    const msg = JSON.stringify(settingsCopy);
 
     // 将msg发送给服务器，写入到setting.json文件
     $.ajax({

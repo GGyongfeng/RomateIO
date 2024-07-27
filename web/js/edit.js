@@ -25,9 +25,9 @@ $(document).ready(function () {
             readTxt(msg);
         }).fail(function () {
             // 请求失败时的处理
-            console.log("此程序尚未编写");
+            // console.log("此程序尚未编写");
             // 或者你可以在页面上显示一个提示，比如：
-            // $('#error-message').text("此程序尚未编写");
+            $('#error-message').text("此程序尚未编写");
         });
 
         for (let i = 1; i <= settings.NumberOfValves; i++) {
@@ -53,6 +53,18 @@ $(document).ready(function () {
                     '</div>'
                 );
             }
+        }
+
+        // 判断程序是否在执行
+        // 检查 settings.isRunning 的值，并执行相应的程序
+        if (settings.isRunning === 1) {
+            $(".nav button:eq(7)").addClass('btnClick')
+
+            // 禁用所有元素的点击事件，除了此按钮
+            $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
+            $("#program button,#program .disclicked").css("pointer-events", "none");
+            // 动作栏取消点击事件
+            $('#program .action').off('click', stepClickHandler);
         }
 
         //夹具名称显示以及修改 vue实现 
@@ -207,15 +219,21 @@ $(document).ready(function () {
 
         //程序运行时，除了运行按钮之外的所有元素点击无效
         if ($(this).hasClass("btnClick")) {
+            // setting.json更新运行状态
+            settings.isRunning = 1;
+
             // 禁用所有元素的点击事件，除了此按钮
             $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
             $("#program button,#program .disclicked").css("pointer-events", "none");
             // 动作栏取消点击事件
             $('#program .action').off('click', stepClickHandler);
-            
+
             // 写指令
             $.post("./command.txt", { data: "ST," + settings.programID + ".txt" });
         } else {
+            // setting.json更新运行状态
+            settings.isRunning = 0;
+
             // 取消运行，则移除所有步骤上的RunningStep类属性
             $('#program .step').removeClass("RunningStep");
             // 动作栏恢复点击事件
@@ -226,6 +244,8 @@ $(document).ready(function () {
             // 写指令
             $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
         }
+
+        SendSettingNotValve(settings);
     })
 
 

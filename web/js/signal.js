@@ -2,7 +2,7 @@
 $(document).ready(function () {
     // 在sidebar渲染接口号的按钮
     for (let i = 1; i <= 64; i++) {
-        $('.btnContainer').append('<button>' + i + '</button>');
+        $('.btnContainer').append('<button>' + (i+8) + '</button>');
     }
     var num = [];
     var port = 0;

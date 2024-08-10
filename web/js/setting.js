@@ -53,6 +53,18 @@ $(document).ready(function () {
                 // 设置程序选中项
                 $('#productSelection').val(settings.programID);
 
+
+
+
+
+
+
+
+
+
+
+
+
                 // 提交设置
                 $('.SettingCommit').click(function () {
                     if (confirm("确认保存嘛？")) {
@@ -62,6 +74,29 @@ $(document).ready(function () {
                         // 取消操作
                     }
                 });
+
+
+                // 重启按钮
+                $('.reboot-btn').click(function() {
+                    // 显示输入密码框
+                    var password = prompt('输入密码后重启系统:');
+                    
+                    if (password !== null) { 
+                        $.ajax({
+                            url: '/reboot',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ password: password }),
+                            success: function(response) {
+                                alert(response.message);
+                            },
+                            error: function(xhr, status, error) {
+                                alert('Error: ' + xhr.responseJSON.message);
+                            }
+                        });
+                    }
+                });
+
 
                 // 设置阀门数量
                 $('.FamenNum button').click(function () {

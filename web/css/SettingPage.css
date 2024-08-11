@@ -29,29 +29,25 @@ body {
     width: 100%;
 }
 
-#SettingPart .eg-div div {
+/* 仅设置 #SettingPart .eg-div 下的一级 div */
+#SettingPart .eg-div > div {
+    display: flex; 
     flex-direction: row;
     justify-content: space-between;
     width: 65%;
-    padding: 5px 0px 5px;
+    padding-bottom: 10px;
 }
+
+
+
+
+
+
+
+
 
 
 /* ************保存设置按钮 **********/
-/* .SettingCommit {
-    border: 1.5px solid #C2C2C2;
-    box-shadow: 0px 0px 5px 1px #D6DADF;
-    height: 70%;
-    padding: 5px 8px 5px;
-    transition: 0.1s;
-}
-
-.SettingCommit:active {
-    transform: scale(1.03);
-    background-color: #ee6654ba;
-    border: 1.5px solid #ee6654;
-    box-shadow: 0px 0px 5px 1px #D6DADF;
-} */
 
 .handbtn-container{
     width: 100%;
@@ -77,3 +73,87 @@ body {
 }
 
 /* *********************************/
+
+
+
+
+
+
+
+
+
+
+
+/************** 双选框 **************/
+/* 按钮组容器样式 */
+.btn-group {
+    display: flex;
+    align-items: center;
+}
+
+.btn-group-toggle {
+    padding: 0px 20px;
+}
+
+/* 隐藏原始的单选框 */
+input[type="radio"] {
+    display: none;
+}
+
+
+
+
+
+
+/* 双选框 toggle-switch */
+.toggle-switch {
+    position: relative;
+    flex-direction: row;
+    width: 100px;
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.toggle-switch p {
+    background-color: none;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.switch-label {
+    flex: 1;
+    text-align: center;
+    z-index: 2;
+    cursor: pointer;
+    color: #666;
+    opacity: 0.1 ;
+    font-weight: bold;
+    font-size: 0.8em;
+    position: relative;
+    width: auto; 
+    transition: opacity 0.3s; 
+}
+
+.slider {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #6c757d; /* 滑块颜色 */
+    border-radius: 20px;
+    transition: 0.3s;
+    z-index: 1;
+    left: 0; 
+    padding-bottom: 0px;
+}
+
+
+input[type="radio"]:checked + label {
+    color: white;
+    opacity: 1; 
+}

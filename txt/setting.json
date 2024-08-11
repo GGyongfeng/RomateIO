@@ -1,1 +1,1 @@
-{"inout_display":0,"NumberOfValves":8,"controlMode":1,"programName":"asdjkl","programID":"2","Native_IP":"192.168.18.65","PCP_IP":"192.168.1.1","DB_address":"50","Version":"v1.2.2","isRunning":0}
+{"inout_display":0,"NumberOfValves":8,"controlMode":0,"programName":"asdjkl","programID":"2","Native_IP":"192.168.18.65","PCP_IP":"192.168.1.1","DB_address":"50","Version":"v1.2.2","isRunning":0,"isStepSave":0,"isOutputSave":1}

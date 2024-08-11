@@ -34,26 +34,51 @@
                 <button>16</button>
                 <button>24</button>
             </div>
-            <div class="btn-group">
-                <input type="radio" name="modeOptions" id="manualMode" checked>
-                <label for="manualMode">手动模式</label>
-                <input type="radio" name="modeOptions" id="autoMode">
-                <label for="autoMode">自动模式</label>
+
+            <div>
+                <span class="title-toggle">控制模式:</span>
+                <div id="ContralMode" class="toggle-switch">
+                    <input type="radio" name="ContralMode" id="manualMode">
+                    <label for="manualMode" class="switch-label">自控</label>
+        
+                    <input type="radio" name="ContralMode" id="autoMode">
+                    <label for="autoMode" class="switch-label">PN</label>
+        
+                    <div class="slider" style="padding:0px"></div>
+                </div>
+            </div>
+            <div>
+                <span class="title-toggle">步骤保存:</span>
+                <div id="stepOptions" class="toggle-switch">
+                    <input type="radio" name="stepOptions" id="stepOptions1">
+                    <label for="stepOptions1" class="switch-label">Yes</label>
+            
+                    <input type="radio" name="stepOptions" id="stepOptions2">
+                    <label for="stepOptions2" class="switch-label">No</label>
+            
+                    <div class="slider" style="padding:0px"></div>
+                </div>
+            </div>
+        
+        
+            <div>
+                <span class="title-toggle">输出保存:</span>
+                <div id="outputOptions" class="toggle-switch">
+                    <input type="radio" name="outputOptions" id="outputOptions1">
+                    <label for="outputOptions1" class="switch-label">Yes</label>
+            
+                    <input type="radio" name="outputOptions" id="outputOptions2">
+                    <label for="outputOptions2" class="switch-label">No</label>
+            
+                    <div class="slider" style="padding:0px"></div>
+                </div>
             </div>
 
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <input type="radio" name="options2" id="option1" checked> 步骤保存
-                <input type="radio" name="options2" id="option2"> 步骤不保存
-            </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <input type="radio" name="options3" id="option1" checked> 输出保存
-                <input type="radio" name="options3" id="option2"> 输出不保存
-            </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="padding-top: 10px;">
+            <div class="btn-group " data-toggle="buttons" style="padding-top: 10px;">
                 <span>本机SN:</span>&nbsp;
                 <input type="input" value="9648210545">
             </div>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div class="btn-group " data-toggle="buttons">
                 <span>版本:</span>&nbsp;
                 <input type="text" name="Version">
             </div>
@@ -69,12 +94,12 @@
                     </option>
                 </select>
             </div>
-            <div style="width: 90%;" class="btn-group btn-group-toggle" data-toggle="buttons">
+            <!-- <div style="width: 90%;" class="btn-group" data-toggle="buttons">
                 <span>通讯设置：</span>
                 <input type="radio" name="options4" id="option1" checked> 欧姆龙
                 <input type="radio" name="options4" id="option2"> 三菱
                 <input type="radio" name="options4" id="option1" checked> 西门子
-            </div>
+            </div> -->
             <div style="padding-top: 10px;">
                 <span>本机IP:</span>&nbsp;
                 <input type="text" name="native_ip">
@@ -91,20 +116,20 @@
         <div class="eg-div">
             <p>用户设置</p>
             <span style="width: 100%;padding-left: 20px;">用户名修改：</span>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <span>旧用户名:</span>&nbsp;
+            <div class="btn-group " data-toggle="buttons">
+                <span>旧名:</span>&nbsp;
                 <input type="input">
             </div>
-            <div style="padding-top: 12px;" class="btn-group btn-group-toggle" data-toggle="buttons">
-                <span>新用户名:</span>&nbsp;
+            <div style="padding-top: 12px;" class="btn-group " data-toggle="buttons">
+                <span>新名:</span>&nbsp;
                 <input type="input">
             </div>
             <span style="width: 100%;padding-left: 20px;">密码修改：</span>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div class="btn-group " data-toggle="buttons">
                 <span>旧密码:</span>&nbsp;
                 <input type="input">
             </div>
-            <div style="padding-top: 12px;" class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div style="padding-top: 12px;" class="btn-group " data-toggle="buttons">
                 <span>新密码:</span>&nbsp;
                 <input type="input">
             </div>

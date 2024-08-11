@@ -27,12 +27,7 @@ $(document).ready(function () {
 
                 //显示阀门数量
                 display_number_of_valves();
-                // 显示手自动模式
-                if (settings.controlMode === 1) {
-                    $('#manualMode').prop('checked', true).next('label').addClass('active');
-                } else if (settings.controlMode === 0) {
-                    $('#autoMode').prop('checked', true).next('label').addClass('active');
-                }
+
                 // 显示本机IP
                 $('input[name="native_ip"]').val(settings.Native_IP);
                 // 显示 PCP IP 
@@ -106,14 +101,84 @@ $(document).ready(function () {
                     $(this).addClass('btn-clicked');
                 })
 
+
+
                 // 设置手自动模式
-                $('input[type=radio][name=modeOptions]').change(function () {
-                    if (this.id === 'manualMode') {
+                // 初始化显示
+                if (settings.controlMode === 1) {
+                    $('#manualMode').prop('checked', true);
+                    $('#ContralMode .slider').css('left', '0'); 
+                } else if (settings.controlMode === 0) {
+                    $('#autoMode').prop('checked', true);
+                    $('#ContralMode .slider').css('left', '50%'); 
+                }
+
+                $('input[name="ContralMode"]').on('change', function() {
+                    if ($('#manualMode').is(':checked')) {
                         settings.controlMode = 1;
-                    } else if (this.id === 'autoMode') {
+                        $('#ContralMode .slider').css('left', '0');
+                    } else if ($('#autoMode').is(':checked')) {
                         settings.controlMode = 0;
+                        $('#ContralMode .slider').css('left', '50%');
                     }
                 });
+
+
+
+
+
+
+
+
+
+
+                // 设置步骤是否保存
+                // 根据 settings.isStepSave 的值设置初始状态
+                if (settings.isStepSave === 1) {
+                    $('#stepOptions1').prop('checked', true);
+                    $('#stepOptions .slider').css('left', '0'); 
+                } else if (settings.isStepSave === 0) {
+                    $('#stepOptions2').prop('checked', true);
+                    $('#stepOptions .slider').css('left', '50%'); 
+                }
+            
+                // 当选项改变时，更新 settings.isStepSave 变量
+                $('input[name="stepOptions"]').on('change', function() {
+                    if ($('#stepOptions1').is(':checked')) {
+                        settings.isStepSave = 1;
+                        $('#stepOptions .slider').css('left', '0');
+                    } else if ($('#stepOptions2').is(':checked')) {
+                        settings.isStepSave = 0;
+                        $('#stepOptions .slider').css('left', '50%');
+                    }
+                });
+
+
+
+
+
+                // 设置输出是否保存
+                // 根据 settings.isOutputSave 的值设置初始状态
+                if (settings.isOutputSave === 1) {
+                    $('#outputOptions1').prop('checked', true);
+                    $('#outputOptions .slider').css('left', '0'); 
+                } else if (settings.isOutputSave === 0) {
+                    $('#outputOptions2').prop('checked', true);
+                    $('#outputOptions .slider').css('left', '50%'); 
+                }
+            
+                // 当选项改变时，更新 settings.isOutputSave 变量
+                $('input[name="outputOptions"]').on('change', function() {
+                    if ($('#outputOptions1').is(':checked')) {
+                        settings.isOutputSave = 1;
+                        $('#outputOptions .slider').css('left', '0');
+                    } else if ($('#outputOptions2').is(':checked')) {
+                        settings.isOutputSave = 0;
+                        $('#outputOptions .slider').css('left', '50%');
+                    }
+                });
+
+
 
                 // 设置 本机IP
                 $('input[name="native_ip"]').on('blur', function () {

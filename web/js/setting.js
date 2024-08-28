@@ -34,6 +34,8 @@ $(document).ready(function () {
                 $('input[name="pcp_ip"]').val(settings.PCP_IP);
                 // 显示DB地址
                 $('input[name="db_address"]').val(settings.DB_address);
+                // 显示SN号
+                $('input[name="SN"]').val(settings.SN);
                 // 显示版本号
                 $('input[name="Version"]').val(settings.Version);
 
@@ -110,7 +112,10 @@ $(document).ready(function () {
                     $('#ContralMode .slider').css('left', '0'); 
                 } else if (settings.controlMode === 0) {
                     $('#autoMode').prop('checked', true);
-                    $('#ContralMode .slider').css('left', '50%'); 
+                    $('#ContralMode .slider').css('left', '32%'); 
+                }else if (settings.controlMode === 2) {
+                    $('#PN-Mode').prop('checked', true);
+                    $('#ContralMode .slider').css('left', '65%'); 
                 }
 
                 $('input[name="ContralMode"]').on('change', function() {
@@ -119,7 +124,10 @@ $(document).ready(function () {
                         $('#ContralMode .slider').css('left', '0');
                     } else if ($('#autoMode').is(':checked')) {
                         settings.controlMode = 0;
-                        $('#ContralMode .slider').css('left', '50%');
+                        $('#ContralMode .slider').css('left', '32%');
+                    }else if($('#PN-Mode').is(':checked')){
+                        settings.controlMode = 2;
+                        $('#ContralMode .slider').css('left', '65%');
                     }
                 });
 

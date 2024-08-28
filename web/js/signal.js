@@ -1,8 +1,8 @@
 // 界面准备时自动获取setting数据
 $(document).ready(function () {
     // 在sidebar渲染接口号的按钮
-    for (let i = 1; i <= 64; i++) {
-        $('.btnContainer').append('<button>' + (i+8) + '</button>');
+    for (let i = 1; i <= 88; i++) {
+        $('.btnContainer').append('<button>' + i + '</button>');
     }
     var num = [];
     var port = 0;

@@ -27,12 +27,11 @@ server.post('/reboot', (req, res) => {
 
     if (password === rebootPSW) {
         exec('sudo reboot', (error, stdout, stderr) => {
-        // exec('ls', (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error executing command: ${error}`);
-                return res.status(500).json({ message: '重启失败' });
-            }
-            res.json({ message: 'System is rebooting...' });
+                if (error) {
+                    console.error(`Error executing command: ${error}`);
+                    return res.status(500).json({ message: '重启失败' });
+                }
+                res.json({ message: 'System is rebooting...' });
         });
     } else {
         res.status(403).json({ message: '密码错误' });

@@ -1,4 +1,5 @@
 .vscode/
 node_modules/
 参考资料/
-txt
+txt/*
+!txt/settings.json

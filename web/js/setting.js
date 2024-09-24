@@ -25,9 +25,10 @@ $(document).ready(function () {
                 // 验证IP 地址是否正确的正则表达式
                 const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 
+
+                // ------------初始化逻辑------------
                 //显示阀门数量
                 display_number_of_valves();
-
                 // 显示本机IP
                 $('input[name="native_ip"]').val(settings.Native_IP);
                 // 显示 PCP IP 
@@ -38,15 +39,6 @@ $(document).ready(function () {
                 $('input[name="SN"]').val(settings.SN);
                 // 显示版本号
                 $('input[name="Version"]').val(settings.Version);
-
-                // 可以在这里执行其他初始化逻辑
-                $('#productSelection').change(function () {
-                    let selectedValue = $(this).val(); // 获取选中的值
-                    console.log('选中的程序:', selectedValue);
-                    settings.programID = selectedValue;
-                    settings.programName = allProgramParams[selectedValue - 1].programName;
-                });
-
                 // 设置程序选中项
                 $('#productSelection').val(settings.programID);
 
@@ -186,6 +178,14 @@ $(document).ready(function () {
                     }
                 });
 
+
+                // 程序下拉选项框
+                $('#productSelection').change(function () {
+                    let selectedValue = $(this).val(); // 获取选中的值
+                    console.log('选中的程序:', selectedValue);
+                    settings.programID = selectedValue;
+                    settings.programName = allProgramParams[selectedValue - 1].programName;
+                });
 
 
                 // 设置 本机IP

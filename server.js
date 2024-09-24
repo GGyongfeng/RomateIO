@@ -27,11 +27,11 @@ server.post('/reboot', (req, res) => {
 
     if (password === rebootPSW) {
         exec('sudo reboot', (error, stdout, stderr) => {
-                if (error) {
-                    console.error(`Error executing command: ${error}`);
-                    return res.status(500).json({ message: '重启失败' });
-                }
-                res.json({ message: 'System is rebooting...' });
+            if (error) {
+                console.error(`Error executing command: ${error}`);
+                return res.status(500).json({ message: '重启失败' });
+            }
+            res.json({ message: 'System is rebooting...' });
         });
     } else {
         res.status(403).json({ message: '密码错误' });
@@ -60,7 +60,79 @@ server.post('*', (req, res) => {
 
 //6.启动web服务器
 server.listen(8080, () => {
-    console.log('server running at localhost:8080');
+    // 读取./txt/PLC-CONF.txt和./txt/allProgramParams.json，更新setting.json
+    const plcConfPath = path.join(__dirname, 'txt', 'PLC-CONF.txt');
+    const settingPath = path.join(__dirname, 'txt', 'setting.json');
+    const allProgramParamsPath = path.join(__dirname, 'txt', 'allProgramParams.json');
+
+    // 读取 PLC-CONF.txt
+    fs.readFile(plcConfPath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('读取文件错误:', err);
+            return;
+        }
+
+        const lines = data.split('\n').map(line => line.trim());
+        const newSettings = {
+            "Native_IP": lines[0] || '',
+            "PCP_IP": lines[1] || '',
+            "DB_address": lines[2] || ''
+        };
+
+        // 读取现有的 settings.json
+        fs.readFile(settingPath, 'utf8', (err, settingsData) => {
+            if (err) {
+                console.error('读取 settings.json 错误:', err);
+                return;
+            }
+
+            let settings;
+            try {
+                settings = JSON.parse(settingsData);
+            } catch (parseErr) {
+                console.error('解析 JSON 错误:', parseErr);
+                return;
+            }
+
+            // 读取 allProgramParams.json
+            fs.readFile(allProgramParamsPath, 'utf8', (err, paramsData) => {
+                if (err) {
+                    console.error('读取 allProgramParams.json 错误:', err);
+                    return;
+                }
+
+                let allProgramParams;
+                try {
+                    allProgramParams = JSON.parse(paramsData);
+                } catch (parseErr) {
+                    console.error('解析 allProgramParams JSON 错误:', parseErr);
+                    return;
+                }
+
+                // 更新 programName
+                if (settings.programID && allProgramParams[settings.programID - 1]) {
+                    settings.programName = allProgramParams[settings.programID - 1].programName;
+                }
+
+                // 更新设置
+                Object.assign(settings, newSettings);
+
+                // 写回更新后的 settings.json
+                fs.writeFile(settingPath, JSON.stringify(settings, null, 2), (err) => {
+                    if (err) {
+                        console.error('写入文件错误:', err);
+                        return;
+                    }
+                    console.log('设置已更新:', settings);
+                });
+            });
+        });
+    });
+
+
+
+
+    console.log('server running at http://localhost:8080');
 })
 
 

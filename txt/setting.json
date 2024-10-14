@@ -1,15 +1,1 @@
-{
-  "inout_display": 0,
-  "NumberOfValves": 8,
-  "controlMode": 2,
-  "programName": "fasfas",
-  "programID": "6",
-  "Native_IP": "192.168.18.5",
-  "PCP_IP": "192.168.1.125",
-  "DB_address": "50",
-  "Version": "v1.2.5",
-  "isRunning": 0,
-  "isStepSave": 0,
-  "isOutputSave": 1,
-  "SN": "1234567890"
-}
+{"inout_display":0,"NumberOfValves":8,"controlMode":0,"programName":"aaa","programID":"1","Native_IP":"192.168.18.5","PCP_IP":"192.168.1.125","DB_address":"50","Version":"v1.2.5","isRunning":0,"isStepSave":0,"isOutputSave":1,"SN":"1234567890"}

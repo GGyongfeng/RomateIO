@@ -195,7 +195,7 @@ $(document).ready(function () {
 
     // 提交代码
     $(".nav button:eq(6)").click(function () {
-        if (confirm("确认提交吗？")) {
+        showCustomConfirm("确认保存吗？", () => {
             msg = getMsg();
             console.log('提交msg:\n' + msg);
             console.log('提交到:\n' + pgmTxtFilePath);
@@ -207,9 +207,9 @@ $(document).ready(function () {
 
             // 写指令
             $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
-        } else {
+        }, () => {
             // 取消操作
-        }
+        });
     })
 
     // 运行按钮

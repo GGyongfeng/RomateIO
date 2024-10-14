@@ -96,3 +96,22 @@ function re_btnContainer() {
         console.log("刷新btnContainer");
     })
 }
+
+
+// 确认对话框 确认 取消
+function showCustomConfirm(message, onConfirm, onCancel) {
+    $('#confirmMessage').text(message);
+    $('#customConfirm').fadeIn(100); 
+
+    // 确认按钮点击事件
+    $('#confirmYes').off('click').on('click', function () {
+        $('#customConfirm').fadeOut(100); 
+        if (onConfirm) onConfirm();
+    });
+
+    // 取消按钮点击事件
+    $('#confirmNo').off('click').on('click', function () {
+        $('#customConfirm').fadeOut(100); 
+        if (onCancel) onCancel();
+    });
+}

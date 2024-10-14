@@ -195,7 +195,8 @@ $(document).ready(function () {
 
     // 提交代码
     $(".nav button:eq(6)").click(function () {
-        showCustomConfirm("确认保存吗？", () => {
+        // {{ 替换为自定义提示框 }}
+        showCustomConfirm("确认提交吗？", () => {
             msg = getMsg();
             console.log('提交msg:\n' + msg);
             console.log('提交到:\n' + pgmTxtFilePath);

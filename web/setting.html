@@ -14,7 +14,9 @@
 <body>
     <header>
         <ul>
-            <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
+            <li><button class="back-button" onclick="window.history.back()">
+                    <img src="./img/arrow-undo-outline.svg" alt="返回">
+                </button></li>
             <li>
                 <p>系统设置(setting)</p>
             </li>
@@ -40,10 +42,10 @@
                 <div id="ContralMode" class="toggle-switch" style="width: 140px;">
                     <input type="radio" name="ContralMode" id="manualMode">
                     <label for="manualMode" class="switch-label">手动</label>
-        
+
                     <input type="radio" name="ContralMode" id="autoMode">
                     <label for="autoMode" class="switch-label">自动</label>
-                    
+
                     <input type="radio" name="ContralMode" id="PN-Mode">
                     <label for="PN-Mode" class="switch-label">PN</label>
 
@@ -55,24 +57,24 @@
                 <div id="stepOptions" class="toggle-switch">
                     <input type="radio" name="stepOptions" id="stepOptions1">
                     <label for="stepOptions1" class="switch-label">Yes</label>
-            
+
                     <input type="radio" name="stepOptions" id="stepOptions2">
                     <label for="stepOptions2" class="switch-label">No</label>
-            
+
                     <div class="slider" style="padding:0px"></div>
                 </div>
             </div>
-        
-        
+
+
             <div>
                 <span class="title-toggle">输出保存:</span>
                 <div id="outputOptions" class="toggle-switch">
                     <input type="radio" name="outputOptions" id="outputOptions1">
                     <label for="outputOptions1" class="switch-label">Yes</label>
-            
+
                     <input type="radio" name="outputOptions" id="outputOptions2">
                     <label for="outputOptions2" class="switch-label">No</label>
-            
+
                     <div class="slider" style="padding:0px"></div>
                 </div>
             </div>
@@ -83,7 +85,7 @@
             </div>
             <div class="btn-group " data-toggle="buttons">
                 <span>版本:</span>&nbsp;
-                <input type="text" name="Version">
+                <span>v1.3.0</span>
             </div>
         </div>
         <div class="eg-div">

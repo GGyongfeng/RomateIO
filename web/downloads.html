@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/android-chrome-512x512.png" type="image/x-icon">
+    <title>程序下载</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/downloads.css">
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><button class="back-button" onclick="window.history.back()">
+                    <img src="./img/arrow-undo-outline.svg" alt="返回">
+                </button></li>
+            <li>
+                <img Class='BeirenLogo' src="./img/logo.png" alt="密码">
+            </li>
+            <li><button><img src="./img/grid-outline.svg" alt="列表"></button></li>
+        </ul>
+    </header>
+
+    <div id="viewport">
+        <button class="btn" id="downloadBtn">
+            <p>配置下载</p>
+            <span>下载此设备中的全部配置zip文件</span>
+        </button>
+        <button class="btn" id="uploadBtn">
+            <p>配置上传</p>
+            <span>上传您的zip配置文件,以快速配置此设备</span>
+        </button>
+    </div>
+
+    <!-- 下载模态窗口 -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeDownload">×</span>
+            <div id="downloadMessage">下载此设备的全部配置内容</div>
+            <button class="btn" id="startDownload">下载配置</button>
+        </div>
+    </div>
+
+    <!-- 上传模态窗口 -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeUpload">×</span>
+            <input type="file" id="uploadFile" accept=".zip">
+            <div id="uploadStatus">请上传zip配置文件</div>
+            <button class="btn" id="startUpload">开始配置</button>
+        </div>
+    </div>
+
+    <!-- 在成功和失败的情况下的回调模态框 -->
+    <div id="restartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeRestart">×</span>
+            <div id="modalMessage"></div> <!-- 用于显示消息 -->
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.modal').hide(); // 确保模态框默认隐藏
+
+
+            $('#downloadBtn').click(function () {
+                $('#downloadModal').show();
+            });
+
+            $('#uploadBtn').click(function () {
+                $('#uploadModal').show();
+                // $('#uploadStatus').text(''); // 清空上传状态提示
+            });
+
+            $('.close').click(function () {
+                $(this).closest('.modal').hide();
+            });
+
+            $('#startDownload').click(function () {
+                $('#downloadMessage').text('正在下载...');
+                $.ajax({
+                    url: '/download',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ projects: "" }),
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (blob) {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = 'files.zip';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        $('#downloadMessage').text('下载完成！');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('下载错误:', error);
+                        $('#downloadMessage').text('下载失败，请重试。');
+                    }
+                });
+            });
+
+            // 取消自带提示
+            $('#uploadFile').change(function () {
+                if (this.files.length > 0) {
+                    $('#uploadStatus').text('已上传文件: ' + this.files[0].name);
+                } else {
+                    $('#uploadStatus').text('请上传zip配置文件');
+                }
+            });
+
+
+            $('#startUpload').click(function () {
+                const file = $('#uploadFile')[0].files[0]; // 获取用户选择的文件
+
+                // 检查是否选择了文件
+                if (!file) {
+                    $('#uploadStatus').text('请先选择一个 ZIP 文件。');
+                    return;
+                }
+
+                if (confirm('是否上传配置文件，这将覆盖所有本地配置')) {
+                    const formData = new FormData();
+                    formData.append('zipFile', file); // 将文件添加到 FormData 对象
+
+                    $('#uploadStatus').text('正在上传...'); // 显示上传状态
+
+                    // 发送 AJAX 请求
+                    $.ajax({
+                        url: '/upload-zip',
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            $('#uploadStatus').text(response);
+
+                            $('#modalMessage').text(response); // 设置成功消息
+                            $('#restartModal').show(); // 显示模态框
+
+                        },
+                        error: function (xhr, status, error) {
+                            $('#uploadStatus').text('配置更新失败');
+
+                            $('#modalMessage').text('zip中缺少必要文件,请检查后尝试'); // 设置失败消息
+                            $('#restartModal').show(); // 显示模态框
+                        }
+                    });
+
+                    // 关闭模态框的逻辑
+                    $('#closeRestart').click(function () {
+                        $('#restartModal').hide(); // 关闭模态框
+                    });
+
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

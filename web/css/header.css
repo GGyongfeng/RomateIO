@@ -36,11 +36,29 @@ header img {
     transition: 0.2s;
 }
 
-header .BeirenLogo{
+header img:hover {
+    transform: scale(1.05);
+}
+
+header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+header .back-button:hover img {
+    opacity: 0.7;
+    /* 悬停时改变图像透明度 */
+    transform: scale(1.05);
+}
+
+header .BeirenLogo {
     height: 45px;
     width: auto;
-}
-header img:hover {
-    /* 鼠标悬停时，宽度和高度放大到原来的103% 且中心位置不变 */
-    transform: scale(1.05);
 }

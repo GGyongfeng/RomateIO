@@ -109,7 +109,9 @@
 <body>
     <header>
         <ul>
-            <li><a href="index.html"><img src="./img/arrow-undo-outline.svg" alt="返回"></a></li>
+            <li> <button class="back-button" onclick="window.history.back()">
+                    <img src="./img/arrow-undo-outline.svg" alt="返回">
+                </button></li>
             <li>
                 <p>信号配置</p>
             </li>
@@ -175,7 +177,7 @@
             <button onclick="closeCustomAlert()">确定</button>
         </div>
     </div>
-    
+
     <!-- 自定义确认对话框 -->
     <div id="customConfirm" style="display: none;">
         <div class="confirm-box">

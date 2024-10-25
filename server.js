@@ -4,8 +4,17 @@ const path = require('path');
 const express = require('express');
 const { exec } = require('child_process');
 
+const archiver = require('archiver');
+const unzipper = require('unzipper');
+const multer = require('multer');
+
 //2.创建web服务器框架
 const server = express();
+const upload = multer({ 
+    dest: 'uploads/', // 上传文件临时存放目录
+    limits: { fileSize: 1 * 1024 * 1024 } // 限制为 1MB
+});
+
 
 var bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +29,71 @@ server.use(express.json());
 
 
 //4.接受post请求
+// 处理上传 ZIP 文件的 POST 请求
+server.post('/upload-zip', upload.single('zipFile'), (req, res) => {
+    // 检查是否有文件
+    if (!req.file) {
+        return res.status(400).send('未上传文件或文件过大，请确保文件小于1MB。');
+    }
+
+    const zipPath = req.file.path; // 获取上传的 ZIP 文件路径    
+    const extractPath = path.join('uploads', 'extracted'); // 设置解压路径
+
+    // 解压 ZIP 文件
+    fs.createReadStream(zipPath)
+        .pipe(unzipper.Extract({ path: extractPath })) // 解压到指定路径
+        .on('close', () => {
+            const extractedFiles = fs.readdirSync(extractPath); // 读取解压后的文件
+            const isValid = checkZipFile(extractedFiles); // 验证文件是否符合要求
+
+            if (isValid) {
+                fs.rmSync('./txt', { recursive: true }); // 删除原 txt 文件夹
+                fs.renameSync(extractPath, './txt'); // 将解压文件夹重命名为 txt
+
+                res.status(200).send('配置更新成功'); // 成功响应
+            } else {
+                fs.rmSync(extractPath, { recursive: true, force: true }); // 删除解压内容
+                res.status(400).send('上传文件版本与当前设备的版本不一致,\n可能存在错误,\n请更新后尝试'); // 失败响应
+            }
+
+            fs.unlinkSync(zipPath); // 删除上传的 ZIP 文件
+        })
+        .on('error', (err) => {
+            console.error(err);
+            res.status(500).send('服务器配置过程中出现错误'); // 处理解压错误
+        });
+});
+
+// 处理下载文件的代码
+server.post('/download', (req, res) => {
+    const { projects } = req.body;
+
+    if (projects === "") {
+        const zipName = 'files.zip';
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', `attachment; filename=${zipName}`);
+
+        const archive = archiver('zip');
+        archive.pipe(res);
+
+        const dir = './txt';
+
+        archive.directory(dir, false);
+
+        archive.on('error', (err) => {
+            return res.status(500).send({ error: err.message });
+        });
+
+        archive.finalize().then(() => {
+            console.log('打包完成');
+        }).catch((err) => {
+            return res.status(500).send({ error: err.message });
+        });
+    } else {
+        res.status(400).send('Invalid project data');
+    }
+});
+
 // 处理reboot的post请求
 const rebootPSW = '6688';
 server.post('/reboot', (req, res) => {
@@ -144,4 +218,14 @@ function writeToPLC_CONF(data) {
     const content = `${Native_IP}\n${PCP_IP}\n${DB_address}`;
     const plcConfPath = path.join(__dirname, 'txt', 'PLC-CONF.txt');
     fs.writeFile(plcConfPath, content, 'utf-8', () => { });
+}
+
+
+// 上传配置信息时对比版本是否一致
+function checkZipFile(files) {
+    // 需要检查的文件名
+    const requiredFiles = ['PLC-CONF.txt', 'setting.json', 'allProgramParams.json'];
+
+    // 检查每个需要的文件是否在提供的文件列表中
+    return requiredFiles.every(file => files.includes(file));
 }

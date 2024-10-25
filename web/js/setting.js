@@ -37,8 +37,6 @@ $(document).ready(function () {
                 $('input[name="db_address"]').val(settings.DB_address);
                 // 显示SN号
                 $('input[name="SN"]').val(settings.SN);
-                // 显示版本号
-                $('input[name="Version"]').val(settings.Version);
                 // 设置程序选中项
                 $('#productSelection').val(settings.programID);
 

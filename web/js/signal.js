@@ -7,11 +7,6 @@ $(document).ready(function () {
     var num = [];
     var port = 0;
     var choose = "close"
-    // 切换手动
-    $.post("./command.txt", { data: "SP,hand.txt" }, function (res) {
-        console.log(res);
-    });
-
 
     $.when(
         $.get("./setting.json"),
@@ -20,6 +15,7 @@ $(document).ready(function () {
         // res1[0] 是 ./setting.json 的响应数据内容
         // res2[0] 是 ./allProgramParams.json 的响应数据内容
         settings = res1[0];
+
         allProgramParams = res2[0];
         // 所选程序的阀门参数
         var valveParam = allProgramParams[settings.programID - 1].valve;
@@ -27,6 +23,15 @@ $(document).ready(function () {
 
         if (settings.isRunning === 1) {
             showCustomAlert("请先终止程序运行，再进行信号编辑");
+        } else {
+            $.ajax({
+                type: "post",
+                url: "./command.txt",
+                data: { data: "SP,hand.txt" },
+                success: function (res) {
+                    console.log(res);
+                }
+            })
         }
 
         new Vue({
@@ -184,9 +189,9 @@ $(document).ready(function () {
 // 显示弹窗
 function showCustomAlert(message) {
     $('#alertMessage').text(message);
-    $('#customAlert').fadeIn(100); 
+    $('#customAlert').fadeIn(100);
 }
 
 function closeCustomAlert() {
-    $('#customAlert').fadeOut(100); 
+    $('#customAlert').fadeOut(100);
 }

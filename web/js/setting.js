@@ -64,20 +64,20 @@ $(document).ready(function () {
 
 
                 // 重启按钮
-                $('.reboot-btn').click(function() {
+                $('.reboot-btn').click(function () {
                     // 显示输入密码框
                     var password = prompt('输入密码后重启系统:');
-                    
-                    if (password !== null) { 
+
+                    if (password !== null) {
                         $.ajax({
                             url: '/reboot',
                             method: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({ password: password }),
-                            success: function(response) {
+                            success: function (response) {
                                 alert(response.message);
                             },
-                            error: function(xhr, status, error) {
+                            error: function (xhr, status, error) {
                                 alert('Error: ' + xhr.responseJSON.message);
                             }
                         });
@@ -99,23 +99,23 @@ $(document).ready(function () {
                 // 初始化显示
                 if (settings.controlMode === 1) {
                     $('#manualMode').prop('checked', true);
-                    $('#ContralMode .slider').css('left', '0'); 
+                    $('#ContralMode .slider').css('left', '0');
                 } else if (settings.controlMode === 0) {
                     $('#autoMode').prop('checked', true);
-                    $('#ContralMode .slider').css('left', '32%'); 
-                }else if (settings.controlMode === 2) {
+                    $('#ContralMode .slider').css('left', '32%');
+                } else if (settings.controlMode === 2) {
                     $('#PN-Mode').prop('checked', true);
-                    $('#ContralMode .slider').css('left', '65%'); 
+                    $('#ContralMode .slider').css('left', '65%');
                 }
 
-                $('input[name="ContralMode"]').on('change', function() {
+                $('input[name="ContralMode"]').on('change', function () {
                     if ($('#manualMode').is(':checked')) {
                         settings.controlMode = 1;
                         $('#ContralMode .slider').css('left', '0');
                     } else if ($('#autoMode').is(':checked')) {
                         settings.controlMode = 0;
                         $('#ContralMode .slider').css('left', '32%');
-                    }else if($('#PN-Mode').is(':checked')){
+                    } else if ($('#PN-Mode').is(':checked')) {
                         settings.controlMode = 2;
                         $('#ContralMode .slider').css('left', '65%');
                     }
@@ -134,14 +134,14 @@ $(document).ready(function () {
                 // 根据 settings.isStepSave 的值设置初始状态
                 if (settings.isStepSave === 1) {
                     $('#stepOptions1').prop('checked', true);
-                    $('#stepOptions .slider').css('left', '0'); 
+                    $('#stepOptions .slider').css('left', '0');
                 } else if (settings.isStepSave === 0) {
                     $('#stepOptions2').prop('checked', true);
-                    $('#stepOptions .slider').css('left', '50%'); 
+                    $('#stepOptions .slider').css('left', '50%');
                 }
-            
+
                 // 当选项改变时，更新 settings.isStepSave 变量
-                $('input[name="stepOptions"]').on('change', function() {
+                $('input[name="stepOptions"]').on('change', function () {
                     if ($('#stepOptions1').is(':checked')) {
                         settings.isStepSave = 1;
                         $('#stepOptions .slider').css('left', '0');
@@ -159,14 +159,14 @@ $(document).ready(function () {
                 // 根据 settings.isOutputSave 的值设置初始状态
                 if (settings.isOutputSave === 1) {
                     $('#outputOptions1').prop('checked', true);
-                    $('#outputOptions .slider').css('left', '0'); 
+                    $('#outputOptions .slider').css('left', '0');
                 } else if (settings.isOutputSave === 0) {
                     $('#outputOptions2').prop('checked', true);
-                    $('#outputOptions .slider').css('left', '50%'); 
+                    $('#outputOptions .slider').css('left', '50%');
                 }
-            
+
                 // 当选项改变时，更新 settings.isOutputSave 变量
-                $('input[name="outputOptions"]').on('change', function() {
+                $('input[name="outputOptions"]').on('change', function () {
                     if ($('#outputOptions1').is(':checked')) {
                         settings.isOutputSave = 1;
                         $('#outputOptions .slider').css('left', '0');

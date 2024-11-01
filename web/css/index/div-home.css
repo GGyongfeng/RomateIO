@@ -6,8 +6,22 @@
 /* *********************************** */
 
 /* ************************************ */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
 #div-home {
-    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* div-home模块 */
@@ -15,7 +29,6 @@
     /* position: relative; */
     margin: 0;
     padding: 0;
-    margin-top: 20px;
 
     /* flex盒子设置:主轴水平 平均排布 可换行 竖直平均排布*/
     display: flex;
@@ -39,7 +52,7 @@
     color: #1A2029;
     /* 圆角 */
     border-radius: 30px;
-
+    position: relative;
     /* flex 纵向并居中 适合一个图标+一个词语*/
     display: flex;
     flex-direction: column;
@@ -71,4 +84,118 @@
     opacity: 0.8;
     width: 45px;
     margin-bottom: 5px;
+}
+
+
+/* **************提示框 CSS ****************/
+/* 提示框 CSS */
+#alert-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* 深色半透明背景 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#alert-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    /* 圆角 */
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* 更柔和的阴影 */
+    max-width: 350px;
+    /* 自适应宽度 */
+    animation: fadeIn 0.15s ease;
+    /* 更快的动画效果 */
+}
+
+#alert-message {
+    font-size: 18px;
+    /* 字体大小 */
+    margin-bottom: 20px;
+    /* 下方间距 */
+    color: #333;
+    /* 字体颜色 */
+}
+
+#alert-close {
+    padding: 8px 16px;
+    background-color: #007bff;
+    /* 主要颜色 */
+    color: white;
+    /* 字体颜色 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    /* 按钮过渡效果 */
+}
+
+#alert-close:hover {
+    background-color: #0056b3;
+    /* 悬停效果 */
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* 指示器 */
+.indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* 圆形 */
+    transition: background-color 0.3s; /* 过渡效果 */
+}
+
+/* 绿色闪烁状态 */
+.indicator.blink {
+    background-color: green; /* 闪烁颜色 */
+    animation: pulse 1s infinite; /* 脉动效果 */
+}
+
+/* 绿色长亮状态 */
+.indicator.on {
+    background-color: green; /* 长亮颜色 */
+    animation: none; /* 关闭脉动动画 */
+}
+
+/* 红色状态 */
+.indicator.off {
+    background-color: red; /* 红色 */
+    animation: none; /* 关闭脉动动画 */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7; /* 脉动时稍微透明 */
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

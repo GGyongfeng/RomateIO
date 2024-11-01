@@ -1,0 +1,74 @@
+<style>
+    header {
+        /* 设置位置  */
+        position: fixed;
+        top: 0;
+        /* 宽度范围 */
+        max-width: 600px;
+        min-width: 320px;
+        /* 背景色 */
+        background-color: #F7F7F7;
+        /* 设置大小 */
+        width: 100%;
+        z-index: 2;
+    }
+
+    header ul {
+        margin: 0;
+        margin-top: 5px;
+        /* flex盒子 垂直居中 */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header ul li {
+        list-style: none;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    header img {
+        width: 25px;
+        /* 透明度 */
+        opacity: 0.8;
+        transition: 0.2s;
+    }
+
+    header img:hover {
+        transform: scale(1.05);
+    }
+
+    header button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    header .back-button:hover img {
+        opacity: 0.7;
+        /* 悬停时改变图像透明度 */
+        transform: scale(1.05);
+    }
+
+    header .BeirenLogo {
+        height: 45px;
+        width: auto;
+    }
+</style>
+
+<ul>
+    <li><button class="back-button" onclick="window.history.back()">
+            <img src="./img/arrow-undo-outline.svg" alt="返回">
+        </button></li>
+    <li>
+        <p>系统设置(setting)</p> <!-- 初始内容 -->
+    </li>
+    <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
+</ul>

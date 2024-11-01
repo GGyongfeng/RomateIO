@@ -29,8 +29,6 @@ header ul li {
 
 header img {
     width: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
     /* 透明度 */
     opacity: 0.8;
     transition: 0.2s;

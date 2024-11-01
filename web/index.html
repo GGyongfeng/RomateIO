@@ -7,21 +7,23 @@
     <link rel="icon" href="./img/android-chrome-512x512.png" type="image/x-icon">
     <title>北人夹具控制器</title>
 
+    <!-- <link rel="stylesheet" href="./Frame/bootstrap.min.css"> -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/index/footer.css">
-    <link rel="stylesheet" href="./css/index/div-home.css">
     <link rel="stylesheet" href="./css/index/div-usr.css">
+    <link rel="stylesheet" href="./css/index/div-home.css">
 
-    <script src="./OpenSourceFramework/jquery-3.7.1-min.js"></script>
-    <script src="./OpenSourceFramework/vue.min.js"></script>
-    
+    <script src="./Frame/jquery-3.7.1-min.js"></script>
+    <!-- <script src="./Frame/bootstrap.bundle.min.js"></script> -->
+    <script src="./Frame/vue.min.js"></script>
+
 </head>
 
 <body>
     <header>
         <ul>
-            <li><img src="./img/person-circle-outline.svg" style="width: 28px;"></li>
+            <li><img src="./img/person-circle-outline.svg"></li>
             <li>
                 <!-- <p>RomateIO</p> -->
                 <img Class='BeirenLogo' src="./img/logo.png" alt="密码">
@@ -32,27 +34,28 @@
     <div id="viewport">
         <div id="div-home" class="page">
             <ul class="container">
-                <li><a href="#">
+                <li><a class="" href="ZTCK.html">
                         <img src="./img/search-circle-outline.svg" alt="程序查看" />
                         <span>运行状态</span>
                     </a>
                 </li>
-                <li><a href="setting.html">
+                <li><a class='others' href="setting.html">
                         <img src="./img/settings-outline.svg" alt="系统设置" />
                         <span>系统设置</span>
                     </a>
                 </li>
-                <li><a href="./signal.html">
+                <li><a class='others' href="./signal.html">
                         <img src="./img/logo-rss.svg" alt="信号配置" />
                         <span>信号配置</span>
                     </a>
                 </li>
-                <li><a href="edit.html">
+                <li><a class='YXZT' href="edit.html">
+                        <div class="indicator"></div>
                         <img src="./img/create-outline.svg" alt="程序编辑" />
                         <span>程序编辑</span>
                     </a>
                 </li>
-                <li><a href="manual.html">
+                <li><a class='others' href="manual.html">
                         <img src="./img/hand-left-outline.svg" alt="手动测试" width="" />
                         <span>手动测试</span>
                     </a>
@@ -63,6 +66,14 @@
                     </a>
                 </li>
             </ul>
+
+            <div id="alert-box" style="display:none;">
+                <div id="alert-content">
+                    <span id="alert-message">程序正在运行，无法进行操作。</span>
+                    <button id="alert-close">关闭</button>
+                </div>
+            </div>
+
         </div>
         <div id="div-usr" class="page">
             <ul class="box">
@@ -94,6 +105,8 @@
 </body>
 
 <script>
+    var settings = "111";
+
     $(document).ready(function () {
         // 给左侧菜单栏添加点击事件处理程序
         $("footer ul li a").click(function () {
@@ -109,6 +122,44 @@
         // 初始显示home页
         $('#div-home').show();
         $('#div-usr').hide();
+
+        $.ajax({
+            url: './setting.json',
+            dataType: 'json',
+            cache: false, // 禁用缓存
+            success: function (data) {
+                settings = data; // 将响应数据存入 settings 变量
+                console.log(settings); // 打印设置以验证
+
+
+                if (settings.isRunning === 1) {
+                    $('.indicator').addClass('blink'); // 添加闪烁样式
+
+                    $('a.others').on('click', function (event) {
+                        event.preventDefault();
+                        const actionName = $(this).find('span').text(); // 获取对应的操作名称
+                        $('#alert-message').text(`程序正在运行，无法进行“${actionName}”`); // 动态更新提示信息
+                        $('#alert-box').fadeIn();
+                    });
+                }
+
+                // 关闭提示框
+                $('#alert-close').on('click', function () {
+                    $('#alert-box').fadeOut();
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('获取设置失败:', textStatus, errorThrown);
+            }
+        });
+
+
+
+        // 清除settings的缓存
+        $(window).on('unload', function () {
+            sessionStorage.removeItem('settings');
+        });
+
     })
 </script>
 

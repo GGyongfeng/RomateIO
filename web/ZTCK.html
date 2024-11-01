@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- 引入 jQuery -->
+</head>
+
+<body>
+    <header></header>
+
+
+    <script>
+        $(document).ready(function () {
+            $('header').load('./module/header.html', function () {
+                $(this).find('p').text('运行状态'); // 将<p>内容改为“运行状态”
+            });
+        });
+    </script>
+</body>
+
+</html>

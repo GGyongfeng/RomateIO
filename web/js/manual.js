@@ -7,6 +7,18 @@ $(document).ready(function () {
         // res1[0] 是 ./setting.json 的响应数据内容
         // res2[0] 是 ./allProgramParams.json 的响应数据内容
         settings = res1[0];
+
+        if (settings.isRunning === 0) {
+            $.ajax({
+                type: "post",
+                url: "./command.txt",
+                data: { data: "SP,hand.txt" },
+                success: function (res) {
+                    console.log(res);
+                }
+            })
+        };
+
         allProgramParams = res2[0];
         // 所选程序的阀门参数
         valveParam = allProgramParams[settings.programID - 1].valve;
@@ -126,14 +138,5 @@ $(document).ready(function () {
                 });
             }
         })
-    })
-
-    $.ajax({
-        type: "post",
-        url: "./command.txt",
-        data: { data: "SP,hand.txt" },
-        success: function (res) {
-            console.log(res);
-        }
     })
 });

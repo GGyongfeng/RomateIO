@@ -7,6 +7,14 @@ function getMsg() {
         // 检查这个元素的 class 是否包含特定的类名
         if ($step.hasClass('action')) {
             // 在这里处理 “动作” 步骤
+            // 调用 getAction 并检查返回值
+            let actionResult = getAction(S);
+
+            // 如果 actionResult 为 false，即没有条件被选择，则返回当前 S 值
+            if (actionResult === false) {
+                return { message: (S + 1), success: actionResult }; 
+            }
+
             Msg = Msg + 'S' + (S + 1) + ':' + getAction(S);
         } else if ($step.hasClass('wait')) {
             // 在这里处理 “等待释放” 步骤
@@ -37,7 +45,7 @@ function getMsg() {
             console.log('Step ' + (S + 1) + ' has no recognized class.');
         }
     }
-    return Msg;
+    return { message: Msg, success: true }; 
 }
 
 // 动作步骤 框图→程序
@@ -111,25 +119,32 @@ function getAction(S) {
 
     // 获取$step下的条件选择栏
     let $div2 = $step.find('.action-bar');
-    let text2 = $div2.find('.select').text();
-    // CN为没有需要等待的信号，界面上的“连续步”
-    // CW为没有需要等待的信号，界面上的“双手XXX”
-    // C1010为没有需要等待的信号，界面上的“编码”
-    switch (text2) {
-        case "连续步":
-            Msg = Msg + "CN" + "\n";
-            break;
-        case "按钮启动":
-            Msg = Msg + "CW" + "\n";
-            break;
-        case "外部编码":
-            Msg = Msg + "\n";
-            break;
-        default:
-            Msg = Msg + text2 + "\n";
-            // console.log("此步动作未选择条件");
-            break;
+
+    // 检查 $div2 中是否存在 .select
+    if ($div2.find('.select').length > 0) {
+        let text2 = $div2.find('.select').text();
+        // CN为没有需要等待的信号，界面上的“连续步”
+        // CW为没有需要等待的信号，界面上的“双手XXX”
+        // C1010为没有需要等待的信号，界面上的“编码”
+        switch (text2) {
+            case "连续步":
+                Msg = Msg + "CN" + "\n";
+                break;
+            case "按钮启动":
+                Msg = Msg + "CW" + "\n";
+                break;
+            case "外部编码":
+                Msg = Msg + "\n";
+                break;
+            default:
+                Msg = Msg + text2 + "\n";
+                // console.log("此步动作未选择条件");
+                break;
+        }
+    } else {
+        return false;
     }
+
     return Msg;
 }
 

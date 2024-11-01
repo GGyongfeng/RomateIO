@@ -195,22 +195,29 @@ $(document).ready(function () {
 
     // 提交代码
     $(".nav button:eq(6)").click(function () {
-        // {{ 替换为自定义提示框 }}
-        showCustomConfirm("确认提交吗？", () => {
-            msg = getMsg();
-            console.log('提交msg:\n' + msg);
-            console.log('提交到:\n' + pgmTxtFilePath);
-            re_program = getReProgram();
+        // 调用 getMsg() 并检查成功与否
+        if (getMsg().success) {
+            showCustomConfirm("确认提交吗？", () => {
+                msg = getMsg().message;
+                console.log('提交msg:\n' + msg);
+                console.log('提交到:\n' + pgmTxtFilePath);
+                re_program = getReProgram();
 
-            // 提交程序
-            $.post(pgmTxtFilePath, { data: msg });
-            $.post(repgmTxtFilePath, { data: re_program });
+                // 提交程序
+                $.post(pgmTxtFilePath, { data: msg });
+                $.post(repgmTxtFilePath, { data: re_program });
 
-            // 写指令
-            $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
-        }, () => {
-            // 取消操作
-        });
+                // 写指令
+                $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
+            }, () => {
+                // 取消操作
+            });
+        } else {
+            // 如果不成功，弹出提示框
+            alert('第 ' + getMsg().message + ' 步没有选择条件'); // 提示框显示消息
+        }
+
+
     })
 
     // 运行按钮

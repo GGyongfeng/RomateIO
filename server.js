@@ -118,9 +118,7 @@ server.post('*', (req, res) => {
     const fpath = path.join(__dirname, 'txt', url);
 
     // 接受的数据data写入到指定url位置
-    fs.writeFile(fpath, data, 'utf-8', function (err) {
-        if (err) { return console.log('读取失败'); }
-    });
+    writeToFile(fpath, data);
 
     // IP地址和DB地址写入到PLC_CONF.txt
     if (url === '/setting.json') {
@@ -227,4 +225,24 @@ function checkZipFile(files) {
 
     // 检查每个需要的文件是否在提供的文件列表中
     return requiredFiles.every(file => files.includes(file));
+}
+
+function writeToFile(fpath, data) {
+    // 获取目录路径
+    const dir = path.dirname(fpath);
+    
+    // 检查目录是否存在
+    fs.mkdir(dir, { recursive: true }, (err) => {
+        if (err) {
+            return console.log('创建目录失败:', err);
+        }
+        
+        // 目录创建成功，写入文件
+        fs.writeFile(fpath, data, 'utf-8', function (err) {
+            if (err) {
+                return console.log('写入文件失败:', err);
+            }
+            console.log('文件写入成功');
+        });
+    });
 }

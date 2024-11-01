@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/SettingPage.css">
+
+    <style>
+        .valueinput {
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+            width: 169px;
+        }
+    </style>
 </head>
 
 <body>
@@ -81,11 +93,11 @@
 
             <div class="btn-group " data-toggle="buttons" style="padding-top: 10px;">
                 <span>本机SN:</span>&nbsp;
-                <input type="input" name="SN">
+                <input type="input" name="SN" class="valueinput">
             </div>
             <div class="btn-group " data-toggle="buttons">
                 <span>版本:</span>&nbsp;
-                <span>v1.3.2</span>
+                <input type="text" name="Version" value="版本：1.0.0" class="valueinput "  style=" width:80px;cursor: default;" readonly />
             </div>
         </div>
         <div class="eg-div">
@@ -107,15 +119,15 @@
             </div> -->
             <div style="padding-top: 10px;">
                 <span>本机IP:</span>&nbsp;
-                <input type="text" name="native_ip">
+                <input type="text" name="native_ip"  class="valueinput ">
             </div>
             <div>
                 <span>PLC IP:</span>&nbsp;
-                <input type="text" name="pcp_ip">
+                <input type="text" name="pcp_ip"  class="valueinput ">
             </div>
             <div>
                 <span>DB地址:</span>&nbsp;
-                <input type="text" name="db_address">
+                <input type="text" name="db_address"  class="valueinput ">
             </div>
         </div>
         <div class="eg-div">
@@ -123,20 +135,20 @@
             <span style="width: 100%;padding-left: 20px;">用户名修改：</span>
             <div class="btn-group " data-toggle="buttons">
                 <span>旧名:</span>&nbsp;
-                <input type="input">
+                <input type="input"  class="valueinput ">
             </div>
             <div style="padding-top: 12px;" class="btn-group " data-toggle="buttons">
                 <span>新名:</span>&nbsp;
-                <input type="input">
+                <input type="input"  class="valueinput ">
             </div>
             <span style="width: 100%;padding-left: 20px;">密码修改：</span>
             <div class="btn-group " data-toggle="buttons">
                 <span>旧密码:</span>&nbsp;
-                <input type="input">
+                <input type="input"  class="valueinput ">
             </div>
             <div style="padding-top: 12px;" class="btn-group " data-toggle="buttons">
                 <span>新密码:</span>&nbsp;
-                <input type="input">
+                <input type="input"  class="valueinput ">
             </div>
         </div>
     </div>

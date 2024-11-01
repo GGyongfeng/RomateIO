@@ -17,6 +17,7 @@
     <script src="./Frame/jquery-3.7.1-min.js"></script>
     <!-- <script src="./Frame/bootstrap.bundle.min.js"></script> -->
     <script src="./Frame/vue.min.js"></script>
+    <script src="./js/public.js"></script>
 
 </head>
 
@@ -90,6 +91,7 @@
                 <li><a href="login.html"><span>退出登录</span></a></li>
             </ul>
         </div>
+        <div id="VersionCheck"></div>
     </div>
     <footer>
         <ul>
@@ -108,6 +110,11 @@
     var settings = "111";
 
     $(document).ready(function () {
+        // 引入版本检查模块
+        $('#VersionCheck').load('./module/VersionCheck.html', function () {
+            console.log('版本检查模块已加载');
+        });
+
         // 给左侧菜单栏添加点击事件处理程序
         $("footer ul li a").click(function () {
             var target = $(this).data('target');

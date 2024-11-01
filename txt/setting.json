@@ -7,9 +7,10 @@
     "Native_IP": "192.168.18.5",
     "PCP_IP": "192.168.1.125",
     "DB_address": "50",
-    "isRunning": 1,
+    "isRunning": 0,
     "isStepSave": 0,
     "isOutputSave": 1,
     "SN": "1234567890",
-    "VersionCheck":0
+    "VersionChecked": 0,
+    "Version": "v1.4.2"
 }

@@ -1,0 +1,169 @@
+<style>
+    /* 模态框背景 */
+    .modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* 半透明黑色背景 */
+        z-index: 1000;
+        /* 确保在最上层 */
+    }
+
+    /* 模态框内容 */
+    .modal-content {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: auto;
+        max-width: 90%;
+        /* 根据需要调整宽度 */
+        text-align: center;
+        /* 中心对齐文本 */
+    }
+
+    /* 标题样式 */
+    .modal-content h2 {
+        margin-bottom: 15px;
+        font-size: 1.5em;
+        /* 调整标题大小 */
+    }
+
+    /* 段落样式 */
+    /* 段落样式 */
+    .modal-content p {
+        margin: 5px 0;
+        /* 将上下间距设置为5px */
+        font-size: 1em;
+        /* 正文字体大小 */
+    }
+
+    /* 按钮容器 */
+    .modal-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+
+    /* 确定按钮 */
+    #confirmBtn {
+        background-color: #4CAF50;
+        /* 确定按钮的绿色 */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    #confirmBtn:hover {
+        background-color: #45a049;
+        /* 鼠标悬停时的颜色 */
+    }
+
+    /* 不再提醒按钮 */
+    #dismissBtn {
+        background-color: #d3d3d3;
+        /* 不再提醒按钮的灰色 */
+        color: #666;
+        /* 灰色文字 */
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    #dismissBtn:hover {
+        background-color: #c0c0c0;
+        /* 鼠标悬停时的颜色 */
+    }
+
+    /* 更新内容列表的样式 */
+    .update-list {
+        display: flex;
+        /* 设置为 flexbox */
+        flex-direction: column;
+        /* 垂直排列子元素 */
+        align-items: flex-start;
+        /* 子元素左对齐 */
+    }
+
+    /* 段落样式 */
+    .update-list p {
+        margin: 5px 5px;
+        /* 将上下间距设置为5px */
+        font-size: 1em;
+        /* 正文字体大小 */
+        width: 100%;
+        /* 确保段落占满父容器宽度 */
+        text-align: left;
+        /* 再次确保文本左对齐 */
+    }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        // 加载设置
+        $.ajax({
+            url: './setting.json',
+            dataType: 'json',
+            success: function (settings) {
+                if (settings.VersionChecked === 0) {
+                    $('#versionModal').show(); // 显示版本更新提示框
+                }
+            },
+            error: function () {
+                console.error('无法加载设置文件。');
+            }
+        });
+
+        $('#confirmBtn').click(function () {
+            // 处理确定按钮点击事件
+            $('#versionModal').hide(); // 关闭提示框
+        });
+
+        $('#dismissBtn').click(function () {
+            // 处理不再提醒按钮点击事件
+            const userConfirmed = confirm(`确定您已经仔细阅读更新内容了吗?\n\n这将使得您将不再收到 ${settings.Version} 更新提示。\n`);
+
+            if (userConfirmed) {
+                settings.VersionChecked = 1; // 更新设置
+                SendSetting(settings); // 发送更新的设置
+                $('#versionModal').hide(); // 关闭提示框
+            }
+        });
+
+
+    });
+</script>
+
+<div class="modal" id="versionModal" style="display: none;">
+    <div class="modal-content">
+        <h2>版本更新 v1.4.1</h2>
+        <div class="update-list">
+            <p>1. 更新了<b>跨设备配置</b>功能（主页->我的->跨设备配置）</p>
+            <p>2. 更新了设置<b>输入框的样式</b></p>
+            <p>3. bug修复:程序运行时，对其他操作增加限制</p>
+            <p>4. 主页的程序编辑添加<b>提示器</b>显示运行运行状态：</p>
+            <p>&ensp;&ensp;---正常运行绿色闪烁</p>
+            <p>&ensp;&ensp;---运行异常红色</p>
+            <p>5. 更新内容提醒功能</p>
+            <p>6. bug修复:模拟运行/双手启动/外部编码--必须选一个</p>
+        </div>
+        <div class="modal-buttons">
+            <button id="dismissBtn">不再提醒</button>
+            <button id="confirmBtn">确定</button>
+        </div>
+    </div>
+</div>

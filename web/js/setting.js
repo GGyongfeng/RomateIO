@@ -179,6 +179,29 @@ $(document).ready(function () {
                 });
 
 
+                // 显示并设置超时时间
+                $('#timeoutInput').val(settings.Timeout);
+                $('#timeoutInput').on('blur', function() {
+                    const inputValue = $(this).val();
+                    // 检查是否为整数
+                    if (!/^\d+$/.test(inputValue)) {
+                        alert('请输入整数');
+                        $(this).val(settings.Timeout);
+                        return;
+                    }
+                    
+                    const timeoutValue = parseInt(inputValue);
+                    if (timeoutValue >= 5 && timeoutValue <= 20) {
+                        settings.Timeout = timeoutValue;
+                    } else {
+                        alert('请输入5-20之间的整数');
+                        $(this).val(settings.Timeout); // 重置为原始值
+                    }
+                });
+
+
+
+
                 // 程序下拉选项框
                 $('#productSelection').change(function () {
                     let selectedValue = $(this).val(); // 获取选中的值

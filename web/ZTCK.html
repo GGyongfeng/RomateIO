@@ -140,7 +140,7 @@
             top: 15px;
             /* 距离顶部15px */
         }
-        
+
         .fault-messages {
             color: #333;
             /* 文本颜色 */
@@ -150,7 +150,7 @@
             /* 下边距 */
             margin-top: 10px;
         }
-        
+
         .fault-description p {
             margin-top: 5px;
             margin-bottom: 5px;
@@ -216,6 +216,22 @@
             color: white;
             /* 高亮文本颜色 */
         }
+
+        /* 复位按钮 */
+        .reset-btn {
+            position: absolute;
+            right: 30px;
+            padding: 3px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .reset-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 
@@ -250,6 +266,7 @@
                 <div class="control-mode-select">
                     <span class="light fault-light"></span>
                     <span class="status-text fault-status-text">正常</span>
+                    <button class="reset-btn">复位</button>
                 </div>
             </div>
         </div>
@@ -362,8 +379,29 @@
                         faultMessages.forEach(message => {
                             $('.fault-messages').append(`<p>${message}</p>`);
                         });
+
+                        // 复位按钮生效
+                        $('.reset-btn')
+                            .prop('disabled', false)
+                            .css({
+                                'background-color': '#007bff',
+                                'cursor': 'pointer'
+                            })
+                            .hover(
+                                function () { $(this).css('background-color', '#0056b3'); },
+                                function () { $(this).css('background-color', '#007bff'); }
+                            );
+
                     } else {
                         $('.fault-messages').append(`<p>无故障</p>`); // 显示无故障
+                       
+                        // 复位按钮不可点击
+                        $('.reset-btn')
+                            .prop('disabled', true)
+                            .css({
+                                'background-color': '#ccc',
+                                'cursor': 'not-allowed'
+                            });
                     }
 
                     $('.fault-time').text(`更新时间: ${new Date().toLocaleTimeString()}`); // 更新显示时间
@@ -372,6 +410,12 @@
                     console.error('Error parsing state data:', err);
                 }
             };
+
+            $('.reset-btn').click(function () {
+                if (!$(this).prop('disabled')) {
+                    $.post("./command.txt", { data: "Reset" });
+                }
+            });
         });
     </script>
 </body>

@@ -42,6 +42,8 @@
         </div>
         <div class="eg-div">
             <p>控制设置</p>
+
+
             <div class="FamenNum">
                 <span>阀门数量：</span>
                 <button>8</button>
@@ -90,18 +92,17 @@
                     <div class="slider" style="padding:0px"></div>
                 </div>
             </div>
+            <!-- 超时时间控制 -->
 
-            <div class="btn-group " data-toggle="buttons" style="padding-top: 10px;">
-                <span>本机SN:</span>&nbsp;
-                <input type="input" name="SN" class="valueinput">
+            <div>
+                <span class="title-toggle">超时时间：</span>&nbsp;
+                <input type="number" id="timeoutInput" class="valueinput" style="width: 50px;margin-left: 50px;" min="5" max="20">
+                <span>秒 (5-20之间)</span>
             </div>
-            <div class="btn-group " data-toggle="buttons">
-                <span>版本:</span>&nbsp;
-                <input type="text" name="Version" value="版本：1.0.0" class="valueinput "  style=" width:80px;cursor: default;" readonly />
-            </div>
+
         </div>
         <div class="eg-div">
-            <p>参数设置</p>
+            <p>通讯设置</p>
             <div style="justify-content: flex-start;width: 90%;">
                 <span>产品选型：</span>
                 <select id="productSelection" style="width:70%;">
@@ -111,6 +112,7 @@
                     </option>
                 </select>
             </div>
+
             <!-- <div style="width: 90%;" class="btn-group" data-toggle="buttons">
                 <span>通讯设置：</span>
                 <input type="radio" name="options4" id="option1" checked> 欧姆龙
@@ -119,39 +121,61 @@
             </div> -->
             <div style="padding-top: 10px;">
                 <span>本机IP:</span>&nbsp;
-                <input type="text" name="native_ip"  class="valueinput ">
+                <input type="text" name="native_ip" class="valueinput ">
             </div>
             <div>
                 <span>PLC IP:</span>&nbsp;
-                <input type="text" name="pcp_ip"  class="valueinput ">
+                <input type="text" name="pcp_ip" class="valueinput ">
             </div>
             <div>
                 <span>DB地址:</span>&nbsp;
-                <input type="text" name="db_address"  class="valueinput ">
+                <input type="text" name="db_address" class="valueinput ">
+            </div>
+
+            <div class="btn-group " data-toggle="buttons">
+                <span>本机SN:</span>&nbsp;
+                <input type="input" name="SN" class="valueinput">
+            </div>
+
+            <div class="btn-group " data-toggle="buttons">
+                <span>版本:</span>&nbsp;
+                <input type="text" name="Version" value="版本：1.0.0" class="valueinput "
+                    style=" width:100px;cursor: default;" readonly />
             </div>
         </div>
+
+
         <div class="eg-div">
             <p>用户设置</p>
+
             <span style="width: 100%;padding-left: 20px;">用户名修改：</span>
             <div class="btn-group " data-toggle="buttons">
                 <span>旧名:</span>&nbsp;
-                <input type="input"  class="valueinput ">
+                <input type="input" class="valueinput ">
             </div>
             <div style="padding-top: 12px;" class="btn-group " data-toggle="buttons">
                 <span>新名:</span>&nbsp;
-                <input type="input"  class="valueinput ">
+                <input type="input" class="valueinput ">
             </div>
             <span style="width: 100%;padding-left: 20px;">密码修改：</span>
             <div class="btn-group " data-toggle="buttons">
                 <span>旧密码:</span>&nbsp;
-                <input type="input"  class="valueinput ">
+                <input type="input" class="valueinput ">
             </div>
             <div style="padding-top: 12px;" class="btn-group " data-toggle="buttons">
                 <span>新密码:</span>&nbsp;
-                <input type="input"  class="valueinput ">
+                <input type="input" class="valueinput ">
             </div>
         </div>
+
+        <!-- <div class="eg-div " data-toggle="buttons">
+            <p>版本:</p>
+            <input type="text" name="Version" value="版本：1.0.0" class="valueinput "
+                style=" width:200px;cursor: default;" readonly />
+        </div> -->
     </div>
+
+
 
 </body>
 

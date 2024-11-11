@@ -1,16 +1,1 @@
-{
-  "inout_display": 0,
-  "NumberOfValves": 8,
-  "controlMode": 1,
-  "programName": "aaa",
-  "programID": "1",
-  "Native_IP": "192.168.18.5",
-  "PCP_IP": "192.168.1.125",
-  "DB_address": "50",
-  "isRunning": 0,
-  "isStepSave": 0,
-  "isOutputSave": 1,
-  "SN": "1234567890",
-  "VersionChecked": 0,
-  "Version": "v1.4.3"
-}
+{"inout_display":0,"NumberOfValves":8,"controlMode":1,"programName":"aaa","programID":"1","Native_IP":"192.168.18.5","PCP_IP":"192.168.1.125","DB_address":"50","isStepSave":0,"isOutputSave":1,"SN":"1234567890","VersionChecked":1,"Version":"v1.4.4 - 内测版"}

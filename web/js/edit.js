@@ -57,15 +57,15 @@ $(document).ready(function () {
 
         // 判断程序是否在执行
         // 检查 settings.isRunning 的值，并执行相应的程序
-        if (settings.isRunning === 1) {
-            $(".nav button:eq(7)").addClass('btnClick')
+        // if (settings.isRunning === 1) {
+        //     $(".nav button:eq(7)").addClass('btnClick')
 
-            // 禁用所有元素的点击事件，除了此按钮
-            $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
-            $("#program button,#program .disclicked").css("pointer-events", "none");
-            // 动作栏取消点击事件
-            $('#program .action').off('click', stepClickHandler);
-        }
+        //     // 禁用所有元素的点击事件，除了此按钮
+        //     $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
+        //     $("#program button,#program .disclicked").css("pointer-events", "none");
+        //     // 动作栏取消点击事件
+        //     $('#program .action').off('click', stepClickHandler);
+        // }
 
         //夹具名称显示以及修改 vue实现 
         new Vue({
@@ -102,7 +102,29 @@ $(document).ready(function () {
         })
     })
 
+    // 获取状态
+    const eventSource = new EventSource('/get_states');
+    let heartValues = []; // 用于存储最近接收到的 states.heart 值
 
+    // 当接收到新的数据时触发此事件
+    eventSource.onmessage = (event) => {
+        try {
+            // 解析接收到的 JSON 数据
+            const states = JSON.parse(event.data);
+
+            if (states.mode === "1") {
+                $(".nav button:eq(7)").addClass('btnClick');
+                // 运行时，禁用按钮
+                togglePointerEvents(1);
+            } else {
+                $(".nav button:eq(7)").removeClass('btnClick');
+                // 停止时，恢复按钮
+                togglePointerEvents(0);
+            }
+        } catch (err) {
+            console.error('Error parsing state data:', err);
+        }
+    };
 
     //动作按钮
     $(".nav button:eq(0)").click(function () {
@@ -227,33 +249,15 @@ $(document).ready(function () {
 
         //程序运行时，除了运行按钮之外的所有元素点击无效
         if ($(this).hasClass("btnClick")) {
-            // setting.json更新运行状态
-            settings.isRunning = 1;
-
-            // 禁用所有元素的点击事件，除了此按钮
-            $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
-            $("#program button,#program .disclicked").css("pointer-events", "none");
-            // 动作栏取消点击事件
-            $('#program .action').off('click', stepClickHandler);
-
+            togglePointerEvents(1); // 禁用按钮
             // 写指令
             $.post("./command.txt", { data: "ST," + settings.programID + ".txt" });
         } else {
-            // setting.json更新运行状态
-            settings.isRunning = 0;
-
-            // 取消运行，则移除所有步骤上的RunningStep类属性
-            $('#program .step').removeClass("RunningStep");
-            // 动作栏恢复点击事件
-            $('#program .action').on('click', stepClickHandler)
-            // 恢复所有元素的点击事件
-            $("body *").css("pointer-events", "");
+            togglePointerEvents(0); // 恢复按钮
 
             // 写指令
             $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
         }
-
-        SendSettingNotValve(settings);
     })
 
 
@@ -374,5 +378,23 @@ function CheckStep() {
                 $('#program .step:eq(' + (S - 1) + ')').addClass("RunningStep");
             }
         })
+    }
+}
+
+//运行时禁用其他按钮
+function togglePointerEvents(state) {
+    if (state === 1) {
+        // 禁用所有元素的点击事件，除了此按钮
+        $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
+        $("#program button,#program .disclicked").css("pointer-events", "none");
+        // 动作栏取消点击事件
+        $('#program .action').off('click', stepClickHandler);
+    } else {
+        // 运行停止，则移除所有步骤上的RunningStep类属性
+        $('#program .step').removeClass("RunningStep");
+        // 恢复所有元素的点击事件
+        $("body *").css("pointer-events", "");
+        // 动作栏恢复点击事件
+        $('#program .action').on('click', stepClickHandler);
     }
 }

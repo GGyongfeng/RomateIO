@@ -21,18 +21,14 @@ $(document).ready(function () {
         var valveParam = allProgramParams[settings.programID - 1].valve;
         console.log(valveParam);
 
-        if (settings.isRunning === 1) {
-            showCustomAlert("请先终止程序运行，再进行信号编辑");
-        } else {
-            $.ajax({
-                type: "post",
-                url: "./command.txt",
-                data: { data: "SP,hand.txt" },
-                success: function (res) {
-                    console.log(res);
-                }
-            })
-        }
+        $.ajax({
+            type: "post",
+            url: "./command.txt",
+            data: { data: "SP,hand.txt" },
+            success: function (res) {
+                console.log(res);
+            }
+        })
 
         new Vue({
             el: '#app',
@@ -70,11 +66,11 @@ $(document).ready(function () {
 
                 // 保存按钮的func
                 commitAll() {
-                    // 新增：检查程序是否正在运行
-                    if (settings.isRunning === 1) {
-                        showCustomAlert("程序正在运行，无法保存");
-                        return;
-                    }
+                    // // 新增：检查程序是否正在运行
+                    // if (settings.isRunning === 1) {
+                    //     showCustomAlert("程序正在运行，无法保存");
+                    //     return;
+                    // }
 
                     // 使用自定义提示框代替 confirm
                     showCustomConfirm("确认保存吗？", () => {

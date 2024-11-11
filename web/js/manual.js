@@ -8,16 +8,14 @@ $(document).ready(function () {
         // res2[0] 是 ./allProgramParams.json 的响应数据内容
         settings = res1[0];
 
-        if (settings.isRunning === 0) {
-            $.ajax({
-                type: "post",
-                url: "./command.txt",
-                data: { data: "SP,hand.txt" },
-                success: function (res) {
-                    console.log(res);
-                }
-            })
-        };
+        $.ajax({
+            type: "post",
+            url: "./command.txt",
+            data: { data: "SP,hand.txt" },
+            success: function (res) {
+                console.log(res);
+            }
+        })
 
         allProgramParams = res2[0];
         // 所选程序的阀门参数

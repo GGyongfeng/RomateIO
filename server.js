@@ -10,7 +10,7 @@ const multer = require('multer');
 
 //2.创建web服务器框架
 const server = express();
-const upload = multer({ 
+const upload = multer({
     dest: 'uploads/', // 上传文件临时存放目录
     limits: { fileSize: 1 * 1024 * 1024 } // 限制为 1MB
 });
@@ -128,8 +128,53 @@ server.post('*', (req, res) => {
     res.send('post Success');
 })
 
+// 6.get请求
+server.get('/get_states', (req, res) => {
+     // 设置响应头为 SSE 格式
+     res.setHeader('Content-Type', 'text/event-stream');
+     res.setHeader('Cache-Control', 'no-cache');
+     res.setHeader('Connection', 'keep-alive');
+ 
+     // 读取 state.txt 文件
+     const filePath = path.join(__dirname, './txt/state.txt');
+     fs.readFile(filePath, 'utf8', (err, data) => {
+         if (err) {
+             console.error('Error reading the file:', err);
+             return res.status(500).send('Error reading the state file');
+         }
+ 
+         try {
+             // 解析文件内容
+             const state = JSON.parse(data);
+ 
+             // 向客户端推送初始状态
+             res.write(`data: ${JSON.stringify(state)}\n\n`);
+ 
+             // 设置定时器每秒推送一次最新状态
+             setInterval(() => {
+                 fs.readFile(filePath, 'utf8', (err, newData) => {
+                     if (err) {
+                         console.error('Error reading the file:', err);
+                         return res.status(500).send('Error reading the state file');
+                     }
+ 
+                     try {
+                         const newState = JSON.parse(newData);
+                         res.write(`data: ${JSON.stringify(newState)}\n\n`);
+                     } catch (parseErr) {
+                         console.error('Error parsing JSON:', parseErr);
+                     }
+                 });
+             }, 3000); // 每秒推送一次数据
+         } catch (parseErr) {
+             console.error('Error parsing JSON:', parseErr);
+             return res.status(500).send('Error parsing the state file');
+         }
+     });
+});
 
-//6.启动web服务器
+
+//7.启动web服务器
 server.listen(8080, () => {
     // 读取./txt/PLC-CONF.txt和./txt/allProgramParams.json，更新setting.json
     const plcConfPath = path.join(__dirname, 'txt', 'PLC-CONF.txt');
@@ -230,13 +275,13 @@ function checkZipFile(files) {
 function writeToFile(fpath, data) {
     // 获取目录路径
     const dir = path.dirname(fpath);
-    
+
     // 检查目录是否存在
     fs.mkdir(dir, { recursive: true }, (err) => {
         if (err) {
             return console.log('创建目录失败:', err);
         }
-        
+
         // 目录创建成功，写入文件
         fs.writeFile(fpath, data, 'utf-8', function (err) {
             if (err) {

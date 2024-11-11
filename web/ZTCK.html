@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
     <meta charset="UTF-8">
@@ -7,18 +7,371 @@
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- 引入 jQuery -->
+
+    <script src="./Frame/jquery-3.7.1-min.js"></script> <!-- 引入 jQuery -->
+    <style>
+        /* styles.css */
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .viewport {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .box {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 95%;
+            /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1); */
+        }
+
+        .indicator {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .label {
+            margin-right: 10px;
+            width: 30%;
+        }
+
+        .light {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            /* 添加右边距以分隔指示灯和文本 */
+        }
+
+        .status-text {
+            font-weight: bold;
+            width: 70px;
+        }
+
+        /* 状态灯颜色 */
+        .heart-normal {
+            background-color: green;
+            animation: blink 1s infinite;
+        }
+
+        .heart-disconnected {
+            background-color: red;
+        }
+
+        .mode-auto {
+            background-color: green;
+            animation: blink 1s infinite;
+            /* 添加闪烁动画 */
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+                /* 完全可见 */
+            }
+
+            50% {
+                opacity: 0.5;
+                /* 半透明 */
+            }
+        }
+
+        .mode-manual {
+            background-color: orange;
+            /* opacity: 0.5; */
+        }
+
+        .fault {
+            background-color: red;
+        }
+
+        .normal {
+            background-color: green;
+        }
+
+        /* .mode-disconnected {
+            background-color: orange;
+        } */
+
+        /* 故障说明区 */
+        .fault-description {
+            width: 95%;
+            border: 1px solid #ccc;
+            /* 添加边框 */
+            border-radius: 5px;
+            /* 圆角 */
+            background-color: #f9f9f9;
+            /* 背景颜色 */
+            padding: 15px;
+            /* 内边距 */
+            margin-top: 20px;
+            /* 上边距 */
+            position: relative;
+            /* 使时间显示在右下角 */
+        }
+
+        .fault-description h3 {
+            font-size: 16px;
+            /* 设置标题字体大小 */
+            margin: 0;
+            /* 去掉默认外边距 */
+            position: absolute;
+            /* 绝对定位 */
+            left: 15px;
+            /* 距离左侧15px */
+            top: 15px;
+            /* 距离顶部15px */
+        }
+        
+        .fault-messages {
+            color: #333;
+            /* 文本颜色 */
+            font-size: 14px;
+            /* 字体大小 */
+            margin-bottom: 10px;
+            /* 下边距 */
+            margin-top: 10px;
+        }
+        
+        .fault-description p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .fault-time {
+            width: auto;
+            font-size: 12px;
+            /* 字体大小 */
+            color: #888;
+            /* 文本颜色 */
+            position: absolute;
+            /* 绝对定位 */
+            right: 15px;
+            /* 距离右侧15px */
+            bottom: 10px;
+        }
+
+
+
+
+
+        /* 模式选择区 */
+        .control-mode-select {
+            display: flex;
+            /* 使用 flexbox 横向排列 */
+            flex-direction: row;
+            justify-content: center;
+            border-radius: 5px;
+            /* 圆角 */
+            overflow: hidden;
+            /* 防止内容溢出 */
+            background-color: #f9f9f9;
+            /* 背景颜色 */
+            width: 50%;
+        }
+
+        .mode-option {
+            flex: 1;
+            /* 使每个选项均分宽度 */
+            padding: 1px 0px;
+            /* 内边距 */
+            color: #333;
+            /* 文本颜色 */
+            font-size: 14px;
+            /* 字体大小 */
+            cursor: pointer;
+            /* 鼠标悬停时显示为手型 */
+            text-align: center;
+            /* 文本居中 */
+            transition: background-color 0.3s;
+            /* 背景颜色过渡效果 */
+        }
+
+        .mode-option:hover {
+            background-color: #e0e0e0;
+            /* 鼠标悬停时的背景颜色 */
+        }
+
+        .mode-option.active {
+            background-color: #007bff;
+            /* 高亮背景颜色 */
+            color: white;
+            /* 高亮文本颜色 */
+        }
+    </style>
 </head>
 
 <body>
     <header></header>
-
+    <div class="viewport">
+        <div class="box">
+            <div class="indicator">
+                <span class="label">模式:</span>
+                <div class="control-mode-select" style="border: 1px solid #007bff;">
+                    <span class="mode-option active" data-value="local">本地</span>
+                    <span class="mode-option" data-value="remote">远程</span>
+                    <span class="mode-option" data-value="pn">PN</span>
+                </div>
+            </div>
+            <div class="indicator">
+                <span class="label">心跳状态:</span>
+                <div class="control-mode-select">
+                    <span class="light heart-light"></span>
+                    <span class="status-text heart-status-text">正常</span>
+                </div>
+            </div>
+            <div class="indicator">
+                <span class="label">运行状态:</span>
+                <div class="control-mode-select">
+                    <span class="light mode-light"></span>
+                    <span class="status-text mode-status-text">未知</span>
+                </div>
+            </div>
+            <div class="indicator">
+                <span class="label">故障情况:</span>
+                <div class="control-mode-select">
+                    <span class="light fault-light"></span>
+                    <span class="status-text fault-status-text">正常</span>
+                </div>
+            </div>
+        </div>
+        <div class="fault-description box">
+            <h3>故障说明：</h3>
+            <div class="fault-messages"></div>
+            <div class="fault-time"></div>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function () {
             $('header').load('./module/header.html', function () {
                 $(this).find('p').text('运行状态'); // 将<p>内容改为“运行状态”
             });
+
+            $.ajax({
+                url: './setting.json',
+                dataType: 'json',
+                cache: false, // 禁用缓存
+                success: function (data) {
+                    const settings = data; // 将响应数据存入 settings 变量
+                    console.log(settings); // 打印设置以验证
+
+                    // 根据 controlMode 的值设置选择框的选项
+                    $('.mode-option').removeClass('active'); // 移除所有选项的高亮类
+
+                    if (settings.controlMode === 1) {
+                        $('.mode-option[data-value="local"]').addClass('active'); // 高亮本地
+                    } else if (settings.controlMode === 0) {
+                        $('.mode-option[data-value="remote"]').addClass('active'); // 高亮远程
+                    } else if (settings.controlMode === 2) {
+                        $('.mode-option[data-value="pn"]').addClass('active'); // 高亮 PN
+                    }
+                },
+            });
+
+
+            const eventSource = new EventSource('/get_states');
+            let heartValues = []; // 用于存储最近接收到的 states.heart 值
+
+
+
+            // 当接收到新的数据时触发此事件
+            eventSource.onmessage = (event) => {
+                try {
+                    // 解析接收到的 JSON 数据
+                    const states = JSON.parse(event.data);
+
+                    heartValues.push(states.heart);
+                    if (heartValues.length > 2) {
+                        heartValues.shift();
+                    }
+
+                    const statusTexts = {
+                        heartNormal: '正常',
+                        heartDisconnected: '信号中断',
+                        modeAuto: '自动运行',
+                        modeManual: '手动控制',
+                        faultNormal: '无故障',
+                        faultError: '故障'
+                    };
+
+                    const heartStatus = (heartValues[0] === heartValues[1]) ? statusTexts.heartDisconnected : statusTexts.heartNormal;
+                    const modeStatus = states.mode === "1" ? statusTexts.modeAuto : statusTexts.modeManual;
+                    const faultStatus = states.SO.SO_3 === "1" ? statusTexts.faultError : statusTexts.faultNormal;
+
+                    // 根据状态动态添加类
+                    const heartClass = heartStatus === statusTexts.heartDisconnected ? 'heart-disconnected' : 'heart-normal';
+                    const modeClass = states.mode === "1" ? 'mode-auto' : 'mode-manual';
+                    const faultClass = faultStatus === statusTexts.faultError ? 'fault' : 'normal';
+
+                    // 更新指示灯状态
+                    $('.heart-light').attr('class', `light heart-light ${heartClass}`);
+                    $('.mode-light').attr('class', `light mode-light ${modeClass}`);
+                    $('.fault-light').attr('class', `light fault-light ${faultClass}`);
+
+                    // 更新状态文本
+                    $('.heart-status-text').text(heartStatus);
+                    $('.mode-status-text').text(modeStatus);
+                    $('.fault-status-text').text(faultStatus);
+
+                    // 更新故障说明内容
+                    $('.fault-messages').empty(); // 只清空故障信息
+
+                    // 检查 SO_3 的值
+                    if (states.SO.SO_3 === "1") {
+                        let faultMessages = [];
+
+                        // 检查 OpenWarning
+                        for (let i = 1; i <= 24; i++) {
+                            if (states.OpenWarning[`F${i}`] === "1") {
+                                faultMessages.push(`阀门${i}打开超时`);
+                            }
+                        }
+
+                        // 检查 CloseWarning
+                        for (let i = 1; i <= 24; i++) {
+                            if (states.CloseWarning[`F${i}`] === "1") {
+                                faultMessages.push(`阀门${i}关闭超时`);
+                            }
+                        }
+
+                        // 如果没有故障信息，添加“故障未知”
+                        if (faultMessages.length === 0) {
+                            faultMessages.push('故障未知');
+                        }
+
+                        // 更新故障信息
+                        faultMessages.forEach(message => {
+                            $('.fault-messages').append(`<p>${message}</p>`);
+                        });
+                    } else {
+                        $('.fault-messages').append(`<p>无故障</p>`); // 显示无故障
+                    }
+
+                    $('.fault-time').text(`更新时间: ${new Date().toLocaleTimeString()}`); // 更新显示时间
+
+                } catch (err) {
+                    console.error('Error parsing state data:', err);
+                }
+            };
         });
     </script>
 </body>

@@ -1,57 +1,62 @@
-﻿# RomateIO-远程web控制工业夹具项目
+﻿# 工业夹具远程Web控制系统-RomateIO
 
-### server.js文件
+工业夹具远程Web控制系统 - 通过网页界面远程操控工业夹具设备
 
-作用：开启服务器 发送到8080端口
+##快速预览
+🔗：[RomateIO快速预览](http://49.232.239.149:5536/)
+> 注：1.服务器示例并非最新版 2.由于服务器带宽限制，请不要频繁刷新页面
 
-开启方法：`RomateIO`目录下，在终端输入：
+## 功能特点
 
-```shell
-node server.js
+- 📱 响应式界面设计,支持手机/平板/电脑访问
+- 🔄 实时控制与状态反馈
+- 🔌 支持多种工业夹具型号
+- 🛡️ 安全控制机制
+
+## 快速开始
+
+1. 克隆项目
+```bash
+git clone https://github.com/your-username/RomateIO.git
 ```
 
-然后访问：`localhost:8080`即可
+2. 安装依赖
+```bash
+npm install
+```
 
+3. 运行项目
+```bash
+npm start
+```
 
+## 系统要求
 
-### web_start.sh文件
+- Node.js 14.0+
+- 支持现代浏览器 (Chrome, Firefox, Safari, Edge)
 
-作用：实现开机自启，包括wifi驱动，打开热点，自动开启服务器
+## 技术栈
 
-使用方法：linux系统，导入到`/etc/profile.d/`文件夹下即可
+- 前端: HTML5, CSS3, JavaScript
+- 后端: Node.js
+- 通信: WebSocket
 
+## 目录结构
 
+```
+RomateIO/
+├── web/              # 前端文件
+│   ├── css/          # 样式文件
+│   ├── js/           # JavaScript文件
+│   └── index.html    # 主页面
+├── server.js         # 服务器入口
+└── web_start.sh      # 启动脚本
+```
 
-### web文件夹：
+## 许可证
 
-**项目主要内容**，放置所有前端文件
+MIT License
 
-链接：https://nuclqnctgoz7pwrknh3kcw.on.drv.tw/RomateIO/
+## 联系方式
 
-**注**：用DirveToWed网站实现的公网发布，只能托管静态资源，post请求是无法实现的，因而有些功能不能完整演示，链接主要用于观看UI设计效果
-
-同时，因为每次更新代码都要重新在DriveToWeb发布，不像`git push`这样简单，所以链接的内容效果并不一定是最新效果，最好是`git clone`一下
-
-
-
-
-
-### 一些有用的文件
-
-下面这些文件是搭建上面web网站项目中大量用到的css+js样式，引用下面的这些文件可以快速搭建一个这样的网站。
-
-对于想要借鉴的访客来说，相比于其他文件，这些文件更有用。
-
-#### 1、style.css
-
-位置：`/web/css`
-
-`eg-div`非常有用
-
-重点可以看一下`button`和`.btn-clicked`,配合`pubulic.js`里面的`function example`非常好用
-
-#### 2、public.js
-
-位置：`/web/js`
-
-提供一些可以参考的js
+如有问题或建议，请提交 Issue 或联系开发团队 3020202107@tju.edu.cn

@@ -29,8 +29,9 @@
     }
 
     .Version-list {
-        width: auto;
-        height: 300px;
+        /* height: 300px; */
+        width: 350px;
+        margin-bottom: 20px;
         overflow-y: scroll; /* 允许纵向滑动 */
         overflow-x: hidden; /* 禁止横向滑动 */
         scrollbar-width: none; /* Firefox 隐藏滚动条 */
@@ -163,26 +164,30 @@
 
 <div class="modal" id="versionModal" style="display: none;">
     <div class="modal-content">
-        <div class="Version-list">
-            <h2>版本更新 v1.4.4</h2>
-            <div class="update-list">
-                <p>1. 复位按钮:Reset</p>
-                <p>2. 超时控制按钮:Timeout</p>
-                <p>3. "运行状态"页面实现 运行状态显示</p>
-                <p>4. 根据PLC的运行程序号进行自动切换(未完成)/p>
+        <div class="Version-container">
+            <!-- 版本内容 -->
+            <div class="Version-list" id="v1.4.4">
+                <h2>版本更新 v1.4.4</h2>
+                <div class="update-list">
+                    <p>1. 故障复位功能</p>
+                    <p>2. 设置超时报警时长功能</p>
+                    <p>3. "运行状态"页面实现-相关运行状态的显示</p>
+                    <p>4. “程序编辑界面”根据实际运行程序进行自动切换</p>
+                </div>
             </div>
-            <hr>
-            <h2>版本更新 v1.4.3</h2>
-            <div class="update-list">
-                <p>1. 更新了<b>跨设备配置</b>功能（主页->我的->跨设备配置）</p>
-                <p>2. 更新了设置<b>输入框的样式</b></p>
-                <p>3. bug修复:程序运行时，对其他操作增加限制</p>
-                <p>4. 主页的程序编辑添加<b>提示器</b>显示运行运行状态：</p>
-                <p>5. 更新内容提醒功能</p>
-                <p>6. bug修复:模拟运行/双手启动/外部编码--必须选一个</p>
-            </div>
+            
+            <!-- <div class="Version-list" id="v1.4.3" style="display: none;">
+                <h2>v1.4.3</h2>
+                <div class="update-list">
+                    <p>1. 更新了<b>跨设备配置</b>功能（主页->我的->跨设备配置）</p>
+                    <p>2. 更新了设置<b>输入框的样式</b></p>
+                    <p>3. bug修复:程序运行时，对其他操作增加限制</p>
+                    <p>4. 主页的程序编辑添加<b>提示器</b>显示运行运行状态：</p>
+                    <p>5. 更新内容提醒功能</p>
+                    <p>6. bug修复:模拟运行/双手启动/外部编码--必须选一个</p>
+                </div>
+            </div> -->
         </div>
-
         <div class="modal-buttons">
             <button id="dismissBtn">不再提醒</button>
             <button id="confirmBtn">确定</button>

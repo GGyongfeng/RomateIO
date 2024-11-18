@@ -102,29 +102,7 @@ $(document).ready(function () {
         })
     })
 
-    // 获取状态
-    const eventSource = new EventSource('/get_states');
-    let heartValues = []; // 用于存储最近接收到的 states.heart 值
 
-    // 当接收到新的数据时触发此事件
-    eventSource.onmessage = (event) => {
-        try {
-            // 解析接收到的 JSON 数据
-            const states = JSON.parse(event.data);
-
-            if (states.mode === "1") {
-                $(".nav button:eq(7)").addClass('btnClick');
-                // 运行时，禁用按钮
-                togglePointerEvents(1);
-            } else {
-                $(".nav button:eq(7)").removeClass('btnClick');
-                // 停止时，恢复按钮
-                togglePointerEvents(0);
-            }
-        } catch (err) {
-            console.error('Error parsing state data:', err);
-        }
-    };
 
     //动作按钮
     $(".nav button:eq(0)").click(function () {
@@ -159,7 +137,7 @@ $(document).ready(function () {
         //     // 检查是否有class为step的div具有selected样式
         //     if ($('#program .selected').length > 0) {
         //         $clone.removeClass("selected");
-        //         // 如果有，将克隆的div元素添加到具有selFected样式的div之后
+        //         // 如果有，将克隆div元素添加到具有selFected样式的div之后
         //         $('.selected').after($clone);
         //     } else {
         //         // 如果没有，将克隆的div元素添加到#program的末尾
@@ -209,7 +187,7 @@ $(document).ready(function () {
         // 判断是否存在被选中的step
         if ($("#program .selected").length > 0) {
             // 存在则执行以下操作
-            $("#program .selected").remove(); // 删除具有 .selected 类的元素
+            $("#program .selected").remove(); // 删除具有 .selected 类的元
             steps = steps - 1; // 更新 steps 的值
             numStepSerial();
         }
@@ -219,7 +197,7 @@ $(document).ready(function () {
     $(".nav button:eq(6)").click(function () {
         // 调用 getMsg() 并检查成功与否
         if (getMsg().success) {
-            showCustomConfirm("确认提交吗？", () => {
+            if (confirm("确认提交吗？")) {
                 msg = getMsg().message;
                 console.log('提交msg:\n' + msg);
                 console.log('提交到:\n' + pgmTxtFilePath);
@@ -231,9 +209,7 @@ $(document).ready(function () {
 
                 // 写指令
                 $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
-            }, () => {
-                // 取消操作
-            });
+            }
         } else {
             // 如果不成功，弹出提示框
             alert('第 ' + getMsg().message + ' 步没有选择条件'); // 提示框显示消息
@@ -245,20 +221,69 @@ $(document).ready(function () {
     // 运行按钮
     $(".nav button:eq(7)").click(function () {
         $(this).toggleClass("btnClick");
-        // const message = "ST," + '/programs/' + settings.programID + '.txt';
 
-        //程序运行时，除了运行按钮之外的所有元素点击无效
         if ($(this).hasClass("btnClick")) {
-            togglePointerEvents(1); // 禁用按钮
-            // 写指令
-            $.post("./command.txt", { data: "ST," + settings.programID + ".txt" });
+            togglePointerEvents(1);
+            $.post("./command.txt", { data: "ST," + settings.programID + ".txt" })
+                .done(() => {
+                    pauseEventSource = true; // 暂停事件监听
+                    setTimeout(() => {
+                        pauseEventSource = false; // 3秒后恢复事件监听
+                    }, 3000);
+                });
         } else {
-            togglePointerEvents(0); // 恢复按钮
-
-            // 写指令
-            $.post("./command.txt", { data: "SP," + settings.programID + ".txt" });
+            togglePointerEvents(0);
+            $.post("./command.txt", { data: "SP," + settings.programID + ".txt" })
+                .done(() => {
+                    pauseEventSource = true; // 暂停事件监听
+                    setTimeout(() => {
+                        pauseEventSource = false; // 3秒后恢复事件监听
+                    }, 3000);
+                });
         }
     })
+
+
+    // 获取运行状态
+    const eventSource = new EventSource('/get_states');
+    let pauseEventSource = false; // 添加暂停标志
+
+    eventSource.onmessage = (event) => {
+        if (pauseEventSource) return; // 如果在暂停状态，直接返回
+
+        try {
+            // 解析接收到的 JSON 数据
+            const states = JSON.parse(event.data);
+
+            if (states.mode === "1") {
+                $(".nav button:eq(7)").addClass('btnClick');
+                // 运行时，禁用按钮
+                togglePointerEvents(1);
+
+                // 检查运行程序ID是否与当前显示程序ID不同
+                if (states.ProgramID.toString() !== settings.programID.toString()) {
+                    if (confirm("当前显示程序和实际运行程序不同\n请进行切换")) {
+                        settings.programID = states.ProgramID;
+                        const settingsToSend = {...settings};
+                        delete settingsToSend.valve;
+                        SendSetting(settingsToSend);  // 发送不包含 valve 的 settings
+                        window.location.reload();
+                    } else {
+                        pauseEventSource = true;
+                    }
+                }
+            } else {
+                $(".nav button:eq(7)").removeClass('btnClick');
+                // 停止时，恢复按钮
+                togglePointerEvents(0);
+            }
+
+
+
+        } catch (err) {
+            console.error('Error parsing state data:', err);
+        }
+    };
 
 
     // 侧边栏：输出功能

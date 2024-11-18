@@ -72,24 +72,34 @@ server.post('/download', (req, res) => {
         res.setHeader('Content-Type', 'application/zip');
         res.setHeader('Content-Disposition', `attachment; filename=${zipName}`);
 
-        const archive = archiver('zip');
+        const archive = archiver('zip', {
+            zlib: { level: 9 } // 设置最高压缩级别
+        });
+
+        // 错误处理
+        archive.on('error', (err) => {
+            console.error('打包错误:', err);
+            res.status(500).send({ error: '文件打包失败' });
+        });
+
+        // 将存档管道连接到响应
         archive.pipe(res);
 
-        const dir = './txt';
+        // 确保目录存在
+        const dir = path.resolve('./txt');
+        if (!fs.existsSync(dir)) {
+            return res.status(404).send({ error: '目录不存在' });
+        }
 
-        archive.directory(dir, false);
-
-        archive.on('error', (err) => {
-            return res.status(500).send({ error: err.message });
-        });
-
-        archive.finalize().then(() => {
-            console.log('打包完成');
-        }).catch((err) => {
-            return res.status(500).send({ error: err.message });
-        });
+        try {
+            archive.directory(dir, false);
+            archive.finalize();
+        } catch (err) {
+            console.error('打包过程错误:', err);
+            res.status(500).send({ error: '打包过程出错' });
+        }
     } else {
-        res.status(400).send('Invalid project data');
+        res.status(400).send('无效的项目数据');
     }
 });
 
@@ -165,7 +175,7 @@ server.get('/get_states', (req, res) => {
                          console.error('Error parsing JSON:', parseErr);
                      }
                  });
-             }, 3000); // 每秒推送一次数据
+             }, 1000); // 每秒推送一次数据
          } catch (parseErr) {
              console.error('Error parsing JSON:', parseErr);
              return res.status(500).send('Error parsing the state file');

@@ -17,4 +17,4 @@ while True:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
     # 每三秒更新一次
-    time.sleep(3)
+    time.sleep(1)

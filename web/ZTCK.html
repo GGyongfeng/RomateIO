@@ -232,6 +232,31 @@
         .reset-btn:hover {
             background-color: #0056b3;
         }
+
+        /* .program-id {
+            font-weight: bold;
+            text-align: center;
+            width: 50%;
+            margin-left: 30%;
+        } */
+
+        .program-status {
+            width: 50%;
+            /* margin-left: 30%; */
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .program-number {
+            padding: 5px 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -261,6 +286,13 @@
                     <span class="status-text mode-status-text">未知</span>
                 </div>
             </div>
+
+            <div class="indicator">
+                <span class="label">程序号\步骤号:</span>
+                <div class="program-status">
+                    <span class="program-number"></span>
+                </div>
+            </div>
             <div class="indicator">
                 <span class="label">故障情况:</span>
                 <div class="control-mode-select">
@@ -280,16 +312,16 @@
     <script>
         $(document).ready(function () {
             $('header').load('./module/header.html', function () {
-                $(this).find('p').text('运行状态'); // 将<p>内容改为“运行状态”
+                $(this).find('p').text('运行状态');
             });
 
             $.ajax({
                 url: './setting.json',
                 dataType: 'json',
-                cache: false, // 禁用缓存
+                cache: false,
                 success: function (data) {
-                    const settings = data; // 将响应数据存入 settings 变量
-                    console.log(settings); // 打印设置以验证
+                    const settings = data;
+                    console.log(settings);
 
                     // 根据 controlMode 的值设置选择框的选项
                     $('.mode-option').removeClass('active'); // 移除所有选项的高亮类
@@ -308,9 +340,6 @@
             const eventSource = new EventSource('/get_states');
             let heartValues = []; // 用于存储最近接收到的 states.heart 值
 
-
-
-            // 当接收到新的数据时触发此事件
             eventSource.onmessage = (event) => {
                 try {
                     // 解析接收到的 JSON 数据
@@ -324,8 +353,8 @@
                     const statusTexts = {
                         heartNormal: '正常',
                         heartDisconnected: '信号中断',
-                        modeAuto: '自动运行',
-                        modeManual: '手动控制',
+                        modeAuto: '自动运行中',
+                        modeManual: '停止',
                         faultNormal: '无故障',
                         faultError: '故障'
                     };
@@ -349,10 +378,27 @@
                     $('.mode-status-text').text(modeStatus);
                     $('.fault-status-text').text(faultStatus);
 
+
+                    // 程序号和步骤号
+                    if (states.mode === "1") {
+                        $.get('./step.txt', function (res) {
+                            let S = parseInt(res);
+                            console.log("正在运行第 " + S + " 步");
+
+                            if (S !== 0) {
+                                $('.program-number').html(`<i class="fas fa-file-code"></i> 程序号：${states.ProgramID}&nbsp;-&nbsp;步骤: ${S}`);
+                            }
+                        });
+                    } else {
+                        // 非自动模式时显示
+                        $('.program-number').text('手动控制中...');
+                    }
+
+
                     // 更新故障说明内容
                     $('.fault-messages').empty(); // 只清空故障信息
 
-                    // 检查 SO_3 的值
+                    // 检查 SO_3 的值 检查故障
                     if (states.SO.SO_3 === "1") {
                         let faultMessages = [];
 
@@ -394,7 +440,7 @@
 
                     } else {
                         $('.fault-messages').append(`<p>无故障</p>`); // 显示无故障
-                       
+
                         // 复位按钮不可点击
                         $('.reset-btn')
                             .prop('disabled', true)
@@ -406,7 +452,8 @@
 
                     $('.fault-time').text(`更新时间: ${new Date().toLocaleTimeString()}`); // 更新显示时间
 
-                } catch (err) {
+                }
+                catch (err) {
                     console.error('Error parsing state data:', err);
                 }
             };
@@ -417,6 +464,9 @@
                 }
             });
         });
+
+
+
     </script>
 </body>
 

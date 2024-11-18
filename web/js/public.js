@@ -101,7 +101,7 @@ function re_btnContainer() {
 // 确认对话框 确认 取消
 function showCustomConfirm(message, onConfirm, onCancel) {
     $('#confirmMessage').text(message);
-    $('#customConfirm').fadeIn(100); 
+    $('#customConfirm').fadeIn(100);
 
     // 确认按钮点击事件
     $('#confirmYes').off('click').on('click', function () {

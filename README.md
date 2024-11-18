@@ -27,8 +27,10 @@ npm install
 
 3. 运行项目
 ```bash
-npm start
+npm server.js
 ```
+
+4. 访问8080端口:`http://localhost:8080/`
 
 ## 系统要求
 
@@ -37,11 +39,11 @@ npm start
 
 ## 技术栈
 
-- 前端: HTML5, CSS3, JavaScript
-- 后端: Node.js
+- 前端: HTML5, CSS3, JavaScript，jQuery，Vue
+- 后端: Node.js，Express
 - 通信: WebSocket
 
-## 目录结构
+## 主要目录结构
 
 ```
 RomateIO/

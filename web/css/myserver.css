@@ -1,0 +1,13 @@
+.demo-label {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  /* transform: translateX(-50%); */
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  z-index: 10;
+  opacity: 0.8;
+}

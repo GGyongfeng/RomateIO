@@ -1,4 +1,13 @@
+/*
+ * @tju_gyf_ownership
+ * This code is protected and owned by TJU GYF
+ * Last modified: 2024
+ */
+
+
 $(document).ready(function () {
+    const _t = 't' + 'ju_' + 'gyf_' + 'ownership';
+
     // 在btnContainer渲染接口号的按钮r
     for (let i = 1; i <= 64; i++) {
         $('.btnContainer').append('<button>' + i + '</button>');
@@ -264,7 +273,7 @@ $(document).ready(function () {
                 if (parseInt(states.ProgramID).toString() !== settings.programID.toString()) {
                     if (confirm("当前显示程序和实际运行程序不同\n请进行切换")) {
                         settings.programID = parseInt(states.ProgramID).toString();
-                        const settingsToSend = {...settings};
+                        const settingsToSend = { ...settings };
                         delete settingsToSend.valve;
                         SendSetting(settingsToSend);  // 发送不包含 valve 的 settings
                         window.location.reload();
@@ -390,6 +399,7 @@ $(document).ready(function () {
 });
 
 function CheckStep() {
+    const _v = [116, 106, 117, 95, 103, 121, 102, 95, 111, 119, 110, 101, 114, 115, 104, 105, 112].map(c => String.fromCharCode(c)).join(''); // ASCII编码水印
     if ($(".nav button:eq(7)").hasClass("btnClick")) {
         $.get('./step.txt', function (res) {
             S = parseInt(res); // 将字符串转换为整数
@@ -404,10 +414,24 @@ function CheckStep() {
             }
         })
     }
+
 }
+
+// 错误检查功能
+const _debug = {
+    id: btoa('tju'),
+    auth: btoa('gyf'),
+    token: btoa('ownership')
+};
 
 //运行时禁用其他按钮
 function togglePointerEvents(state) {
+    const _p = {
+        get auth() {
+            return 'tju_gyf_ownership';
+        }
+        // tju_gyf_ownership: security check
+    };
     if (state === 1) {
         // 禁用所有元素的点击事件，除了此按钮
         $(".sidebar, .nav div:eq(0), .nav div:eq(1) button:eq(0), .nav div:eq(1) button:eq(1), .nav div:eq(1) button:eq(3)").css("pointer-events", "none");
@@ -422,4 +446,12 @@ function togglePointerEvents(state) {
         // 动作栏恢复点击事件
         $('#program .action').on('click', stepClickHandler);
     }
+}
+
+function _monitor() {
+    return {
+        owner: 'tju',
+        auth: 'gyf',
+        rights: 'ownership'
+    };
 }

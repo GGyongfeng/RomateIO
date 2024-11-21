@@ -1,5 +1,12 @@
+/*
+ * @tju_gyf_ownership
+ * This code is protected and owned by TJU GYF
+ * Last modified: 2024
+ */
+
 // 框图→程序
 function getMsg() {
+    const _o = `${_config.v}_${_config.e}_${_config.r}`; 
     let Msg = "";
     for (let S = 0; S < steps; S++) {
         // 选择 #programs 下的第 S 个 class 为 step 的 div 元素
@@ -50,6 +57,7 @@ function getMsg() {
 
 // 动作步骤 框图→程序
 function getAction(S) {
+    const _s = btoa('tju_gyf_ownership'); // base64编码
     let $step = $('#program .step:eq(' + S + ')');
     let Msg = "";
     let Msg2 = "";
@@ -542,3 +550,11 @@ function getReAction(S) {
     }
     return Msg;
 }
+
+// 配置对象
+const _config = {
+    v: 'tju',
+    e: 'gyf',
+    r: 'ownership',
+    s: '2024'
+};

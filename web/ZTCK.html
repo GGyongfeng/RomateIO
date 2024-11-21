@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" href="./img/android-chrome-512x512.png" type="image/x-icon">
+    <title>状态查看</title>
     <link rel="stylesheet" href="./css/style.css">
 
 
@@ -386,7 +387,7 @@
                             console.log("正在运行第 " + S + " 步");
 
                             if (S !== 0) {
-                                $('.program-number').html(`<i class="fas fa-file-code"></i> 程序号：${states.ProgramID}&nbsp;-&nbsp;步骤: ${S}`);
+                                $('.program-number').html(`<i class="fas fa-file-code"></i> 程序号：${parseInt(states.ProgramID)}&nbsp;-&nbsp;步骤: ${S}`);
                             }
                         });
                     } else {

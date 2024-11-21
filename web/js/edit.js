@@ -261,9 +261,9 @@ $(document).ready(function () {
                 togglePointerEvents(1);
 
                 // 检查运行程序ID是否与当前显示程序ID不同
-                if (states.ProgramID.toString() !== settings.programID.toString()) {
+                if (parseInt(states.ProgramID).toString() !== settings.programID.toString()) {
                     if (confirm("当前显示程序和实际运行程序不同\n请进行切换")) {
-                        settings.programID = states.ProgramID;
+                        settings.programID = parseInt(states.ProgramID).toString();
                         const settingsToSend = {...settings};
                         delete settingsToSend.valve;
                         SendSetting(settingsToSend);  // 发送不包含 valve 的 settings

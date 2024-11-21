@@ -3,19 +3,23 @@
         /* 设置位置  */
         position: fixed;
         top: 0;
-        /* 宽度范围 */
-        max-width: 600px;
-        min-width: 320px;
-        /* 背景色 */
-        background-color: #F7F7F7;
-        /* 设置大小 */
         width: 100%;
+        display: flex;
+        justify-content: center;
+        /* 背景色 */
+        background-color: #FFFFFF;
         z-index: 2;
+        /* 删除边框，改用阴影 */
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     }
 
     header ul {
         margin: 0;
         margin-top: 5px;
+        /* 宽度范围 */
+        width: 50%;
+        max-width: 600px;
+        min-width: 375px;
         /* flex盒子 垂直居中 */
         display: flex;
         justify-content: space-between;
@@ -71,4 +75,35 @@
         <p>系统设置(setting)</p> <!-- 初始内容 -->
     </li>
     <li><a href="#"><img src="./img/grid-outline.svg" alt="列表"></a></li>
+    <!-- <li><img src="./img/全屏.svg" alt="全屏" id="fullscreenBtn"></li> -->
 </ul>
+
+<script>
+    // 全屏功能
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    // 监听全屏状态变化
+    document.addEventListener('fullscreenchange', function () {
+        if (document.fullscreenElement) {
+            // 进入全屏后，显示退出全屏图标
+            fullscreenBtn.src = './img/取消全屏.svg';
+            fullscreenBtn.alt = '退出全屏';
+        } else {
+            // 退出全屏后，显示进入全屏图标
+            fullscreenBtn.src = './img/全屏.svg';
+            fullscreenBtn.alt = '全屏';
+        }
+    });
+
+    fullscreenBtn.addEventListener('click', function () {
+        if (!document.fullscreenElement) {
+            // 进入全屏
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`全屏请求失败: ${err.message}`);
+            });
+        } else {
+            // 退出全屏
+            document.exitFullscreen();
+        }
+    });
+</script>

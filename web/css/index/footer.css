@@ -5,18 +5,21 @@ footer {
     /* 设置大小 */
     width: 100%;
     height: 42px;
-    /* 宽度范围 */
-    max-width: 600px;
-    min-width: 320px;
+    display: flex;
+    justify-content: center;
     /* 背景色 */
     background-color: #FFFFFF;
     /* flex盒子 垂直居中 */
     align-items: center;
-    border-top: 1px solid #D3D7DD;
-    /* 添加上边框线 */
+    /* 上阴影：第二个值为负数表示向上投射 */
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.08);
 }
 
 footer ul {
+    /* 宽度范围 */
+    max-width: 600px;
+    min-width: 375px;
+    width: 50%;
     /* 边距 */
     margin: 8px 0px 8px;
     padding: 0;

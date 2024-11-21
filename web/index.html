@@ -20,8 +20,9 @@
     <script src="./js/public.js"></script>
 
 </head>
-<link rel="stylesheet" href="./css/myserver.css" />
-<span class="demo-label">此网站仅供演示</span>
+<!-- <link rel="stylesheet" href="./css/myserver.css" />
+<span class="demo-label">此网站仅供演示</span> -->
+
 <body>
     <header>
         <ul>
@@ -31,6 +32,7 @@
                 <img Class='BeirenLogo' src="./img/logo.png" alt="密码">
             </li>
             <li><img src="img/grid-outline.svg" alt="列表"></li>
+            <!-- <li><img src="./img/全屏.svg" alt="全屏" id="fullscreenBtn"></li> -->
         </ul>
     </header>
     <div id="viewport">
@@ -169,6 +171,34 @@
         // 清除settings的缓存
         $(window).on('unload', function () {
             sessionStorage.removeItem('settings');
+        });
+
+        // 全屏功能
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        
+        // 监听全屏状态变化
+        document.addEventListener('fullscreenchange', function() {
+            if (document.fullscreenElement) {
+                // 进入全屏后，显示退出全屏图标
+                fullscreenBtn.src = './img/取消全屏.svg';
+                fullscreenBtn.alt = '退出全屏';
+            } else {
+                // 退出全屏后，显示进入全屏图标
+                fullscreenBtn.src = './img/全屏.svg';
+                fullscreenBtn.alt = '全屏';
+            }
+        });
+
+        fullscreenBtn.addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                // 进入全屏
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`全屏请求失败: ${err.message}`);
+                });
+            } else {
+                // 退出全屏
+                document.exitFullscreen();
+            }
         });
     })
 </script>

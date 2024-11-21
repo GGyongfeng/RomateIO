@@ -2,19 +2,23 @@ header {
     /* 设置位置  */
     position: fixed;
     top: 0;
-    /* 宽度范围 */
-    max-width: 600px;
-    min-width: 320px;
-    /* 背景色 */
-    background-color: #F7F7F7;
-    /* 设置大小 */
     width: 100%;
+    display: flex;
+    justify-content: center;
+    /* 背景色 */
+    background-color: #FFFFFF;
     z-index: 2;
+    /* 删除边框，改用阴影 */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 header ul {
     margin: 0;
     margin-top: 5px;
+    /* 宽度范围 */
+    width: 50%;
+    max-width: 600px;
+    min-width: 375px;
     /* flex盒子 垂直居中 */
     display: flex;
     justify-content: space-between;

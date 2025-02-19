@@ -35,10 +35,10 @@ $(document).ready(function () {
                 $('input[name="pcp_ip"]').val(settings.PCP_IP);
                 // 显示DB地址
                 $('input[name="db_address"]').val(settings.DB_address);
-                // 显示版本号
-                $('input[name="SN"]').val(settings.SN);
                 // 显示SN号
-                $('input[name="Version"]').val(settings.Version);
+                $('input[name="SN"]').val(settings.SN);
+                // 显示版本号
+                $('input[name="Version"]').val("v1.4.6");
                 // 设置程序选中项
                 $('#productSelection').val(settings.programID);
 

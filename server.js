@@ -27,6 +27,9 @@ server.use(express.static(path.join(__dirname, './programs')));
 // Middleware to parse JSON bodies
 server.use(express.json());
 
+// 在文件开头添加一个常量来存储基础路径
+const BASE_PATH = path.join(__dirname);
+
 //4.接受post请求
 // 处理上传 ZIP 文件的 POST 请求
 server.post('/upload-zip', upload.single('zipFile'), (req, res) => {
@@ -36,7 +39,7 @@ server.post('/upload-zip', upload.single('zipFile'), (req, res) => {
     }
 
     const zipPath = req.file.path; // 获取上传的 ZIP 文件路径    
-    const extractPath = path.join('uploads', 'extracted'); // 设置解压路径
+    const extractPath = path.join(BASE_PATH, 'uploads', 'extracted'); // 设置解压路径
 
     // 解压 ZIP 文件
     fs.createReadStream(zipPath)
@@ -46,8 +49,11 @@ server.post('/upload-zip', upload.single('zipFile'), (req, res) => {
             const isValid = checkZipFile(extractedFiles); // 验证文件是否符合要求
 
             if (isValid) {
-                fs.rmSync('./txt', { recursive: true }); // 删除原 txt 文件夹
-                fs.renameSync(extractPath, './txt'); // 将解压文件夹重命名为 txt
+                const txtPath = path.join(BASE_PATH, 'txt');
+                if (fs.existsSync(txtPath)) {
+                    fs.rmSync(txtPath, { recursive: true });
+                }
+                fs.renameSync(extractPath, txtPath);
 
                 res.status(200).send('配置更新成功'); // 成功响应
             } else {
@@ -86,7 +92,7 @@ server.post('/download', (req, res) => {
         archive.pipe(res);
 
         // 确保目录存在
-        const dir = path.resolve('./txt');
+        const dir = path.join(BASE_PATH, 'txt');
         if (!fs.existsSync(dir)) {
             return res.status(404).send({ error: '目录不存在' });
         }
@@ -125,7 +131,7 @@ server.post('/reboot', (req, res) => {
 server.post('*', (req, res) => {
     const url = req.url;
     const data = req.body.data;
-    const fpath = path.join(__dirname, 'txt', url);
+    const fpath = path.join(BASE_PATH, 'txt', url);
 
     // 接受的数据data写入到指定url位置
     writeToFile(fpath, data);
@@ -146,7 +152,7 @@ server.get('/get_states', (req, res) => {
      res.setHeader('Connection', 'keep-alive');
  
      // 读取 state.txt 文件
-     const filePath = path.join(__dirname, './txt/state.txt');
+     const filePath = path.join(BASE_PATH, './txt/state.txt');
      fs.readFile(filePath, 'utf8', (err, data) => {
          if (err) {
              console.error('Error reading the file:', err);
@@ -186,10 +192,19 @@ server.get('/get_states', (req, res) => {
 
 //7.启动web服务器
 server.listen(8080, () => {
+    // 确保必要的目录存在
+    const directories = ['txt', 'uploads', 'programs'];
+    directories.forEach(dir => {
+        const dirPath = path.join(BASE_PATH, dir);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+    });
+
     // 读取./txt/PLC-CONF.txt和./txt/allProgramParams.json，更新setting.json
-    const plcConfPath = path.join(__dirname, 'txt', 'PLC-CONF.txt');
-    const settingPath = path.join(__dirname, 'txt', 'setting.json');
-    const allProgramParamsPath = path.join(__dirname, 'txt', 'allProgramParams.json');
+    const plcConfPath = path.join(BASE_PATH, 'txt', 'PLC-CONF.txt');
+    const settingPath = path.join(BASE_PATH, 'txt', 'setting.json');
+    const allProgramParamsPath = path.join(BASE_PATH, 'txt', 'allProgramParams.json');
 
     // 读取 PLC-CONF.txt
     fs.readFile(plcConfPath, 'utf8', (err, data) => {
@@ -255,7 +270,6 @@ server.listen(8080, () => {
         });
     });
 
-
     console.log('server running at http://localhost:8080');
 })
 
@@ -266,7 +280,7 @@ function writeToPLC_CONF(data) {
     const jsonData = JSON.parse(data);
     const { Native_IP, PCP_IP, DB_address } = jsonData;
     const content = `${Native_IP}\n${PCP_IP}\n${DB_address}`;
-    const plcConfPath = path.join(__dirname, 'txt', 'PLC-CONF.txt');
+    const plcConfPath = path.join(BASE_PATH, 'txt', 'PLC-CONF.txt');
     fs.writeFile(plcConfPath, content, 'utf-8', () => { });
 }
 

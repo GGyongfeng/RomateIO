@@ -154,7 +154,7 @@
                         error: function (xhr, status, error) {
                             $('#uploadStatus').text('配置更新失败');
 
-                            $('#modalMessage').text('zip中缺少必要文件,请检查后尝试'); // 设置失败消息
+                            $('#modalMessage').text(response); // 设置失败消息
                             $('#restartModal').show(); // 显示模态框
                         }
                     });

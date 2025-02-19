@@ -18,9 +18,11 @@
 nmcli device wifi hotspot ifname wlan0 con-name AP-2.4G ssid LubanCat-AP-2.4G band bg channel 6 password 88888888
 
 PORT="8080"
-if ! ss -ltnp | grep -q ":$PORT"; then
+if ! ss -ltnp | grep -q ":$PORT "; then
     echo "8080 port is not running, starting up…"
     node ~/RomateIO/server.js &
 else
-    echo "8080 is used"
+    echo "8080 is used, killing the process and restarting..."
+    fuser -k 8080/tcp
+    node ~/RomateIO/server.js &
 fi
